@@ -1,0 +1,7 @@
+# Narration for scene01_vertical_city.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | A mechanical watch isn't just a flat collection of gears.
+5.6  | It is a vertical city.
+8.1  | While traditional movements seem two-sided, modern horology relies on a three-tiered architecture.
+15.6 | Let's break down the layers.

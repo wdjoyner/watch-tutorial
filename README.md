@@ -85,3 +85,7 @@ This project uses plain Manim rather than [PAM](https://github.com/wdjoyner/pam)
 - Animation: [Manim Community](https://www.manim.community/)
 - Geometry: [Shapely](https://shapely.readthedocs.io/)
 - Narration: [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) (Apache 2.0) via [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx)
+
+## License
+
+BSD 2-Clause. See [LICENSE](LICENSE).
