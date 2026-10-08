@@ -11,7 +11,7 @@ the flow of power. The hairspring is redrawn each frame so it breathes as the
 balance swings, and faint trailing copies of the balance give it a motion blur.
 """
 from manim import *
-from movement import (Movement, attach_driver, vignette, state, P, R, BG, GLOW, FONT_SANS, STEEL_HI)
+from movement import (Movement, attach_driver, vignette, camera_move, cue, state, P, R, BG, GLOW, FONT_SANS, STEEL_HI)
 
 # =====================================================================
 # SETTINGS - safe to edit. Times are in seconds, angles in degrees.
@@ -142,21 +142,20 @@ class Scene03(ThreeDScene):
         self.add_fixed_in_frame_mobjects(panel, curtain)
         self.remove(panel)
 
-        def label_at(when, *mobs, now):
-            return Succession(Wait(max(0, when - now)),
-                              AnimationGroup(*[FadeIn(m, shift=RIGHT * 0.2) for m in mobs], run_time=LABEL_FADE))
+        def fade(*mobs):
+            return [FadeIn(m, shift=RIGHT * 0.2) for m in mobs]
 
         # ---------------------------------------------------------- timeline
         # fade up; the bridges and rotor lift off toward the camera and fade away
         self.play(curtain.animate.set_fill(opacity=0), run_time=FADE_IN, rate_func=smooth)
         self.wait(LIFT_AT - FADE_IN)
         t = LIFT_AT
-        self.move_camera(phi=CAM_TRAIN["phi"] * DEGREES, theta=CAM_TRAIN["theta"] * DEGREES,
-                         zoom=CAM_TRAIN["zoom"], frame_center=np.array(CAM_TRAIN["center"]),
-                         added_anims=[explode.animate(rate_func=rate_functions.ease_in_cubic).set_value(1.0),
-                                      dim["top"].animate(rate_func=rate_functions.ease_in_quad).set_value(0.0),
-                                      label_at(LABEL_TIMES["title"], backing, bar, head, sub, now=t)],
-                         run_time=LIFT_DURATION, rate_func=smooth)
+        self.play(*camera_move(self, LIFT_DURATION, phi=CAM_TRAIN["phi"], theta=CAM_TRAIN["theta"],
+                               zoom=CAM_TRAIN["zoom"], frame_center=CAM_TRAIN["center"]),
+                  explode.animate(run_time=LIFT_DURATION, rate_func=rate_functions.ease_in_cubic).set_value(1.0),
+                  dim["top"].animate(run_time=LIFT_DURATION, rate_func=rate_functions.ease_in_quad).set_value(0.0),
+                  cue(LABEL_TIMES["title"], *fade(backing, bar, head, sub), start=t, end=t + LIFT_DURATION))
+        self.remove(self.camera._frame_center)
         t += LIFT_DURATION
         self.remove(mv.tiers["top"])                       # invisible now; stop drawing it
 
@@ -165,18 +164,18 @@ class Scene03(ThreeDScene):
             return rings[TRAIN.index(k)].animate(rate_func=there_and_back, run_time=run_time).set_stroke(opacity=0.9)
 
         flow = Succession(
-            Wait(max(0, POWER_AT - t)),
             ring_pulse("barrel", 1.4),
             AnimationGroup(ShowPassingFlash(path.copy(), time_width=0.35, run_time=POWER_FLOW),
                            LaggedStart(*[ring_pulse(k, 1.0) for k in TRAIN[1:]], lag_ratio=0.55,
                                        run_time=POWER_FLOW)))
-        self.move_camera(phi=CAM_END["phi"] * DEGREES, theta=CAM_END["theta"] * DEGREES,
-                         zoom=CAM_END["zoom"], frame_center=np.array(CAM_END["center"]),
-                         added_anims=[flow,
-                                      label_at(LABEL_TIMES["barrel"], items["barrel"], now=t),
-                                      label_at(LABEL_TIMES["train"], items["train"], now=t),
-                                      label_at(LABEL_TIMES["balance"], items["balance"], now=t)],
-                         run_time=PUSH_END - t, rate_func=rate_functions.ease_in_out_sine)
+        seg = dict(start=t, end=PUSH_END)
+        self.play(*camera_move(self, PUSH_END - t, rate_func=rate_functions.ease_in_out_sine, phi=CAM_END["phi"],
+                               theta=CAM_END["theta"], zoom=CAM_END["zoom"], frame_center=CAM_END["center"]),
+                  cue(POWER_AT, flow, run_time=1.4 + POWER_FLOW, **seg),
+                  cue(LABEL_TIMES["barrel"], *fade(items["barrel"]), **seg),
+                  cue(LABEL_TIMES["train"], *fade(items["train"]), **seg),
+                  cue(LABEL_TIMES["balance"], *fade(items["balance"]), **seg))
+        self.remove(self.camera._frame_center)
 
         self.wait(FINAL_HOLD)
         self.remove(curtain)

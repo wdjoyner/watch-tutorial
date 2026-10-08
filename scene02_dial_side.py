@@ -14,7 +14,7 @@ the Breguet (ratchet) teeth on the facing ends of the clutch and the winding
 pinion interlock when the clutch snaps in.
 """
 from manim import *
-from movement import (Movement, attach_driver, vignette, BG, GLOW, FONT_SANS,
+from movement import (Movement, attach_driver, vignette, camera_move, cue, BG, GLOW, FONT_SANS,
                       STEEL, STEEL_DK, STEEL_HI)
 
 # =====================================================================
@@ -242,11 +242,10 @@ class Scene02(ThreeDScene):
         self.play(curtain.animate.set_fill(opacity=0), run_time=FADE_IN, rate_func=smooth)
         t = FADE_IN
         title_in = [FadeIn(tick, shift=RIGHT * 0.2), FadeIn(head, shift=RIGHT * 0.2), FadeIn(sub, shift=RIGHT * 0.2)]
-        self.move_camera(phi=CAM_CLUTCH["phi"] * DEGREES, theta=CAM_CLUTCH["theta"] * DEGREES,
-                         zoom=CAM_CLUTCH["zoom"], frame_center=np.array(CAM_CLUTCH["center"]),
-                         added_anims=[Succession(Wait(max(0, LABEL_TIMES["title"] - FADE_IN)),
-                                                 AnimationGroup(*title_in, run_time=LABEL_FADE * 1.6))],
-                         run_time=GLIDE - FADE_IN, rate_func=smooth)
+        self.play(*camera_move(self, GLIDE - FADE_IN, phi=CAM_CLUTCH["phi"], theta=CAM_CLUTCH["theta"],
+                               zoom=CAM_CLUTCH["zoom"], frame_center=CAM_CLUTCH["center"]),
+                  cue(LABEL_TIMES["title"], *title_in, start=FADE_IN, end=GLIDE, run_time=LABEL_FADE * 1.6))
+        self.remove(self.camera._frame_center)
         t = GLIDE
 
         # crown pushed in; the yoke releases the clutch and it snaps onto the winding pinion
@@ -257,14 +256,13 @@ class Scene02(ThreeDScene):
         play(flash.animate.set_value(1.0), run_time=FLASH, rate_func=there_and_back)
 
         # winding: crown turns, the clutch drives the winding pinion; slow push-in
-        later = [(LABEL_TIMES["motion"], items["motion"]), (LABEL_TIMES["calendar"], items["calendar"])]
-        label_anims = [Succession(Wait(max(0, when - t)), FadeIn(m, shift=RIGHT * 0.2, run_time=LABEL_FADE))
-                       for when, m in later]
-        self.move_camera(phi=CAM_PUSH_IN["phi"] * DEGREES, theta=CAM_PUSH_IN["theta"] * DEGREES,
-                         zoom=CAM_PUSH_IN["zoom"], frame_center=np.array(CAM_PUSH_IN["center"]),
-                         added_anims=[spin.animate(rate_func=rate_functions.ease_in_out_sine)
-                                      .set_value(-WIND_TURNS * TAU), *label_anims],
-                         run_time=WIND, rate_func=smooth)
+        seg = dict(start=t, end=t + WIND)
+        self.play(*camera_move(self, WIND, phi=CAM_PUSH_IN["phi"], theta=CAM_PUSH_IN["theta"],
+                               zoom=CAM_PUSH_IN["zoom"], frame_center=CAM_PUSH_IN["center"]),
+                  spin.animate(run_time=WIND, rate_func=rate_functions.ease_in_out_sine).set_value(-WIND_TURNS * TAU),
+                  cue(LABEL_TIMES["motion"], FadeIn(items["motion"], shift=RIGHT * 0.2), **seg),
+                  cue(LABEL_TIMES["calendar"], FadeIn(items["calendar"], shift=RIGHT * 0.2), **seg))
+        self.remove(self.camera._frame_center)
         t += WIND
 
         self.wait(FINAL_HOLD)

@@ -14,6 +14,10 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
 - A new rotating part needs an entry in `Movement.rot`: `(mobject, pivot_xy, tier, lambda s: angle)`. Derive its angle from `state()` so speeds stay consistent with the gear ratios.
 - A train wheel's center distance must equal the sum of the pitch radii (`MOD * teeth / 2`).
 - Screen-fixed text uses `add_fixed_in_frame_mobjects`.
+- Timed cues during a camera move: build the move with `camera_move()` and wrap each cue in `cue(when, ..., start=, end=)`, both in `movement.py`. `move_camera(added_anims=...)` passes its run_time and rate_func to every added animation, which stretches the cues.
+- To center a 3D point on screen, use `camera_move(..., target=p, frame_origin=<the scene's starting frame_center>)`. Manim's Cairo 3D camera shifts the picture by the starting frame_center, so a plain `frame_center=p` lands off-center.
+- Check framing in a real `-q l` video, not a `-s` still: a still only renders the last frame, so it hides the frame_center offset.
+- Don't render several scenes in parallel: they share Manim's text cache and can corrupt it (fix: `find media/texts -size 0 -delete`).
 - Fonts: Helvetica Neue / Georgia on macOS, DejaVu elsewhere (set in `movement.py`).
 - Use American English spelling in all text, comments and docstrings.
 
