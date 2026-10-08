@@ -1,0 +1,6 @@
+# Narration for scene02_dial_side.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Tier one is the Dial Side, located under the watch face.
+5.6  | This is the interface layer.
+8.3  | It houses the keyless works for winding and setting, the motion works that drive the hands, and any dial-facing complications like the calendar mechanism.
