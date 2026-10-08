@@ -1,0 +1,5 @@
+# Narration for scene05_spines.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Connecting these layers are the structural spines.
+5.4  | The center wheel's arbor drops through all three tiers to carry the hands, while the winding stem snakes through the side, linking your fingers on the outside to the mainspring deep inside.
