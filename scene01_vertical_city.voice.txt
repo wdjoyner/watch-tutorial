@@ -3,5 +3,5 @@
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
 1.0  | A mechanical watch isn't just a flat collection of gears.
 5.6  | It is a vertical city.
-8.1  | While traditional movements seem two-sided, modern horology relies on a three-tiered architecture.
-15.6 | Let's break down the layers.
+8.6  | While traditional movements seem two-sided, it helps to think of this architecture as a triple-decker sandwich.
+17.6 | Let's break down the layers.
