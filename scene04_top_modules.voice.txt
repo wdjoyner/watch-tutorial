@@ -1,0 +1,5 @@
+# Narration for scene04_top_modules.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Sitting on top of the primary bridges is Tier three.
+5.6  | This layer houses the add-on modules—most commonly the automatic winding rotor and its reduction gears, or the complex levers and column wheel of a chronograph mechanism.

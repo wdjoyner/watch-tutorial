@@ -160,9 +160,11 @@ def main():
 
     print("[4/4] muxing")
     final = os.path.join(OUT, name + ".mp4")
-    run(["ffmpeg", "-v", "error", "-y", "-i", video, "-i", wav, "-i", srt,
-         "-map", "0:v", "-map", "1:a", "-map", "2", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
-         "-c:s", "mov_text", "-metadata:s:s:0", "language=eng", "-t", f"{dur:.3f}", final])
+    subs = ["-i", srt] if clips else []              # ffmpeg rejects an empty .srt (e.g. title cards)
+    sub_maps = ["-map", "2", "-c:s", "mov_text", "-metadata:s:s:0", "language=eng"] if clips else []
+    run(["ffmpeg", "-v", "error", "-y", "-i", video, "-i", wav, *subs,
+         "-map", "0:v", "-map", "1:a", *sub_maps, "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+         "-t", f"{dur:.3f}", final])
     print(f"\ndone: {os.path.relpath(final)}  ({dur:.1f} s)")
 
 

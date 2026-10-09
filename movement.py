@@ -492,6 +492,65 @@ def attach_driver(scene, mv, z_assembled, z_exploded):
     return explode, dim
 
 
+def aim(phi, theta, zoom, target, frame_origin=ORIGIN):
+    """frame_center that puts `target` at the middle of the screen.
+
+    Manim's Cairo ThreeDCamera subtracts frame_center before the 3D rotation,
+    and its cached cairo context also shifts the picture by -frame_center.xy as
+    it was on the FIRST rendered frame. So a point passed as frame_center lands
+    off-center by -frame_origin.xy, where frame_origin is the frame_center the
+    scene started with. This solves for the frame_center that cancels that.
+    Angles in degrees.
+    """
+    a = -(theta + 90) * DEGREES
+    rz = np.array([[np.cos(a), -np.sin(a), 0], [np.sin(a), np.cos(a), 0], [0, 0, 1]])
+    b = -phi * DEGREES
+    rx = np.array([[1, 0, 0], [0, np.cos(b), -np.sin(b)], [0, np.sin(b), np.cos(b)]])
+    mxy = (rx @ rz)[:2, :2]
+    p, c0 = np.array(target, dtype=float), np.array(frame_origin, dtype=float)
+    cxy = p[:2] - np.linalg.solve(zoom * mxy, c0[:2])
+    return np.array([cxy[0], cxy[1], p[2]])
+
+
+def camera_move(scene, run_time, rate_func=smooth, phi=None, theta=None, zoom=None, frame_center=None,
+                target=None, frame_origin=ORIGIN):
+    """Camera animations for scene.play(), each carrying its own run_time and rate_func.
+
+    Use this instead of move_camera(added_anims=...) when other animations in the
+    same play() have their own timing: move_camera passes its run_time and
+    rate_func to every added animation, which stretches and eases timed cues.
+    Angles in degrees. `target` (needs phi, theta, zoom) centers that 3D point on
+    screen; pass the scene's starting frame_center as `frame_origin` (see aim()).
+    `frame_center` is passed through as is. After the play(), call
+    scene.remove(scene.camera._frame_center) (Manim does this to avoid redrawing
+    every frame).
+    """
+    if target is not None:
+        frame_center = aim(phi, theta, zoom, target, frame_origin)
+    cam, kw, anims = scene.camera, dict(run_time=run_time, rate_func=rate_func), []
+    for value, tracker in ((phi, cam.phi_tracker), (theta, cam.theta_tracker), (zoom, cam.zoom_tracker)):
+        if value is not None:
+            anims.append(tracker.animate(**kw).set_value(value * (DEGREES if tracker is not cam.zoom_tracker else 1)))
+    if frame_center is not None:
+        anims.append(cam._frame_center.animate(**kw).move_to(np.array(frame_center, dtype=float)))
+    return anims
+
+
+def cue(when, *anims, start, end, run_time=0.5):
+    """Play anims at absolute time `when` inside a segment [start, end].
+
+    Returns one animation lasting exactly end - start, so play() never
+    stretches it. Pass it alongside camera_move() animations.
+    """
+    lead = max(0.0, when - start)
+    dur = min(run_time, max(0.01, end - start - lead))
+    parts = ([Wait(lead)] if lead > 1e-3 else []) + [AnimationGroup(*anims, run_time=dur)]
+    tail = end - start - lead - dur
+    if tail > 1e-3:
+        parts.append(Wait(tail))
+    return Succession(*parts)
+
+
 def vignette():
     h, w = 270, 480
     y, x = np.mgrid[0:h, 0:w]

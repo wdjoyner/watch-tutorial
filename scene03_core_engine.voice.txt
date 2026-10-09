@@ -1,0 +1,5 @@
+# Narration for scene03_core_engine.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Sandwiched between the mainplate and the bridges is Tier two: the core engine.
+6.8  | Here, the tightly coiled mainspring releases its energy through the going train, culminating in the rhythmic heartbeat of the balance wheel and escapement.
