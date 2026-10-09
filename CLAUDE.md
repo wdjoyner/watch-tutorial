@@ -7,6 +7,7 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
 - `sceneNN_*.py`: one Manim scene per file. `SETTINGS` block at the top, then the timeline.
 - `sceneNN_*.voice.txt`: narration, `start_seconds | sentence`.
 - `build.py`: render → Kokoro TTS (cached per sentence) → tick track → .srt → `out/<scene>.mp4`.
+- `film.py`: joins the built scenes (running order in its `SCENES` list) into `out/movement_architecture.mp4` with merged subtitles and chapters; no re-encoding. `scene00_title.py` and `scene06_credits.py` are the title and credits cards (no narration).
 
 ## Rules that matter
 - Never `.animate` a tier or a rotating part, because that suspends the driver updater. Animate the trackers returned by `attach_driver` instead (`explode`, `dim[tier]`), or the camera.
