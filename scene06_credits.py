@@ -15,8 +15,12 @@ CREDITS = [
     ("Overall design", "Gemini"),
     ("Design and text", "ChatGPT"),
     ("Python code, design, text, and rendering with Manim", "Claude"),
+    ("Movement reference", "ETA 6497-1 / 6498-1 Technical Communication (CT 6497-1, 2007)"),
 ]
 TOOLS = "Animated with Manim Community  ·  Narration voiced with Kokoro TTS"
+NOTICE = "ETA is a trademark of ETA SA Manufacture Horlogère Suisse. This film is not affiliated with ETA."
+NOTICE_COLOR = "#9db4cc"     # muted steel blue, set apart from the credits
+NOTICE_SIZE = 0.24
 
 FADE_IN = 1.4
 HEADING_FADE = 1.0
@@ -48,12 +52,14 @@ class Scene06(ThreeDScene):
         entries = []
         for role, name in CREDITS:
             r = Text(role, font=FONT_SANS, color=GREY_B).scale(0.27)
-            n = Text(name, font=FONT_SANS, weight=BOLD, color=WHITE).scale(0.46)
+            n = Text(name, font=FONT_SANS, weight=BOLD, color=WHITE).scale(0.46 if len(name) <= 30 else 0.32)
             entries.append(VGroup(r, n).arrange(DOWN, buff=0.08))
         tools = Text(TOOLS, font=FONT_SANS, color=GREY_C).scale(0.24)
-        block = VGroup(heading, rule, *entries, tools).arrange(DOWN, buff=0.32)
+        notice = Text(NOTICE, font=FONT_SANS, color=NOTICE_COLOR).scale(NOTICE_SIZE)
+        block = VGroup(heading, rule, *entries, tools, notice).arrange(DOWN, buff=0.32)
         rule.shift(UP * 0.12)
         tools.shift(DOWN * 0.15)
+        notice.next_to(tools, DOWN, buff=0.16)
         if block.height > config.frame_height - 0.8:
             block.scale_to_fit_height(config.frame_height - 0.8)
         backing = VGroup(*[RoundedRectangle(corner_radius=0.3 + 0.12 * k, width=block.width + 0.6 + 0.25 * k,
@@ -72,7 +78,7 @@ class Scene06(ThreeDScene):
         for e in entries:
             self.play(FadeIn(e, shift=UP * 0.1), run_time=CREDIT_FADE)
             self.wait(CREDIT_GAP - CREDIT_FADE)
-        self.play(FadeIn(tools), run_time=CREDIT_FADE)
+        self.play(FadeIn(tools), FadeIn(notice), run_time=CREDIT_FADE)
         self.wait(HOLD)
 
         self.remove(curtain)
