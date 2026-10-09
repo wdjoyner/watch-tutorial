@@ -153,8 +153,8 @@ class Scene02(ThreeDScene):
                                     zoom=CAM_START["zoom"], frame_center=np.array(CAM_START["center"]))
         self.add_fixed_in_frame_mobjects(vignette())
 
-        # dial tier only; the flat stem-axis parts are replaced below
-        mv = Movement()
+        # dial tier only, turned dial side up; the flat stem-axis parts are replaced below
+        mv = Movement(dial_up=True)
         keyless = mv.parts["keyless"]
         setting_lever, yoke = keyless[0], keyless[1]
         keyless.remove(*keyless[3:])                  # winding pinion, sliding pinion, stem, crown

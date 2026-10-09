@@ -41,6 +41,7 @@ TOUR = [("top", 0.20, 1.08, 52),
         ("engine", 0.15, 1.12, 48),
         ("dial", 0.10, 1.08, 50)]
 TOUR_DIM = 0.12            # opacity of the tiers not in focus
+FLIP_DIAL = True           # turn the dial tier over at its tour stop to show the dial side
 LABEL_DIM = 0.25           # opacity of the labels not in focus
 
 # --- light between the tiers -----------------------------------------
@@ -51,9 +52,9 @@ MOTE_OPACITY = 0.6
 
 # --- on-screen text --------------------------------------------------
 TITLE = "THE VERTICAL CITY"
-SUBTITLE = "anatomy of an automatic movement"
+SUBTITLE = "anatomy of a hand-wound movement"
 LABELS = {   # tier: (heading, sub-line, vertical position on screen)
-    "top": ("TOP MODULES", "bridges · winding wheels · automatic rotor", 2.3),
+    "top": ("TOP WORKS", "bridges · winding wheels · regulator", 2.3),
     "engine": ("MIDDLE ENGINE", "going train · lever escapement · balance", 0.25),
     "dial": ("DIAL SIDE", "main plate · motion works · keyless works", -1.85),
 }
@@ -122,13 +123,16 @@ class Scene01(ThreeDScene):
         for tier, dz, zoom, phi in TOUR:
             anims = [lab[o].animate.set_opacity(1.0 if o == tier else LABEL_DIM) for o in lab] + \
                     [dim[o].animate.set_value(1.0 if o == tier else TOUR_DIM) for o in dim]
+            if tier == "dial" and FLIP_DIAL:
+                anims.append(mv.flip.animate.set_value(1.0))      # dial side up
             self.move_camera(phi=phi * DEGREES, zoom=zoom, frame_center=OUT * (Z_EXPLODED[tier] + dz),
                              added_anims=anims, run_time=TOUR_MOVE, rate_func=smooth)
             self.wait(TOUR_HOLD)
 
         self.move_camera(phi=CAMERA_END["phi"] * DEGREES, zoom=CAMERA_END["zoom"], frame_center=ORIGIN,
                          added_anims=[l.animate.set_opacity(1) for l in lab.values()] +
-                                     [d.animate.set_value(1.0) for d in dim.values()],
+                                     [d.animate.set_value(1.0) for d in dim.values()] +
+                                     [mv.flip.animate.set_value(0.0)],
                          run_time=TOUR_RETURN)
         self.wait(FINAL_HOLD)
         self.remove(curtain)

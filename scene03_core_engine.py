@@ -20,7 +20,7 @@ from movement import (Movement, attach_driver, vignette, camera_move, cue, state
 
 # --- timeline --------------------------------------------------------
 FADE_IN = 1.6
-LIFT_AT = 1.8              # the bridges and rotor lift away
+LIFT_AT = 1.8              # the bridges lift away
 LIFT_DURATION = 3.2
 POWER_AT = 7.4             # glow on the barrel ("tightly coiled mainspring")
 POWER_FLOW = 4.2           # glow travels barrel -> balance ("through the going train")
@@ -38,7 +38,7 @@ Z_LIFTED = {"dial": 0.00, "engine": 0.30, "top": 3.4}    # top tier rises toward
 # --- camera (phi = 0 is straight down) --------------------------------
 CAM_START = dict(phi=16, theta=-58, zoom=0.95, center=(0.0, 0.2, 0.3))
 CAM_TRAIN = dict(phi=20, theta=-62, zoom=1.35, center=(0.15, 0.45, 0.3))
-CAM_END = dict(phi=22, theta=-66, zoom=2.3, center=(0.8, 1.75, 0.55))   # on the escapement and balance
+CAM_END = dict(phi=22, theta=-66, zoom=2.3, center=(-0.45, -1.64, 0.55))   # on the escapement and balance
 
 # --- balance and hairspring --------------------------------------------
 BLUR_COPIES = 4            # trailing copies of the balance
@@ -59,7 +59,7 @@ ITEMS = {
 
 TRAIN = ["barrel", "center", "third", "fourth", "escape", "pallet", "balance"]
 GLOW_R = {"barrel": R["barrel"], "center": R["center"], "third": R["third"], "fourth": R["fourth"],
-          "escape": R["escape"], "pallet": 0.3, "balance": 0.78}
+          "escape": R["escape"], "pallet": 0.3, "balance": R["balance"]}
 
 
 class Scene03(ThreeDScene):
@@ -70,11 +70,9 @@ class Scene03(ThreeDScene):
         self.add_fixed_in_frame_mobjects(vignette())
 
         mv = Movement()
-        # the motion works and keyless works sit on the far (dial) face; leave only the plate
-        dial = mv.tiers["dial"]
-        hidden = [mv.parts[k] for k in ("hour_wheel", "minute_wheel", "cannon_pinion", "keyless")]
-        dial.remove(*hidden)
-        mv.rot = [r for r in mv.rot if not any(r[0] is h for h in hidden)]
+        # the motion works and keyless works sit under the plate, out of sight; leave only the plate
+        mv.tiers["dial"].remove(mv.parts["dial_works"])
+        mv.rot = [r for r in mv.rot if r[2] != "dial"]
         # the hairspring is redrawn below so it can breathe
         balance = mv.parts["balance"]
         balance.remove(mv.parts["hairspring"])
@@ -92,7 +90,7 @@ class Scene03(ThreeDScene):
         # motion blur: faint copies of the rim, arms and weights at earlier angles
         ghosts = []
         for k in range(1, BLUR_COPIES + 1):
-            g = VGroup(balance[0][1].copy(), balance[1].copy())
+            g = VGroup(mv.parts["balance_wheel"][1].copy())
             g.set_fill(opacity=BLUR_OPACITY * (1 - k / (BLUR_COPIES + 1))).set_stroke(opacity=0)
             g._ang, g._lag = 0.0, k * BLUR_STEP
 
@@ -146,7 +144,7 @@ class Scene03(ThreeDScene):
             return [FadeIn(m, shift=RIGHT * 0.2) for m in mobs]
 
         # ---------------------------------------------------------- timeline
-        # fade up; the bridges and rotor lift off toward the camera and fade away
+        # fade up; the bridges lift off toward the camera and fade away
         self.play(curtain.animate.set_fill(opacity=0), run_time=FADE_IN, rate_func=smooth)
         self.wait(LIFT_AT - FADE_IN)
         t = LIFT_AT

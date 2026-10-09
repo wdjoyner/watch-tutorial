@@ -3,7 +3,7 @@
 Read this first. Read code only as needed. For a SETTINGS or voice-text change, open just that block or file.
 
 ## Files
-- `movement.py`: shared watch model. Palette and fonts, tooth counts (`TEETH`), pivot layout (`P`), `state(t)` kinematics, geometry helpers (`vm`, `slab`, `wheel_g`, `teeth_g`, `stripes_g`, …), the `Movement` class (tiers `dial` / `engine` / `top`, `parts` dict, `rot` list), `attach_driver()`.
+- `movement.py`: shared watch model, based on the ETA 6497-1 (hand-wound, 18,000 vph, no rotor). Palette and fonts, tooth counts (`TEETH`), pivot layout (`P`), `state(t)` kinematics, geometry helpers (`vm`, `slab`, `wheel_g`, `teeth_g`, `stripes_g`, …), the `Movement` class (tiers `dial` / `engine` / `top`, `parts` dict, `rot` list), `attach_driver()`.
 - `sceneNN_*.py`: one Manim scene per file. `SETTINGS` block at the top, then the timeline.
 - `sceneNN_*.voice.txt`: narration, `start_seconds | sentence`.
 - `build.py`: render → Kokoro TTS (cached per sentence) → tick track → .srt → `out/<scene>.mp4`.
@@ -13,7 +13,9 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
 - Never `.animate` a tier or a rotating part, because that suspends the driver updater. Animate the trackers returned by `attach_driver` instead (`explode`, `dim[tier]`), or the camera.
 - Add parts bottom-to-top within a tier (painter's algorithm). Use `lift(m, dz)` for small z offsets inside a tier.
 - A new rotating part needs an entry in `Movement.rot`: `(mobject, pivot_xy, tier, lambda s: angle)`. Derive its angle from `state()` so speeds stay consistent with the gear ratios.
-- A train wheel's center distance must equal the sum of the pitch radii (`MOD * teeth / 2`).
+- A train wheel's center distance must equal the sum of the pitch radii. Each going-train mesh has its own module (`MESH`), chosen so the traced 6497 pivot positions mesh exactly; use `R[...]` for radii.
+- The dial tier is built dial side up (its own frame: positions mirrored with `dv()`, dial face at z = 0) and fitted dial side down under the plate. Animate `mv.flip` (0 -> 1) to turn it over; `Movement(dial_up=True)` starts it turned. Dial-tier `rot` pivots and angles are in that dial-up frame; `mv.world(tier, xy, z)` converts to world coordinates.
+- Winding and regulating: animate `mv.wind` (crown turns) and `mv.regulate` (degrees), never the parts.
 - Screen-fixed text uses `add_fixed_in_frame_mobjects`.
 - Timed cues during a camera move: build the move with `camera_move()` and wrap each cue in `cue(when, ..., start=, end=)`, both in `movement.py`. `move_camera(added_anims=...)` passes its run_time and rate_func to every added animation, which stretches the cues.
 - To center a 3D point on screen, use `camera_move(..., target=p, frame_origin=<the scene's starting frame_center>)`. Manim's Cairo 3D camera shifts the picture by the starting frame_center, so a plain `frame_center=p` lands off-center.

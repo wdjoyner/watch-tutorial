@@ -8,10 +8,10 @@ Render only (quick preview):    manim -ql scene05_spines.py Scene05
 
 Stylized cross-section: the tiers are dimmed so the arbor reads through them
 like an X-ray. The arbor is a scene-local cylinder shaded toward the camera on
-every frame; the hands are added below the dial tier. movement.py is unchanged.
+every frame; the hands are added below the dial tier.
 """
 from manim import *
-from movement import (Movement, attach_driver, vignette, camera_move, cue, state, P, R,
+from movement import (Movement, attach_driver, vignette, camera_move, cue, state, P, R, DIAL_AXIS_Z,
                       BG, GLOW, FONT_SANS, STEEL, STEEL_DK, STEEL_HI)
 
 # =====================================================================
@@ -157,15 +157,17 @@ class Scene05(ThreeDScene):
 
         # rings that pulse as the camera passes each tier's part on the arbor
         ring_spec = {"top": (0.17, Z_EXPLODED["top"] + 0.26), "engine": (R["center"] * 1.04, Z_EXPLODED["engine"] + 0.12),
-                     "dial": (0.3, Z_EXPLODED["dial"] + 0.12)}
+                     "dial": (0.3, Z_EXPLODED["dial"] + DIAL_AXIS_Z - 0.17)}    # cannon pinion, under the plate
         rings = {k: Circle(radius=r, num_components=48).move_to(OUT * z).set_stroke(GLOW, 4, 0)
                  for k, (r, z) in ring_spec.items()}
 
         # the winding path: crown -> stem -> winding pinion -> crown wheel -> ratchet -> barrel
         zd, ze, zt = Z_EXPLODED["dial"], Z_EXPLODED["engine"], Z_EXPLODED["top"]
-        cwp = P["barrel"] + np.array([0.88 * np.cos(np.radians(15)), 0.88 * np.sin(np.radians(15)), 0])
-        snake_pts = [np.array([3.95, 0, zd + 0.18]), np.array([2.1, 0, zd + 0.12]),
-                     np.array([1.6, 0.25, ze - 0.4]), np.array([cwp[0], cwp[1], zt + 0.2]),
+        # the keyless works hang under the plate: stem axis 0.17 below the dial tier's turning axis
+        zs = zd + DIAL_AXIS_Z - 0.17
+        cwp, wp = P["crown_wheel"], P["winding_pinion"]
+        snake_pts = [np.array([3.95, 0, zs]), np.array([wp[0], 0, zs]),
+                     np.array([wp[0] + 0.1, -0.08, ze - 0.5]), np.array([cwp[0], cwp[1], zt + 0.18]),
                      np.array([P["barrel"][0], P["barrel"][1], zt + 0.22]),
                      np.array([P["barrel"][0], P["barrel"][1], ze + 0.15])]
         snake = VMobject().set_points_smoothly(snake_pts).set_stroke(GLOW, 7, 0.95)

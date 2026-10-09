@@ -12,7 +12,7 @@ from movement import Movement, attach_driver, vignette, BG, GLOW, FONT_SANS, FON
 # =====================================================================
 KICKER = "LEARNING HOW WATCHES WORK"
 TITLE = "Movement Architecture"
-TAGLINE = "a five-part tour of an automatic movement"
+TAGLINE = "a five-part tour of a hand-wound movement"
 
 FADE_IN = 1.6
 KICKER_AT, TITLE_AT, TAGLINE_AT = 1.8, 2.8, 4.4
