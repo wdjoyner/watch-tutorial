@@ -1,5 +1,6 @@
 """Film 2, scene 02 - "Inside the barrel": the barrel lifts out of the movement
-and explodes along its axis into drum, mainspring, arbor and cover; insets show
+and explodes along its axis into drum, mainspring, arbor and cover (labeled by name; part numbers vary between
+catalogs, so none are shown); insets show
 how the spring hooks to the arbor and to the drum wall; then, with the arbor
 held, the spring turns the drum, which drives the center pinion.
 
@@ -50,12 +51,7 @@ SHIFT_EXPLODE = 1.7                      # barrel sits this far left of center (
 SHIFT_HOOKS = 1.0
 
 # --- on-screen text --------------------------------------------------
-LABELS = {
-    "cover": ("cover", "182"),
-    "arbor": ("arbor", "195"),
-    "spring": ("mainspring", "770"),
-    "drum": ("drum", "182"),
-}
+LABELS = {"cover": "cover", "arbor": "arbor", "spring": "mainspring", "drum": "drum"}
 SPRING_NOTE = "about 450 mm long, 0.18 mm thick"
 INSETS = {"inner": "inner end on the arbor hook", "outer": "outer end on the drum hook"}
 HELD = "arbor held still"
@@ -152,9 +148,7 @@ class Scene02(ThreeDScene):
             a = screen(anchors[k])
             y = a[1] if not ys else min(a[1], ys[-1] - 0.55)
             ys.append(y)
-            name = Text(LABELS[k][0], font=FONT_SANS, weight=BOLD, color=GLOW).scale(0.36)
-            num = Text(LABELS[k][1], font=FONT_SANS, color=GREY_B).scale(0.30)
-            txt = VGroup(name, num).arrange(RIGHT, buff=0.16, aligned_edge=DOWN)
+            txt = Text(LABELS[k], font=FONT_SANS, weight=BOLD, color=GLOW).scale(0.36)
             txt.move_to([LABEL_X, y, 0], aligned_edge=LEFT)
             dot = Dot([a[0], a[1], 0], radius=0.035, color=GLOW)
             lead = Line([a[0], a[1], 0], [LABEL_X - 0.12, y, 0]).set_stroke(GLOW, 1.4, 0.8)

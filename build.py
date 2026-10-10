@@ -13,7 +13,8 @@ number (2), prefix (film02) or folder name; a bare scene name works when only
 one film has it. Output goes to out/<film folder>/<scene>.mp4.
 
 Steps: manim render -> Kokoro TTS for each line of <scene>.voice.txt ->
-mix narration with a tick track synced to the escapement -> write .srt ->
+mix narration with a tick track synced to the escapement (and any sound
+effects listed in <scene>.sfx.txt) -> write .srt ->
 mux into out/<scene>.mp4 (with soft subtitles).
 
 Requires ffmpeg on PATH. Kokoro model files (~350 MB) are downloaded once
@@ -104,6 +105,31 @@ def ticks(duration, beats, level):
     return out * np.clip(t / 1.6, 0, 1) * np.clip((duration - t) / 1.5, 0, 1) * level
 
 
+def click_sound():
+    """A short metallic click: a filtered noise burst with a bright ring."""
+    rng = np.random.default_rng(7)
+    L = int(0.018 * SR)
+    t = np.arange(L) / SR
+    env = np.exp(-t / 0.0028)
+    s = (np.sin(2 * np.pi * 5200 * t) * 0.5 + np.sin(2 * np.pi * 2900 * t) * 0.35 + rng.normal(0, 0.5, L)) * env
+    return s / np.max(np.abs(s))
+
+
+SOUNDS = {"click": click_sound}
+
+
+def read_sfx(path):
+    """<scene>.sfx.txt: one `time_in_seconds | sound [| level]` per line (sound: click)."""
+    out = []
+    for raw in open(path, encoding="utf-8"):
+        raw = raw.strip()
+        if not raw or raw.startswith("#"):
+            continue
+        parts = [x.strip() for x in raw.split("|")]
+        out.append((float(parts[0]), parts[1], float(parts[2]) if len(parts) > 2 else 1.0))
+    return out
+
+
 def srt_time(s):
     ms = int(round(s * 1000))
     return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
@@ -116,6 +142,7 @@ def main():
     ap.add_argument("--voice", default="bm_george", help="Kokoro voice, e.g. bm_george, am_michael, bf_emma")
     ap.add_argument("--speed", type=float, default=0.92, help="narration speed (1.0 = Kokoro default)")
     ap.add_argument("--tick-level", type=float, default=0.05, help="0 disables the tick track")
+    ap.add_argument("--sfx-level", type=float, default=0.16, help="level of sound effects from <scene>.sfx.txt; 0 disables")
     ap.add_argument("--skip-render", action="store_true", help="reuse the last render, redo audio only")
     a = ap.parse_args()
 
@@ -164,6 +191,14 @@ def main():
         from movement import BEATS
         mix += ticks(dur, BEATS, a.tick_level)
     out = os.path.join(OUT, film)
+    sfx_file = os.path.join(fdir, name + ".sfx.txt")
+    if a.sfx_level > 0 and os.path.exists(sfx_file):
+        bank = {}
+        for t0, snd, lvl in read_sfx(sfx_file):
+            clip = bank.setdefault(snd, SOUNDS[snd]())
+            i = int(t0 * SR)
+            seg = clip[: max(0, len(mix) - i)]
+            mix[i:i + len(seg)] += seg * a.sfx_level * lvl
     os.makedirs(out, exist_ok=True)
     wav = os.path.join(CACHE, f"{film}_{name}_mix.wav")
     sf.write(wav, np.clip(mix, -1, 1), SR)

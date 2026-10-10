@@ -1,0 +1,9 @@
+# Narration for scene03_winding.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.2  | Winding turns the other end.
+4.4  | The crown turns the winding pinion, which turns the crown wheel, which turns the ratchet wheel fixed to the arbor.
+13.4 | The arbor reels the spring in tight around itself.
+17.4 | The click lets the ratchet turn one way only, so the spring cannot unwind backward through the crown.
+24.8 | That clicking is the sound of winding.
+28.6 | Winding turns the arbor; running turns the drum. Two separate paths meet in one spring.

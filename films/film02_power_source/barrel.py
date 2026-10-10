@@ -239,3 +239,62 @@ def inset_g(which, twist=0.0):
         items = [(drum_floor_g(), BRASS_DK, BRASS), (drum_wall_g(), BRASS, BRASS_HI), (spring_g(twist), STEEL_HI, WHITE),
                  (wall_hook_g(), BRASS, BRASS_HI)]
     return items, p
+
+
+# ------------------------------------------------- the spring as it winds (real 6497 numbers)
+# A spring wound or let down lies in two tight packs: one wrapped around the arbor
+# and one against the drum wall, joined by a free coil. Winding moves ribbon from
+# the wall pack onto the arbor pack. By area, a pack of length l and thickness h
+# between radii a and b obeys l * h = pi * (b^2 - a^2), and holds (b - a) / h turns.
+REAL_L, REAL_H = 450.0, 0.18         # mainspring length and thickness, mm (Ranfft: 1.50 x 0.18 x 450)
+BRIDGE_TURN = 0.6                    # the free coil between the packs spans this much of a turn
+
+
+def pack_turns(w, L=REAL_L, h=REAL_H, r=CORE_R, Rw=R_IN):
+    """Turns in the arbor pack and the wall pack when a fraction w of the ribbon
+    is on the arbor, and the radii where each pack ends."""
+    R1 = np.sqrt(r ** 2 + w * L * h / np.pi)
+    R2 = np.sqrt(Rw ** 2 - (1 - w) * L * h / np.pi)
+    return (R1 - r) / h, (Rw - R2) / h, R1, R2
+
+
+def development(**kw):
+    """Arbor turns from fully let down (w = 0) to fully wound (w = 1)."""
+    a0, b0, _, _ = pack_turns(0.0, **kw)
+    a1, b1, _, _ = pack_turns(1.0, **kw)
+    return (a1 + b1) - (a0 + b0)
+
+
+def wound_fraction(arbor_turns, **kw):
+    """Inverse of the above: the fraction w on the arbor after the arbor has turned
+    `arbor_turns` from the let-down state (bisection; the total is monotone in w)."""
+    base = sum(pack_turns(0.0, **kw)[:2])
+    lo, hi = 0.0, 1.0
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        if sum(pack_turns(mid, **kw)[:2]) - base < arbor_turns:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def pack_state_g(arbor_turns, outer_deg=0.0, **kw):
+    """Top view (mm) of the spring after `arbor_turns` of winding from let down:
+    (arbor pack, wall pack, free coil, arbor angle in degrees). The outer end is
+    fixed at outer_deg; turning the arbor counterclockwise winds the spring."""
+    h = kw.get("h", REAL_H)
+    r = kw.get("r", CORE_R)
+    w = wound_fraction(arbor_turns, **kw)
+    n_in, n_out, R1, R2 = pack_turns(w, **kw)
+    inner = disk_g(R1, n=160).difference(disk_g(r, n=160))
+    outer = disk_g(R_IN, n=160).difference(disk_g(R2, n=160))
+    phi_out = np.radians(outer_deg)
+    phi2 = phi_out + TAU * n_out                      # where the free coil leaves the wall pack
+    span = TAU * BRIDGE_TURN
+    s = np.linspace(0, 1, 120)
+    ang = phi2 + s * span
+    rad = (R2 - h / 2) + ((R1 + h / 2) - (R2 - h / 2)) * (3 * s ** 2 - 2 * s ** 3)
+    free = LineString(np.column_stack([rad * np.cos(ang), rad * np.sin(ang)])).buffer(h / 2 + 0.06, cap_style=1)
+    arbor_deg = np.degrees(phi2 + span + TAU * n_in)  # inner end angle: winds with the arbor
+    return inner, outer, free, arbor_deg, w
