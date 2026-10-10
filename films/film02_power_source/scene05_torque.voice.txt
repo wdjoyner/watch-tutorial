@@ -1,0 +1,9 @@
+# Narration for scene05_torque.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Fully wound, the spring pushes hardest.
+4.2  | As it unwinds, the push weakens.
+8.0  | In the simplest model, torque falls in a straight line, and the stored energy is the area under it.
+15.6 | A real spring departs from that line: steeper at full wind, where the coils press together, and sagging near the end.
+24.6 | Makers shape the spring's free form into an S-curve to flatten the useful middle of this curve, because a steadier push means steadier timekeeping.
+35.4 | In a hand-wound watch the spring is hooked to the drum, so at full wind you feel a firm stop. That's the signal to stop turning.

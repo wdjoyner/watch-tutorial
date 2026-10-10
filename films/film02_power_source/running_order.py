@@ -6,4 +6,5 @@ SCENES = [
     ("scene02_barrel", "Inside the Barrel"),
     ("scene03_winding", "Winding"),
     ("scene04_beam", "A Bent Beam"),
+    ("scene05_torque", "Torque Falls as It Unwinds"),
 ]
