@@ -33,8 +33,9 @@ KOKORO_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/mode
 KOKORO_FILES = ["kokoro-v1.0.onnx", "voices-v1.0.bin"]
 # Words Kokoro mispronounces, respelled for the voice only (captions keep the real
 # spelling). Kokoro reads "wound" as the injury and "wind" as moving air; in these
-# films both always mean winding. Whole words, case-insensitive.
-PRONOUNCE = {"wound": "wownd", "wind": "wined"}
+# films both always mean winding. "ETA" (the movement maker) is read as letters.
+# Whole words, case-insensitive.
+PRONOUNCE = {"wound": "wownd", "wind": "wined", "eta": "E-T-A"}
 QUALITY = {"l": "480p15", "m": "720p30", "h": "1080p30", "p": "1440p60", "k": "2160p60"}
 
 

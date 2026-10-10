@@ -1,0 +1,11 @@
+# Narration for scene07_turns.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | How many turns can a barrel give?
+4.0  | Fully wound, the spring wraps the arbor. Let down, it lies against the wall.
+10.0 | The turns it can deliver are the difference between those two coils.
+15.0 | Too short a spring gives few turns. Too long, and it has no room to move.
+21.0 | The best is in between: when the spring fills exactly half the free space.
+26.6 | For this barrel that is about four hundred fifty-four millimeters. ETA’s spring is four hundred fifty: within one percent.
+35.3 | It gives about eight turns of the barrel, or roughly thirty turns of the crown, from let down to fully wound.
+43.1 | Most turns isn’t quite most energy, though: a somewhat longer spring stores a little more.

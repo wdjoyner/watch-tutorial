@@ -8,4 +8,5 @@ SCENES = [
     ("scene04_beam", "A Bent Beam"),
     ("scene05_torque", "Torque Falls as It Unwinds"),
     ("scene06_coil", "The Geometry of the Coil"),
+    ("scene07_turns", "How Many Turns?"),
 ]
