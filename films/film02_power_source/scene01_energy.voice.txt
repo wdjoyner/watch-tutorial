@@ -1,0 +1,6 @@
+# Narration for scene01_energy.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.2  | Every tick of a mechanical watch is paid for in advance.
+5.4  | The payment is stored here, in the barrel: a coiled ribbon of spring steel, wound tight by hand.
+13.4 | Everything downstream, from the gears to the balance, spends that stored energy slowly: less than a joule, over nearly two days.

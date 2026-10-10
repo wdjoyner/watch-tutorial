@@ -1,5 +1,6 @@
-# Running order for Film 2, read by film.py.
-# Placeholder until the outline is approved; scenes are added here as they are written.
+# Running order for Film 2, read by film.py. Scenes are added as they are written.
 TITLE = "Learning How Watches Work: The Power Source"
 OUT_NAME = "power_source"
-SCENES = []
+SCENES = [
+    ("scene01_energy", "Where the Energy Lives"),
+]
