@@ -1,0 +1,8 @@
+# Narration for scene06_coil.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | A tightly coiled ribbon is an Archimedean spiral: each turn adds exactly one thickness to the radius.
+8.8  | That gives a quick way to measure its length without uncoiling it.
+13.6 | Unroll the spring in your mind into a long thin rectangle. Coiled, the same area fills a ring.
+22.4 | So length times thickness equals the area of the ring.
+27.6 | A ring this size, filled with ribbon eighteen hundredths of a millimeter thick, holds a little under half a meter.
