@@ -6,6 +6,11 @@
     python build.py scene01_vertical_city -q k            # 4K
     python build.py scene01_vertical_city --voice am_michael
     python build.py scene01_vertical_city --skip-render   # re-mix audio only
+    python build.py 2/scene00_title                       # <film>/<scene> when the name is in several films
+
+Scenes live in films/filmNN_<name>/ (see films.py). The film can be given by
+number (2), prefix (film02) or folder name; a bare scene name works when only
+one film has it. Output goes to out/<film folder>/<scene>.mp4.
 
 Steps: manim render -> Kokoro TTS for each line of <scene>.voice.txt ->
 mix narration with a tick track synced to the escapement -> write .srt ->
@@ -16,6 +21,7 @@ into models/ on first use.
 """
 import argparse, glob, hashlib, os, re, subprocess, sys, urllib.request
 import numpy as np
+from films import find_scene
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MODELS = os.path.join(HERE, "models")
@@ -105,7 +111,7 @@ def srt_time(s):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("scene", help="scene file name, e.g. scene01_vertical_city (with or without .py)")
+    ap.add_argument("scene", help="scene name, e.g. scene01_vertical_city, or <film>/<scene>, e.g. 2/scene00_title")
     ap.add_argument("-q", "--quality", default="h", choices=QUALITY, help="l=480p m=720p h=1080p p=1440p k=4K")
     ap.add_argument("--voice", default="bm_george", help="Kokoro voice, e.g. bm_george, am_michael, bf_emma")
     ap.add_argument("--speed", type=float, default=0.92, help="narration speed (1.0 = Kokoro default)")
@@ -113,17 +119,24 @@ def main():
     ap.add_argument("--skip-render", action="store_true", help="reuse the last render, redo audio only")
     a = ap.parse_args()
 
-    name = os.path.splitext(os.path.basename(a.scene))[0]
-    py = os.path.join(HERE, name + ".py")
+    film, name = find_scene(a.scene)
+    fdir = os.path.join(HERE, "films", film)
+    py = os.path.join(fdir, name + ".py")
+    if not os.path.exists(py):
+        sys.exit(f"no scene file {os.path.relpath(py, HERE)}")
     cls = scene_class(py)
     fps_flag = ["--fps", "30"] if a.quality == "h" else []
+    media = os.path.join(HERE, "media", film)       # one media dir per film: scene names repeat across films
+    env = dict(os.environ, PYTHONPATH=os.pathsep.join([HERE] + [p for p in [os.environ.get("PYTHONPATH")] if p]))
 
     if not a.skip_render:
-        print(f"[1/4] rendering {cls} at {QUALITY[a.quality]}")
-        run(["manim", f"-q{a.quality}", *fps_flag, "--disable_caching", py, cls])
-    video = os.path.join(HERE, "media", "videos", name, QUALITY[a.quality], cls + ".mp4")
+        print(f"[1/4] rendering {film}/{name} ({cls}) at {QUALITY[a.quality]}")
+        print("  $ manim", f"-q{a.quality}", *fps_flag, "--disable_caching", "--media_dir", media, py, cls)
+        subprocess.run(["manim", f"-q{a.quality}", *fps_flag, "--disable_caching", "--media_dir", media, py, cls],
+                       check=True, env=env)
+    video = os.path.join(media, "videos", name, QUALITY[a.quality], cls + ".mp4")
     if not os.path.exists(video):
-        cands = sorted(glob.glob(os.path.join(HERE, "media", "videos", name, "*", cls + ".mp4")), key=os.path.getmtime)
+        cands = sorted(glob.glob(os.path.join(media, "videos", name, "*", cls + ".mp4")), key=os.path.getmtime)
         if not cands:
             sys.exit("no rendered video found; run without --skip-render")
         video = cands[-1]
@@ -131,7 +144,7 @@ def main():
                                          "-of", "csv=p=0", video]).decode())
 
     print(f"[2/4] narration ({a.voice})")
-    voice_file = os.path.join(HERE, name + ".voice.txt")
+    voice_file = os.path.join(fdir, name + ".voice.txt")
     lines = read_voice(voice_file) if os.path.exists(voice_file) else []
     clips = tts(lines, a.voice, a.speed)
 
@@ -149,17 +162,18 @@ def main():
         sys.path.insert(0, HERE)
         from movement import BEATS
         mix += ticks(dur, BEATS, a.tick_level)
-    os.makedirs(OUT, exist_ok=True)
-    wav = os.path.join(CACHE, name + "_mix.wav")
+    out = os.path.join(OUT, film)
+    os.makedirs(out, exist_ok=True)
+    wav = os.path.join(CACHE, f"{film}_{name}_mix.wav")
     sf.write(wav, np.clip(mix, -1, 1), SR)
 
-    srt = os.path.join(OUT, name + ".srt")
+    srt = os.path.join(out, name + ".srt")
     with open(srt, "w", encoding="utf-8") as f:
         for i, (start, audio) in enumerate(clips, 1):
             f.write(f"{i}\n{srt_time(start)} --> {srt_time(start + len(audio) / SR + 0.2)}\n{lines[i - 1][1]}\n\n")
 
     print("[4/4] muxing")
-    final = os.path.join(OUT, name + ".mp4")
+    final = os.path.join(out, name + ".mp4")
     subs = ["-i", srt] if clips else []              # ffmpeg rejects an empty .srt (e.g. title cards)
     sub_maps = ["-map", "2", "-c:s", "mov_text", "-metadata:s:s:0", "language=eng"] if clips else []
     run(["ffmpeg", "-v", "error", "-y", "-i", video, "-i", wav, *subs,

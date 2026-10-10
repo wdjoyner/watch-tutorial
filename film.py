@@ -1,36 +1,24 @@
 #!/usr/bin/env python3
 """Join the finished scenes into one film, with merged subtitles and chapters.
 
-    python film.py                  # join the videos already in out/
-    python film.py --build          # build every scene first (1080p30), then join
-    python film.py --build -q l     # quick 480p preview of the whole film
+    python film.py 1                # join Film 1's scenes already built in out/film01_*/
+    python film.py 1 --build        # build every scene first (1080p30), then join
+    python film.py 2 --build -q l   # quick 480p preview of the whole of Film 2
 
-Each scene is built separately by build.py into out/<scene>.mp4; this script
-only joins them (no re-encoding), so after changing one scene, rebuild just
-that scene and rerun `python film.py`. All scenes must be built at the same
-quality. Output: out/<OUT_NAME>.mp4 (soft subtitles + chapter markers) and
-out/<OUT_NAME>.srt, plus a YouTube chapter list printed at the end.
+The film is given by number (1), prefix (film01) or folder name. Its running
+order, chapter names and title are in films/<film>/running_order.py.
+Each scene is built separately by build.py into out/<film>/<scene>.mp4; this
+script only joins them (no re-encoding), so after changing one scene, rebuild
+just that scene and rerun `python film.py <film>`. All scenes must be built at
+the same quality. Output: out/<OUT_NAME>.mp4 (soft subtitles + chapter markers)
+and out/<OUT_NAME>.srt, plus a YouTube chapter list printed at the end.
 """
 import argparse, os, re, subprocess, sys
+from films import film_dir, running_order
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 
-# =====================================================================
-# SETTINGS - the running order, chapter names, and the film's title.
-# =====================================================================
-TITLE = "Learning How Watches Work: Movement Architecture"
-OUT_NAME = "movement_architecture"
-SCENES = [
-    ("scene00_title", "Title"),
-    ("scene01_vertical_city", "The Vertical City"),
-    ("scene02_dial_side", "Tier 1: The Dial Side"),
-    ("scene03_core_engine", "Tier 2: The Core Engine"),
-    ("scene04_top_modules", "Tier 3: The Top Works"),
-    ("scene05_spines", "The Spines"),
-    ("scene06_credits", "Credits"),
-]
-# =====================================================================
 
 
 def run(cmd):
@@ -71,32 +59,39 @@ def read_srt(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("film", help="film number, prefix or folder, e.g. 1, film01")
     ap.add_argument("--build", action="store_true", help="build every scene with build.py first")
     ap.add_argument("-q", "--quality", default="h", help="quality passed to build.py with --build (l m h p k)")
     a = ap.parse_args()
+    film = film_dir(a.film)
+    order = running_order(film)
+    TITLE, OUT_NAME, SCENES = order["TITLE"], order["OUT_NAME"], order["SCENES"]
+    if not SCENES:
+        sys.exit(f"{film} has no scenes in its running_order.py yet")
+    fout = os.path.join(OUT, film)
 
     if a.build:
         for name, _ in SCENES:
-            print(f"\n=== building {name}")
-            run([sys.executable, os.path.join(HERE, "build.py"), name, "-q", a.quality])
+            print(f"\n=== building {film}/{name}")
+            run([sys.executable, os.path.join(HERE, "build.py"), f"{film}/{name}", "-q", a.quality])
 
     # check that every scene exists and they all match
     vids, fmt0, missing = [], None, []
     for name, chapter in SCENES:
-        p = os.path.join(OUT, name + ".mp4")
+        p = os.path.join(fout, name + ".mp4")
         if not os.path.exists(p):
             missing.append(name)
             continue
         fmt, dur = probe(p)
         vids.append((name, chapter, p, dur, fmt))
     if missing:
-        sys.exit("not built yet: " + ", ".join(missing) + "\nrun `python build.py <scene>` for each, or use --build")
+        sys.exit("not built yet: " + ", ".join(missing) + f"\nrun `python build.py {film}/<scene>` for each, or use --build")
     fmts = {v[4] for v in vids}
     if len(fmts) > 1:
         lines = [f"  {n}: {f[0]}x{f[1]} @ {f[2]}" for n, _, _, _, f in vids]
         sys.exit("the scenes were built at different qualities; rebuild the odd ones out:\n" + "\n".join(lines))
 
-    tmp = os.path.join(HERE, "build_cache", "film")
+    tmp = os.path.join(HERE, "build_cache", "film", film)
     os.makedirs(tmp, exist_ok=True)
 
     # 1) video + audio only from each scene (subtitle tracks differ between scenes), then join without re-encoding
@@ -114,7 +109,7 @@ def main():
     print("[2/3] subtitles and chapters")
     cues, chapters, start = [], [], 0.0
     for name, chapter, _, dur, _ in vids:
-        cues += [(start + x, start + y, text) for x, y, text in read_srt(os.path.join(OUT, name + ".srt"))]
+        cues += [(start + x, start + y, text) for x, y, text in read_srt(os.path.join(fout, name + ".srt"))]
         chapters.append((start, start + dur, chapter))
         start += dur
     srt = os.path.join(OUT, OUT_NAME + ".srt")
