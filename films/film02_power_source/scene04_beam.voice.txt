@@ -1,0 +1,9 @@
+# Narration for scene04_beam.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Winding doesn't stretch the mainspring. It bends it.
+5.6  | Bend a ribbon, and its outer face stretches while its inner face compresses. Along the middle runs a line that does neither: the neutral axis.
+16.0 | The torque it pushes back with is proportional to how much it is bent.
+21.0 | Add that bending up along the whole length, and you get the fundamental stiffness formula of horology: E b h cubed, over twelve L.
+32.0 | Thickness enters cubed. Make the ribbon one percent thicker, and it pushes back three percent harder.
+39.5 | The same formula, with a much finer ribbon, sets the stiffness of the hairspring.

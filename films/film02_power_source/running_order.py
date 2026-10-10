@@ -5,4 +5,5 @@ SCENES = [
     ("scene01_energy", "Where the Energy Lives"),
     ("scene02_barrel", "Inside the Barrel"),
     ("scene03_winding", "Winding"),
+    ("scene04_beam", "A Bent Beam"),
 ]
