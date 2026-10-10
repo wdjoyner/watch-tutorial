@@ -33,7 +33,7 @@ BOX_AT = 27.4                  # "the fundamental stiffness formula of horology"
 LEGEND_AT = 29.6
 CUBE_AT, ONE_PCT_AT, THREE_PCT_AT = 32.0, 34.6, 36.8
 HAIRSPRING_AT = 39.6
-FINAL_HOLD = 1.6
+FINAL_HOLD = 2.6
 FADE_OUT = 1.5
 
 # --- the band (its thickness is magnified) -----------------------------

@@ -31,6 +31,10 @@ OUT = os.path.join(HERE, "out")
 SR = 48000
 KOKORO_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/"
 KOKORO_FILES = ["kokoro-v1.0.onnx", "voices-v1.0.bin"]
+# Words Kokoro mispronounces, respelled for the voice only (captions keep the real
+# spelling). Kokoro reads "wound" as the injury and "wind" as moving air; in these
+# films both always mean winding. Whole words, case-insensitive.
+PRONOUNCE = {"wound": "wownd", "wind": "wined"}
 QUALITY = {"l": "480p15", "m": "720p30", "h": "1080p30", "p": "1440p60", "k": "2160p60"}
 
 
@@ -66,12 +70,21 @@ def ensure_models():
             urllib.request.urlretrieve(KOKORO_URL + f, p)
 
 
+def spoken(text):
+    """The text as Kokoro should say it (see PRONOUNCE)."""
+    def fix(m):
+        w = PRONOUNCE[m.group(0).lower()]
+        return w[0].upper() + w[1:] if m.group(0)[0].isupper() else w
+    return re.sub(r"\b(" + "|".join(PRONOUNCE) + r")\b", fix, text, flags=re.I)
+
+
 def tts(lines, voice, speed):
     """Return [(start, samples)] at SR; each sentence is cached by text+voice."""
     import soundfile as sf
     os.makedirs(CACHE, exist_ok=True)
     kokoro, out = None, []
     for start, text in lines:
+        text = spoken(text)
         key = hashlib.sha1(f"{voice}|{speed}|{text}".encode()).hexdigest()[:16]
         wav = os.path.join(CACHE, f"tts_{key}.wav")
         if not os.path.exists(wav):
@@ -176,6 +189,12 @@ def main():
     lines = read_voice(voice_file) if os.path.exists(voice_file) else []
     clips = tts(lines, a.voice, a.speed)
 
+    tail = max((s + len(c) / SR for s, c in clips), default=0.0) + 0.4
+    pad = max(0.0, tail - dur)
+    if pad > 0:
+        print(f"  WARNING: the narration runs {pad:.2f} s past the end of the animation; the last frame is held"
+              f" to fit. Lengthen the scene's final hold (or move the line earlier) to fix it properly.")
+        dur += pad
     print("[3/4] mixing audio")
     import soundfile as sf
     mix = np.zeros(int(SR * dur))
@@ -212,8 +231,10 @@ def main():
     final = os.path.join(out, name + ".mp4")
     subs = ["-i", srt] if clips else []              # ffmpeg rejects an empty .srt (e.g. title cards)
     sub_maps = ["-map", "2", "-c:s", "mov_text", "-metadata:s:s:0", "language=eng"] if clips else []
+    vcodec = ["-c:v", "copy"] if pad == 0 else \
+        ["-vf", f"tpad=stop_mode=clone:stop_duration={pad:.3f}", "-c:v", "libx264", "-crf", "16", "-pix_fmt", "yuv420p"]
     run(["ffmpeg", "-v", "error", "-y", "-i", video, "-i", wav, *subs,
-         "-map", "0:v", "-map", "1:a", *sub_maps, "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+         "-map", "0:v", "-map", "1:a", *sub_maps, *vcodec, "-c:a", "aac", "-b:a", "192k",
          "-t", f"{dur:.3f}", final])
     print(f"\ndone: {os.path.relpath(final)}  ({dur:.1f} s)")
 

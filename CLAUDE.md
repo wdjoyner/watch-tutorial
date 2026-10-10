@@ -11,7 +11,7 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
   - Film-local helper modules may sit beside the scenes (build.py also puts the film folder on `PYTHONPATH`). Film 2's `barrel.py` is the close-up mainspring barrel (`BarrelModel`: trackers `explode`, `lift`, `drum_turn`, `arbor_turn`, `show_cover`; `anchor()` gives points on parts for labels). Its `pack_state_g()` draws the spring as it winds at real 6497 numbers (arbor pack, wall pack, free coil; about 8 turns of development).
   - `sceneNN_*.sfx.txt` (optional): sound effects, `time | click [| level]`, mixed in by build.py (`--sfx-level`). Scene 03 writes its own from its winding schedule on every render.
 - `films.py`: resolves a film (`2`, `film02`, or folder name) and a scene (`scene03_x`, or `2/scene00_title` when the name occurs in several films).
-- `build.py`: render → Kokoro TTS (cached per sentence) → tick track → .srt → `out/<film>/<scene>.mp4`. Manim media goes to `media/<film>/`.
+- `build.py`: render → Kokoro TTS (cached per sentence) → tick track → .srt → `out/<film>/<scene>.mp4`. Manim media goes to `media/<film>/`. Its `PRONOUNCE` table respells words Kokoro gets wrong, for the voice only ("wound" → "wownd", "wind" → "wined"); add entries there, not in the .voice.txt files. If the narration runs past the animation, build.py warns and holds the last frame; fix it by lengthening the scene's final hold, so the narration ends before the fade-out.
 - `film.py <film>`: joins that film's built scenes in running order into `out/<OUT_NAME>.mp4` with merged subtitles and chapters; no re-encoding. Each film's `scene00_title.py` and last scene are the title and credits cards (no narration).
 
 ## Rules that matter

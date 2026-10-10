@@ -37,7 +37,7 @@ STEADY_AT = 31.4                      # "a steadier push"
 FREEFORM_OUT = 33.8
 REWIND = (36.0, 39.8)                 # wound back up to full
 STOP_AT = 39.9                        # "a firm stop"
-FINAL_HOLD = 1.4
+FINAL_HOLD = 3.9                      # the last line ends about 44 s; the fade starts after it
 FADE_OUT = 1.5
 
 # --- layout -------------------------------------------------------------
