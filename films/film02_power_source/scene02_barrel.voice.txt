@@ -1,0 +1,9 @@
+# Narration for scene02_barrel.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+2.6  | The barrel has four parts.
+6.2  | The drum, a toothed wheel, and its snap-on cover.
+10.2 | The arbor, an axle through the middle.
+13.6 | And the mainspring, nearly half a meter of steel ribbon, coiled to fit inside fifteen millimeters.
+21.6 | Its inner end hooks onto the arbor; its outer end hooks onto the drum wall.
+27.8 | Hold the arbor still, and the spring turns the drum, and the drum's teeth drive the gear train.

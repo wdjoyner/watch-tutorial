@@ -127,7 +127,8 @@ def main():
     cls = scene_class(py)
     fps_flag = ["--fps", "30"] if a.quality == "h" else []
     media = os.path.join(HERE, "media", film)       # one media dir per film: scene names repeat across films
-    env = dict(os.environ, PYTHONPATH=os.pathsep.join([HERE] + [p for p in [os.environ.get("PYTHONPATH")] if p]))
+    # scenes import the shared movement.py (repo root) and any helpers in their own film folder
+    env = dict(os.environ, PYTHONPATH=os.pathsep.join([HERE, fdir] + [p for p in [os.environ.get("PYTHONPATH")] if p]))
 
     if not a.skip_render:
         print(f"[1/4] rendering {film}/{name} ({cls}) at {QUALITY[a.quality]}")

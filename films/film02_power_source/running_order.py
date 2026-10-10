@@ -3,4 +3,5 @@ TITLE = "Learning How Watches Work: The Power Source"
 OUT_NAME = "power_source"
 SCENES = [
     ("scene01_energy", "Where the Energy Lives"),
+    ("scene02_barrel", "Inside the Barrel"),
 ]

@@ -8,6 +8,7 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
   - `sceneNN_*.py`: one Manim scene per file. `SETTINGS` block at the top, then the timeline. Scenes import from the shared `movement.py` (build.py puts the repo root on `PYTHONPATH`).
   - `sceneNN_*.voice.txt`: narration, `start_seconds | sentence`.
   - `running_order.py`: `TITLE`, `OUT_NAME`, and `SCENES` (file, chapter name) for that film.
+  - Film-local helper modules may sit beside the scenes (build.py also puts the film folder on `PYTHONPATH`). Film 2's `barrel.py` is the close-up mainspring barrel (`BarrelModel`: trackers `explode`, `lift`, `drum_turn`, `arbor_turn`, `show_cover`; `anchor()` gives points on parts for labels).
 - `films.py`: resolves a film (`2`, `film02`, or folder name) and a scene (`scene03_x`, or `2/scene00_title` when the name occurs in several films).
 - `build.py`: render → Kokoro TTS (cached per sentence) → tick track → .srt → `out/<film>/<scene>.mp4`. Manim media goes to `media/<film>/`.
 - `film.py <film>`: joins that film's built scenes in running order into `out/<OUT_NAME>.mp4` with merged subtitles and chapters; no re-encoding. Each film's `scene00_title.py` and last scene are the title and credits cards (no narration).
