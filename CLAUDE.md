@@ -4,11 +4,12 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
 
 ## Files
 - `movement.py`: shared watch model, based on the ETA 6497-1 (hand-wound, 18,000 vph, no rotor). Palette and fonts, tooth counts (`TEETH`), pivot layout (`P`), `state(t)` kinematics, geometry helpers (`vm`, `slab`, `wheel_g`, `teeth_g`, `stripes_g`, …), the `Movement` class (tiers `dial` / `engine` / `top`, `parts` dict, `rot` list), `attach_driver()`.
-- `films/filmNN_<name>/`: one folder per film. Film 1 is `film01_movement_architecture`; Film 2 (mainspring and barrel) is `film02_power_source`.
+- `films/filmNN_<name>/`: one folder per film. Film 1 is `film01_movement_architecture`; Film 2 (mainspring and barrel) is `film02_power_source`; Film 3 (the going train) is `film03_gear_train`.
   - `sceneNN_*.py`: one Manim scene per file. `SETTINGS` block at the top, then the timeline. Scenes import from the shared `movement.py` (build.py puts the repo root on `PYTHONPATH`).
   - `sceneNN_*.voice.txt`: narration, `start_seconds | sentence`.
   - `running_order.py`: `TITLE`, `OUT_NAME`, and `SCENES` (file, chapter name) for that film.
   - Film-local helper modules may sit beside the scenes (build.py also puts the film folder on `PYTHONPATH`). Film 2's `barrel.py` is the close-up mainspring barrel (`BarrelModel`: trackers `explode`, `lift`, `drum_turn`, `arbor_turn`, `show_cover`; `anchor()` gives points on parts for labels). Its `pack_state_g()` draws the spring as it winds at real 6497 numbers (arbor pack, wall pack, free coil; about 8 turns of development).
+  - Film 3's `train.py`: flat gears that mesh in phase (`GearSet`: `gear(name, z, m, center= | driven_by=, angle= | arbor_of=)`, one updater turns all from `gs.turn` / `gs.speed`; fade gears with `gs.show()` / `gear.vis`, never FadeIn, which fights the rotation) and `elevation_arbor()` side views. Film 3 scenes call `movement.use_train(movement.TEETH_6497)` before building, for the documented 6497 counts (85/12, 80/10, 60/8, 70/7, 15); the defaults in `TEETH` stay as Films 1 and 2 were rendered.
   - `sceneNN_*.sfx.txt` (optional): sound effects, `time | click [| level]`, mixed in by build.py (`--sfx-level`). Scene 03 writes its own from its winding schedule on every render.
 - `films.py`: resolves a film (`2`, `film02`, or folder name) and a scene (`scene03_x`, or `2/scene00_title` when the name occurs in several films).
 - `build.py`: render → Kokoro TTS (cached per sentence) → tick track → .srt → `out/<film>/<scene>.mp4`. Manim media goes to `media/<film>/`. Its `PRONOUNCE` table respells words Kokoro gets wrong, for the voice only ("wound" → "wownd", "wind" → "wined"); add entries there, not in the .voice.txt files. If the narration runs past the animation, build.py warns and holds the last frame; fix it by lengthening the scene's final hold, so the narration ends before the fade-out.
@@ -24,6 +25,7 @@ Read this first. Read code only as needed. For a SETTINGS or voice-text change, 
 - Screen-fixed text uses `add_fixed_in_frame_mobjects`.
 - Timed cues during a camera move: build the move with `camera_move()` and wrap each cue in `cue(when, ..., start=, end=)`, both in `movement.py`. `move_camera(added_anims=...)` passes its run_time and rate_func to every added animation, which stretches the cues.
 - To center a 3D point on screen, use `camera_move(..., target=p, frame_origin=<the scene's starting frame_center>)`. Manim's Cairo 3D camera shifts the picture by the starting frame_center, so a plain `frame_center=p` lands off-center.
+- With a nonzero starting frame_center, the Cairo 3D camera also shifts screen-fixed mobjects by -frame_center (and the 3D picture by about twice that). Film 3 scene 07 shifts its fixed layer back by +frame_center.
 - Check framing in a real `-q l` video, not a `-s` still: a still only renders the last frame, so it hides the frame_center offset.
 - Don't render several scenes in parallel: they share Manim's text cache and can corrupt it (fix: `find media -path "*texts*" -size 0 -delete`).
 - Fonts: Helvetica Neue / Georgia on macOS, DejaVu elsewhere (set in `movement.py`).
