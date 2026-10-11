@@ -56,7 +56,8 @@ BAL_AMPLITUDE = 1.5         # radians; a real balance swings ~4.7 rad, which str
 
 # Going train. These counts keep real time at 5 beats/s with a 15-tooth escape
 # wheel: the seconds (fourth) wheel turns once a minute, the center wheel once an
-# hour, the barrel once every 8 hours. ETA does not publish its counts.
+# hour, the barrel once every 8 hours. ETA does not publish its counts; see
+# TEETH_6497 below for the documented ones.
 TEETH = dict(barrel=80, center_p=10, center=80, third_p=10, third=75,
              fourth_p=10, fourth=70, escape_p=7, escape=15)
 
@@ -71,15 +72,37 @@ def _d(a, b):
     return float(np.hypot(*(np.array(_TRACE.get(a, (0, 0))) - np.array(_TRACE.get(b, (0, 0))))))
 
 
-MESH = {"barrel": _d("barrel", "center") / ((TEETH["barrel"] + TEETH["center_p"]) / 2),
-        "center": _d("center", "third") / ((TEETH["center"] + TEETH["third_p"]) / 2),
-        "third": _d("third", "fourth") / ((TEETH["third"] + TEETH["fourth_p"]) / 2),
-        "fourth": _d("fourth", "escape") / ((TEETH["fourth"] + TEETH["escape_p"]) / 2)}
-R = {"barrel": MESH["barrel"] * TEETH["barrel"] / 2, "center_p": MESH["barrel"] * TEETH["center_p"] / 2,
-     "center": MESH["center"] * TEETH["center"] / 2, "third_p": MESH["center"] * TEETH["third_p"] / 2,
-     "third": MESH["third"] * TEETH["third"] / 2, "fourth_p": MESH["third"] * TEETH["fourth_p"] / 2,
-     "fourth": MESH["fourth"] * TEETH["fourth"] / 2, "escape_p": MESH["fourth"] * TEETH["escape_p"] / 2,
-     "escape": 0.36, "balance": 0.98}
+MESH, R = {}, {"escape": 0.36, "balance": 0.98}
+
+
+def _train_geometry():
+    """Fill MESH and the train's pitch radii in R from TEETH (in place)."""
+    MESH.update({"barrel": _d("barrel", "center") / ((TEETH["barrel"] + TEETH["center_p"]) / 2),
+                 "center": _d("center", "third") / ((TEETH["center"] + TEETH["third_p"]) / 2),
+                 "third": _d("third", "fourth") / ((TEETH["third"] + TEETH["fourth_p"]) / 2),
+                 "fourth": _d("fourth", "escape") / ((TEETH["fourth"] + TEETH["escape_p"]) / 2)})
+    R.update({"barrel": MESH["barrel"] * TEETH["barrel"] / 2, "center_p": MESH["barrel"] * TEETH["center_p"] / 2,
+              "center": MESH["center"] * TEETH["center"] / 2, "third_p": MESH["center"] * TEETH["third_p"] / 2,
+              "third": MESH["third"] * TEETH["third"] / 2, "fourth_p": MESH["third"] * TEETH["fourth_p"] / 2,
+              "fourth": MESH["fourth"] * TEETH["fourth"] / 2, "escape_p": MESH["fourth"] * TEETH["escape_p"] / 2})
+
+
+_train_geometry()
+
+# Counts documented for the 18,000 vph 6497 (Horological Times, Sept 2006):
+# center 80 -> 10, third 60 -> 8, fourth 70 -> 7, escape 15. The barrel's 85 -> 12
+# is unconfirmed but fits the traced barrel-to-center distance. Film 3 uses these
+# through use_train(); Films 1 and 2 keep the defaults above.
+TEETH_6497 = dict(barrel=85, center_p=12, center=80, third_p=10, third=60,
+                  fourth_p=8, fourth=70, escape_p=7, escape=15)
+
+
+def use_train(teeth):
+    """Switch the going train to other tooth counts. Call it before building a
+    Movement. Pivots stay where they are (they come from the traced center
+    distances); only each mesh's module, the drawn teeth and state() change."""
+    TEETH.update(teeth)
+    _train_geometry()
 
 
 def _toward(a, b):
