@@ -8,6 +8,7 @@ The series so far:
 
 1. **Learning How Watches Work: Movement Architecture** (2:23) tours a hand-wound movement tier by tier.
 2. **Learning How Watches Work: The Power Source** (about 5:10) is about the mainspring and barrel: what is inside the barrel, how winding works, the mainspring as a bent beam, how its torque falls as it unwinds, and two advanced chapters on the geometry of the coil and the best length for a spring in a given barrel.
+3. **Learning How Watches Work: The Gear Train** (about 9:00) is about the going train and the arithmetic of tooth counts: the five wheels in order, why a wheel always drives a pinion, the ratio law n₁z₁ = n₂z₂ and the module, how stage ratios multiply while torque divides, designing a train backward from the balance, the 6497's real train checked tooth by tooth, the motion work's 12 : 1, and two advanced chapters on moon-phase gearing, continued fractions and the Stern–Brocot tree.
 
 The visual style is technical illustration: solid parts with visible thickness, Côtes de Genève striping, perlage, ruby jewels and blued screws, all shown against a dark studio background.
 
@@ -41,6 +42,25 @@ The visual style is technical illustration: solid parts with visible thickness, 
 
 Film 2's close-up barrel is in `films/film02_power_source/barrel.py`: an extruded drum, arbor, mainspring and cover that can open up along the axis (`BarrelModel`), plus a packed-coil model of the spring at the 6497's real dimensions (1.50 × 0.18 × 450 mm in a 15.0 mm barrel around a 4.1 mm arbor), used wherever the spring is drawn winding or unwinding.
 
+## Film 3 scenes (`films/film03_gear_train/`)
+
+| # | File | Length | What it shows |
+|---|------|--------|---------------|
+| 00 | `scene00_title.py` | 10 s | Title card over the slowly orbiting movement with its bridges off, dimmed. |
+| 01 | `scene01_train.py` | 46 s | The train in order: the bridges lift away and the barrel, center, third, fourth and escape wheels are named and numbered ("second wheel" means the center wheel); power flows down the train, and each wheel's speed appears beside its name. |
+| 02 | `scene02_wheel_pinion.py` | 37 s | Wheel drives pinion: a side view of three arbors shows the staircase of wheels and pinions, beside the same arbors from above, turning at their true ratios. |
+| 03 | `scene03_ratio.py` | 46 s | The ratio law: a 40-tooth wheel drives a 10-tooth pinion while counters show equal teeth passing, n₁z₁ = n₂z₂, one turn giving four; each mesh reverses direction, so the center and fourth wheels turn the same way. |
+| 04 | `scene04_module.py` | 41 s | Why teeth must match: the module m = D / z; two gears with different modules jam (the jam is found from the actual tooth outlines); equal modules mesh at a = m(z₁ + z₂)/2; the movement's own modules, about 0.20, 0.14, 0.14 and 0.11 mm. |
+| 05 | `scene05_stages.py` | 57 s | Stages multiply: a bicycle in a high gear, then a log-scale chart of each arbor's speed rising and torque falling by 85/12, 80/10, 60/8 and 70/7 (4,250 in all); power, their product, is a flat line that friction steps down at each mesh. |
+| 06 | `scene06_backward.py` | 70 s | Designing backward: from 18,000 beats an hour and a 15-tooth escape wheel, n = B / (120 Z) gives 10 turns a minute; the seconds and minute hands fix 10 : 1 and 60 : 1, and 60 splits into 8 × 7.5. At 21,600 beats only the last stage changes, to 120 / 10. |
+| 07 | `scene07_real_train.py` | 64 s | The real train: the running movement beside a table that fills in tooth by tooth, mesh by mesh, ending with 15 × 2 × 10 × 60 = 18,000. |
+| 08 | `scene08_motion_work.py` | 48 s | The motion work: the plate turns dial side up, then a sped-up close-up with hands: 36/12 × 40/10 = 12, and the cannon pinion slipping on the center arbor when the hands are set. |
+| 09 | `scene09_moon.py` | 38 s | Advanced, the moon problem: a 59-tooth, two-moon disk under its dial window gives 29.5 days, 44 minutes short of a lunation, a full day off in about 2.6 years. |
+| 10 | `scene10_fractions.py` | 68 s | Advanced, better fractions: the continued fraction [29; 1, 1, 7, 1, 2, …] computed step by step, its convergents and how long each stays within a day, a Stern–Brocot descent onto 29.530589, and 945/32 = (90/16) × (42/8) as a nearby fraction with small factors. |
+| 11 | `scene11_credits.py` | 17 s | End credits. |
+
+Film 3's flat gears come from `films/film03_gear_train/train.py`: `GearSet` builds wheels and pinions from the same tooth outlines as the 3D model, places each driven gear so its teeth interleave with its driver's, and turns every gear from one tracker, so speeds follow the tooth ratios exactly. `elevation_arbor()` draws arbors in side view. Film 3 uses the documented 6497 tooth counts (barrel 85 → center pinion 12, center 80 → third pinion 10, third 60 → fourth pinion 8, fourth 70 → escape pinion 7, escape wheel 15), set with `movement.use_train(movement.TEETH_6497)`; the center-to-escape counts are from R. Allen, *Horological Times*, September 2006, and the barrel's 85/12 is inferred from the movement's barrel-to-center distance. Films 1 and 2 keep the model's original counts, so they render as before.
+
 ## Quick start (macOS)
 
 ```bash
@@ -51,6 +71,7 @@ pip install -r requirements.txt
 python build.py scene01_vertical_city            # one finished 1080p scene -> out/film01_movement_architecture/
 python film.py 1 --build                         # every scene of Film 1, joined into one film
 python film.py 2 --build                         # the same for Film 2
+python film.py 3 --build                         # and Film 3
 ```
 
 On Linux, install the system libraries with `sudo apt install libcairo2-dev libpango1.0-dev pkg-config ffmpeg`, then use a fresh environment (for example `conda create -n watch python=3.12`) and `pip install -r requirements.txt`. Installing into an existing base environment can leave mismatched NumPy and SciPy versions.
@@ -82,7 +103,7 @@ python film.py 1 --build        # build every scene at 1080p first, then join
 python film.py 1 --build -q l   # quick 480p preview of the whole film
 ```
 
-`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
+`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
 
 ## Making changes
 
@@ -115,6 +136,10 @@ films/
     running_order.py
     barrel.py                       close-up barrel model and packed-coil spring (film-local helper)
     scene00_title.py ... scene08_credits.py, each narrated scene with its .voice.txt
+  film03_gear_train/                Film 3: the going train and its tooth counts
+    running_order.py
+    train.py                        flat meshing gears and side-view arbors (film-local helper)
+    scene00_title.py ... scene11_credits.py, each narrated scene with its .voice.txt
 films.py                            finds films and scenes by name (used by build.py and film.py)
 build.py                            render -> TTS -> mix -> captions -> mux, one scene
 film.py                             join one film's built scenes into a film with chapters
@@ -129,7 +154,7 @@ media/  out/  build_cache/  models/ generated (git-ignored)
 
 **Three tiers.** `Movement` builds three groups: `dial` (main plate, motion works, keyless works), `engine` (barrel, going train, escapement, balance) and `top` (bridges, winding wheels, click, regulator). Individual parts are reachable through `Movement.parts[...]`. The motion and keyless works hang under the plate, on its dial side, as in the real movement; the `mv.flip` tracker turns the dial tier over to show them, and `Movement(dial_up=True)` starts it dial side up.
 
-**Kinematics.** Pivot positions are traced from ETA's drawing, and each mesh gets the tooth module that makes its center distance exact. `state(t)` returns every part's angle at time *t*: the escape wheel advances one half-tooth per beat at 5 beats per second (18,000 vph), and the seconds, third, center and barrel wheels follow from their tooth ratios (1 rev/min, 7.5 min, 1 h, 8 h). The balance oscillates at 2.5 Hz with a reduced amplitude so it doesn't strobe. The winding train (crown wheel, ratchet wheel, click) follows the `mv.wind` tracker, and the regulator follows `mv.regulate`.
+**Kinematics.** Pivot positions are traced from ETA's drawing, and each mesh gets the tooth module that makes its center distance exact. `state(t)` returns every part's angle at time *t*: the escape wheel advances one half-tooth per beat at 5 beats per second (18,000 vph), and the seconds, third, center and barrel wheels follow from their tooth ratios (1 rev/min, 7.5 min, 1 h, 8 h). Those are the model's original tooth counts, which Films 1 and 2 use; `use_train()` switches to others (Film 3 uses the documented 6497 counts) without moving any pivot, because each mesh's module is recomputed from the traced center distances. The balance oscillates at 2.5 Hz with a reduced amplitude so it doesn't strobe. The winding train (crown wheel, ratchet wheel, click) follows the `mv.wind` tracker, and the regulator follows `mv.regulate`.
 
 **One driver.** `attach_driver()` installs a single updater that sets tier heights from an `explode` tracker, sets per-tier opacity from `dim` trackers, and rotates every moving part. Scenes animate the trackers, never the tiers themselves, because `.animate` on a group suspends its updaters.
 
@@ -138,6 +163,8 @@ media/  out/  build_cache/  models/ generated (git-ignored)
 **Narration timing.** If a scene's narration runs past the end of its animation, `build.py` prints a warning and holds the last frame so nothing is cut off. The proper fix is to lengthen that scene's final hold in its `SETTINGS` block.
 
 **Camera and cues.** `camera_move()` and `cue()` in `movement.py` keep narration-timed cues (labels, glows) on time during a camera move; Manim's `move_camera(added_anims=...)` would stretch them over the whole move. `camera_move(target=...)` centers a 3D point on screen, correcting for an offset in Manim's Cairo 3D camera that shifts the picture by the scene's starting `frame_center`.
+
+**Screen-fixed text in 3D scenes.** With a nonzero starting `frame_center`, Manim's Cairo 3D camera also shifts screen-fixed mobjects (labels, tables) by −`frame_center`; Film 3's scene 07 shifts its fixed layer back. Labels pinned to parts use the camera's own `project_point` with the camera held still.
 
 ## Relation to PAM
 
@@ -148,6 +175,8 @@ This project uses plain Manim rather than [PAM](https://github.com/wdjoyner/pam)
 Film 1: produced by David Joyner; overall design by Gemini; design and text by ChatGPT; Python code, design, text, and rendering with Manim by Claude.
 
 Film 2: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026); C.-A. Reymondin et al., *The Theory of Horology* (WOSTEP); mainspring dimensions from Dr. Ranfft's watch movement archive; ETA's technical communication for the 6497-1 / 6498-1.
+
+Film 3: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026); going-train tooth counts from R. Allen, "Coincidental Time, Part 1," *Horological Times*, September 2006; the 3 Hz train from Horology Student's notes on the Unitas / ETA 6497–6498; ETA's technical communication for the 6497-1 / 6498-1.
 
 - Animation: [Manim Community](https://www.manim.community/)
 - Geometry: [Shapely](https://shapely.readthedocs.io/)

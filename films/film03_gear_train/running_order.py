@@ -1,6 +1,4 @@
 # Running order for Film 3, read by film.py.
-# Provisional: the scene list follows the proposed outline and will be
-# updated once the outline is approved and the scenes are written.
 TITLE = "Learning How Watches Work: The Gear Train"
 OUT_NAME = "gear_train"
 SCENES = [
