@@ -1,0 +1,6 @@
+# Narration for scene10_damping.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | A real balance slowly runs down. Pivot friction and air drag add one more term, c times the angular velocity, just as in a damped mass on a spring.
+13.6 | The quality factor, Q, equal to I omega nought over c, says how slowly it dies: each cycle loses about two pi over Q of the energy.
+25.7 | At a representative Q of three hundred, that's two percent a cycle, about six tenths of a microwatt. Left alone, the swing would halve in under half a minute.

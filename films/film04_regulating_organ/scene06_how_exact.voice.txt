@@ -1,0 +1,8 @@
+# Narration for scene06_how_exact.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | How exact must these two numbers be?
+4.8  | Frequency goes as the square root of kappa over I, so a small fractional change in either moves the rate by half as much.
+15.2 | Stiffen the spring by two hundredths of a percent, and the watch gains almost nine seconds a day.
+23.0 | One second a day is about twelve parts per million.
+28.3 | To pass a chronometer test, between minus four and plus six seconds a day, kappa over I must be right to about one part in ten thousand.

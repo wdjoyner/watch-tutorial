@@ -1,0 +1,7 @@
+# Narration for scene03_newton_hooke.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Turn the balance away from rest, and the hairspring pushes back with a torque proportional to the angle: minus kappa phi. That's Hooke's law.
+11.2 | Newton's law for turning says torque equals I times the angular acceleration. Together: I times the angular acceleration, plus kappa times the angle, equals zero.
+25.1 | It's the equation of a mass on a spring, and its solution is a steady swing.
+32.3 | Slowed down, you can watch the energy change hands: all in the coiled spring at the end of each swing, all in the moving rim through the center.

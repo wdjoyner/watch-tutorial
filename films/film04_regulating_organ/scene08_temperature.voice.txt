@@ -1,0 +1,6 @@
+# Narration for scene08_temperature.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Warm a watch, and every term in the formula changes: the spring and the balance expand, and the spring's modulus, E, changes too.
+11.8 | Added up, the rate changes by half the modulus coefficient, plus three halves of the spring's expansion, minus the balance's.
+22.1 | For a plain steel spring the modulus term swamps the rest: the watch loses about ten seconds a day per degree. Ten degrees warmer, and it's over a minute and a half.

@@ -1,0 +1,8 @@
+# Narration for scene04_frequency.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | That swing repeats at one natural rate, and there are three ways to write it.
+7.0  | As an angular frequency, omega nought, the square root of kappa over I. As a period, T nought. Or as a frequency, f nought, in cycles per second.
+19.3 | All three say the same thing, and only I and kappa appear: not the mainspring, and not the gears.
+27.4 | This balance runs at two and a half hertz: five beats a second, eighteen thousand an hour.
+35.1 | That's the B in film three's formula. The fifteen-tooth escape wheel turns ten times a minute.

@@ -1,0 +1,7 @@
+# Narration for scene01_timekeeper.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Films two and three followed the energy from the mainspring down the gear train. This one is about where it ends up: the balance.
+10.8 | A wheel on a staff, with a fine spiral spring at its center: the hairspring.
+16.7 | It beats five times a second, and everything else in the movement exists to keep it swinging and to count its swings.
+25.8 | Its pace is set by just two numbers: how hard the wheel is to turn, and how stiff the spring is.

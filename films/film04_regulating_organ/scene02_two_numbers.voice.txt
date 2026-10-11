@@ -1,0 +1,7 @@
+# Narration for scene02_two_numbers.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | The first number is the balance's moment of inertia, I: every bit of its mass, weighted by the square of its distance from the axis.
+11.5 | Mass twice as far out counts four times as much. That's why a balance is a heavy ring on thin arms.
+20.8 | The second number is the hairspring's stiffness, kappa. It's the beam formula from film two: E b h cubed, over twelve L.
+30.9 | Only the ribbon is far finer, and its thickness enters cubed, so the mainspring is hundreds of times stiffer.

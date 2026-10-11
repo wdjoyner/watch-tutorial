@@ -1,0 +1,7 @@
+# Narration for scene05_example.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Let's put in numbers. ETA doesn't publish them for this balance, so these are representative of one its size.
+9.8  | Take a moment of inertia of forty milligram square centimeters. At two and a half hertz, the hairspring needs a stiffness of about one millionth of a newton meter per radian.
+23.2 | Swinging two hundred seventy degrees each way, the balance holds about eleven microjoules.
+30.8 | A ribbon two tenths of a millimeter high and four hundredths thick reaches that stiffness at about twenty-one centimeters long.

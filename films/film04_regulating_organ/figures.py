@@ -105,6 +105,12 @@ STEEL_FRAC_PER_C = BETA_E_STEEL / 2              # the modulus term alone
 STEEL_S_DAY_PER_C = STEEL_FRAC_PER_C * DAY       # ~ -10.4 s/day per deg C
 EXPANSION_SHIFT = 1.5 * ALPHA_ORDER * DAY        # each expansion term is worth ~1 s/day per deg C
 STEEL_10C_S_DAY = 10 * STEEL_S_DAY_PER_C         # a 10 deg C change: ~ -104 s/day
+# the three terms in s/day per deg C, taking both expansion coefficients at the chapter's order 1e-5
+TEMP_TERMS = {"modulus": STEEL_FRAC_PER_C * DAY,             # beta_E / 2      ~ -10.4
+              "spring": 1.5 * ALPHA_ORDER * DAY,              # + 3 alpha_hs / 2 ~ +1.3
+              "balance": -ALPHA_ORDER * DAY}                  # - alpha_bal       ~ -0.9
+TEMP_TOTAL = sum(TEMP_TERMS.values())                        # ~ -10 s/day per deg C
+TEMP_10C = 10 * TEMP_TOTAL                                   # ~ -100 s/day: "over a minute and a half"
 GUILLAUME_NOBEL = 1920
 
 # --------------------------------------------------------------- damping [MAW]

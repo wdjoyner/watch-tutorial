@@ -1,0 +1,6 @@
+# Narration for scene09_compensation.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Nineteenth-century makers fought back with cut bimetallic balances, whose rims curl inward as they warm.
+10.1 | But they were exact at only two temperatures. In between they gained: the middle temperature error.
+18.4 | In nineteen twenty, Guillaume won the Nobel Prize for alloys like Elinvar, whose stiffness hardly changes with temperature. Nivarox and silicon springs carry the idea on.

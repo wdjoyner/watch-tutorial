@@ -1,0 +1,8 @@
+# Narration for scene07_regulation.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Drawings and tolerances get I and kappa only roughly right, so every watch is adjusted once it's assembled.
+10.5 | On this movement, the regulator's index moves two small pins along the hairspring's outer coil, changing its active length.
+20.3 | Stiffness goes as one over length. Shorten the spring, and the watch runs fast. Lengthen it, and it runs slow.
+29.1 | Ten seconds a day takes a shift of about fifty thousandths of a millimeter.
+36.5 | Free-sprung balances have no index. Instead, small weights on the rim, masselottes, turn in or out to change I.

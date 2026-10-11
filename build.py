@@ -35,8 +35,11 @@ KOKORO_FILES = ["kokoro-v1.0.onnx", "voices-v1.0.bin"]
 # spelling). Kokoro reads "wound" as the injury and "wind" as moving air; in these
 # films both always mean winding. "ETA" (the movement maker) is read as letters.
 # "Brocot" (of the Stern-Brocot tree) is French: final t silent.
+# Film 4: "Elinvar" is EL-in-var (Kokoro says ih-LIN-var), "Nivarox" NEE-va-rox,
+# "masselottes" mass-LOTS (French).
 # Whole words, case-insensitive.
-PRONOUNCE = {"wound": "wownd", "wind": "wined", "eta": "E-T-A", "brocot": "broco"}
+PRONOUNCE = {"wound": "wownd", "wind": "wined", "eta": "E-T-A", "brocot": "broco",
+             "elinvar": "Ellinvar", "nivarox": "Neevarox", "masselottes": "mass-lots"}
 QUALITY = {"l": "480p15", "m": "720p30", "h": "1080p30", "p": "1440p60", "k": "2160p60"}
 
 
@@ -104,15 +107,18 @@ def tts(lines, voice, speed):
     return out
 
 
-def ticks(duration, beats, level):
+def ticks(duration, beats, level, times=None):
+    """Steady ticks at `beats` per second; or, when `times` is given (from a scene's
+    .ticks.txt, e.g. for slow motion), one tick at each listed time."""
     rng = np.random.default_rng(1)
     n = int(SR * duration)
     out = np.zeros(n)
     L = int(0.012 * SR)
     env = np.exp(-np.linspace(0, 9, L))
     tt = np.arange(L) / SR
-    for k in range(int(duration * beats)):
-        t0 = int(k / beats * SR)
+    starts = [k / beats for k in range(int(duration * beats))] if times is None else times
+    for k, ts in enumerate(starts):
+        t0 = int(ts * SR)
         f = 4200 if k % 2 == 0 else 3700           # alternate tick / tock
         if t0 + L < n:
             out[t0:t0 + L] += (np.sin(2 * np.pi * f * tt) * 0.6 + rng.normal(0, 0.4, L)) * env
@@ -210,7 +216,11 @@ def main():
     if a.tick_level > 0:
         sys.path.insert(0, HERE)
         from movement import BEATS
-        mix += ticks(dur, BEATS, a.tick_level)
+        tick_file = os.path.join(fdir, name + ".ticks.txt")      # optional, written by slow-motion scenes
+        times = None
+        if os.path.exists(tick_file):
+            times = [float(x) for x in open(tick_file) if x.strip() and not x.startswith("#")]
+        mix += ticks(dur, BEATS, a.tick_level, times)
     out = os.path.join(OUT, film)
     sfx_file = os.path.join(fdir, name + ".sfx.txt")
     if a.sfx_level > 0 and os.path.exists(sfx_file):

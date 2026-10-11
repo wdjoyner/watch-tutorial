@@ -1,0 +1,6 @@
+# Narration for scene11_energy_bill.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | The escapement has to pay that back on every swing. Can the mainspring afford it?
+7.7  | Spread over forty-six hours, it delivers a few microwatts, and the escapement passes on about a third: the same order as the balance needs, with every figure uncertain by a factor of two.
+22.7 | So a watchmaker doesn't compute this budget. They measure the one number that sums it up: the amplitude of the swing.
