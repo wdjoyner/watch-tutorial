@@ -654,7 +654,7 @@ class Movement:
 TIER_REF_OFFSET = {"dial": DIAL_AXIS_Z, "engine": 0.0, "top": 0.0}
 
 
-def attach_driver(scene, mv, z_assembled, z_exploded):
+def attach_driver(scene, mv, z_assembled, z_exploded, rate=None):
     """Animate the movement with ONE updater (never .animate a tier: that
     freezes updaters). z values are the height of each tier's base: for the
     dial tier, the bridge face of the main plate. Returns (explode, dim):
@@ -664,6 +664,12 @@ def attach_driver(scene, mv, z_assembled, z_exploded):
 
     Also animatable, on the Movement: mv.flip (0 -> 1 turns the dial tier dial
     side up, about the stem axis), mv.wind (crown turns), mv.regulate (degrees).
+
+    rate (opt-in, Film 4): a ValueTracker for the movement's clock speed, 1 =
+    real time, 0.1 = ten times slower. Animate it for slow motion; the balance,
+    escapement and train all slow together. Without it, the clock runs in real
+    time exactly as before. (The balance's swing is BAL_AMPLITUDE, read at each
+    frame; a scene may set movement.BAL_AMPLITUDE before building.)
     """
     tiers, refs = mv.tiers, mv.refs
     for k, t in tiers.items():
@@ -676,7 +682,10 @@ def attach_driver(scene, mv, z_assembled, z_exploded):
     applied = {k: 1.0 for k in tiers}
 
     def drive(_, dt):
-        clock["t"] += dt
+        if rate is None:
+            clock["t"] += dt
+        else:
+            clock["t"] += dt * rate.get_value()
         e = explode.get_value()
         for k, t in tiers.items():
             zt = z_assembled[k] + (z_exploded[k] - z_assembled[k]) * e + TIER_REF_OFFSET[k]
@@ -713,6 +722,8 @@ def attach_driver(scene, mv, z_assembled, z_exploded):
     driver = Mobject()
     driver.add_updater(drive)
     scene.add(mv.group, driver, explode, *dim.values(), mv.flip, mv.wind, mv.regulate)
+    if rate is not None:
+        scene.add(rate)
     return explode, dim
 
 
