@@ -1,0 +1,8 @@
+# Narration for scene02_wheel_pinion.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Every arbor in the train carries two gears: a large wheel and a small pinion, fixed to the same axle.
+8.8  | The wheel on one arbor drives the pinion on the next.
+13.6 | A big gear driving a small one multiplies speed, which is just what the going train needs: a slow barrel turning a fast escape wheel.
+24.1 | The pinion turns with its wheel, so that speed passes along the arbor to the next mesh.
+30.6 | Wheel drives pinion, all the way down the train.

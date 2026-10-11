@@ -1,0 +1,9 @@
+# Narration for scene03_ratio.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Where two gears mesh, their teeth pass the contact point one for one.
+6.2  | So in any stretch of time, the same number of teeth go by on each gear.
+11.9 | Turns per minute times teeth is the same on both sides: n one, z one, equals n two, z two.
+20.3 | A forty-tooth wheel turning once drives a ten-tooth pinion four times.
+26.0 | Each mesh also reverses direction. Add a third gear, and it turns the same way as the first.
+33.6 | That's why the center wheel and the fourth wheel, two meshes apart, turn the same way, and the minute and seconds hands both run clockwise.

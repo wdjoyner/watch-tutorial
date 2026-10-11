@@ -1,0 +1,9 @@
+# Narration for scene01_train.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | The mainspring's energy reaches the balance through a chain of five wheels, called the going train.
+8.1  | First the barrel. Then the center wheel, which carries the minute hand.
+13.4 | Then the third wheel, the fourth wheel, which carries the seconds hand, and finally the escape wheel.
+20.7 | Watchmakers number them in that order, so the "second wheel" is the center wheel, not the wheel that carries the seconds.
+29.3 | Power flows down the train. At the far end, the escapement lets it out one tooth at a time.
+36.7 | Each wheel turns faster than the one before it. This film is about how much faster, and why.

@@ -1,0 +1,12 @@
+# Narration for scene06_backward.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | A designer works the train backward, starting from the balance.
+5.7  | This one beats eighteen thousand times an hour.
+10.1 | Each tooth of the escape wheel lets through two beats, and it has fifteen teeth.
+16.0 | So the escape wheel turns at B over one hundred twenty Z: ten turns a minute.
+22.4 | The seconds hand must turn once a minute, so the fourth wheel drives the escape pinion ten to one.
+29.6 | The minute hand must turn once an hour, so between the center wheel and the fourth there must be sixty to one.
+37.4 | Sixty is too much for one mesh. Split it into two smaller ratios, like eight times seven and a half.
+45.3 | Pinions need enough leaves to run smoothly, and wheels must fit in the case, so each ratio has to be a fraction with small numbers.
+55.1 | Raise the beat to twenty-one thousand six hundred, and the escape wheel must turn twelve times a minute. Only the last stage changes: a hundred twenty teeth driving ten.

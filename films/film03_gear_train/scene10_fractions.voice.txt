@@ -1,0 +1,10 @@
+# Narration for scene10_fractions.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Better fractions come from the continued fraction.
+5.3  | Take off the whole part, flip what's left, and repeat: twenty-nine, then one, one, seven, one, two.
+12.8 | Stop at each step and you get the convergents: thirty, fifty-nine halves, four hundred forty-three fifteenths, and fourteen hundred forty-seven forty-ninths.
+24.0 | Each one is the best fraction with a denominator that small.
+29.1 | The Stern-Brocot tree finds the same fractions: between two neighbors, step to their mediant by adding tops and bottoms, then go left or right toward the target.
+41.1 | Four hundred forty-three fifteenths keeps the moon within a day for thirty years. Fourteen hundred forty-seven forty-ninths, for about thirty-five hundred.
+52.3 | Those numerators are prime, so a designer searches nearby for fractions that factor into small stages.

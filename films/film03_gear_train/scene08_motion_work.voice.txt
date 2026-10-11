@@ -1,0 +1,10 @@
+# Narration for scene08_motion_work.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | The hour hand needs one more reduction. It sits under the dial, and it's called the motion work.
+8.2  | The cannon pinion rides on the center arbor, turns once an hour, and carries the minute hand.
+15.4 | It drives the minute wheel, thirty-six to twelve: three to one.
+20.6 | The minute wheel's pinion drives the hour wheel, forty to ten: four to one.
+26.5 | Three times four is twelve. The hour wheel, carrying the hour hand, turns once in twelve hours.
+34.1 | The cannon pinion grips the center arbor only by friction.
+39.1 | When you set the hands, it slips: the hands move, and the going train never feels it.

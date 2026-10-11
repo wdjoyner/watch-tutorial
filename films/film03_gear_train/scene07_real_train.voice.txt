@@ -1,0 +1,11 @@
+# Narration for scene07_real_train.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Here is the train in this movement.
+4.5  | The barrel's eighty-five teeth drive the center pinion's twelve leaves: just over seven to one. The barrel turns about once every seven hours.
+15.3 | That ratio doesn't need to be neat. Nothing on the dial depends on it; it only sets how long the spring lasts.
+23.4 | The center wheel's eighty teeth drive the third pinion's ten: eight to one.
+29.2 | The third wheel's sixty drive the fourth pinion's eight: seven and a half. Eight times seven and a half is sixty, so the center wheel turns once an hour, and the fourth wheel once a minute.
+42.1 | The fourth wheel's seventy drive the escape pinion's seven: ten turns a minute.
+48.2 | Fifteen teeth, two beats each, ten turns a minute, sixty minutes: eighteen thousand beats an hour.
+55.8 | The arithmetic closes. The hands keep time because the tooth counts say so.

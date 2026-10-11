@@ -1,0 +1,8 @@
+# Narration for scene09_moon.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Not every ratio is a fraction with small numbers.
+5.6  | The moon goes from new to new in twenty-nine point five three days: not a whole number, and not a simple fraction.
+14.1 | The classic moon disk has fifty-nine teeth and two moons, and moves one tooth a day. Each moon takes fifty-nine halves of a day: twenty-nine and a half.
+25.1 | That's short by about forty-four minutes a month.
+29.2 | After about two and a half years, the painted moon is a full day ahead of the real one.

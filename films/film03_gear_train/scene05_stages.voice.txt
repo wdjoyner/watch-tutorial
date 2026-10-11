@@ -1,0 +1,9 @@
+# Narration for scene05_stages.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | On a bicycle in a high gear, the pedals turn slowly and the wheel turns fast, but you have to push harder.
+9.0  | A gear train makes the same trade. Speed goes up by the ratio of each stage, and torque comes down by the same ratio.
+18.6 | Stack the stages, and the ratios multiply. From the barrel to the escape wheel: just over seven, times eight, times seven and a half, times ten. About forty-two hundred fifty.
+32.0 | So the escape wheel spins over four thousand times as fast as the barrel, with less than a four-thousandth of its torque.
+41.3 | Torque times speed is power, and apart from friction it passes through unchanged.
+47.7 | Friction takes a small share at every mesh, and those efficiencies multiply too.

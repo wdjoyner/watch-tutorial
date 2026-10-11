@@ -1,0 +1,8 @@
+# Narration for scene04_module.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Tooth size is measured by the module: the pitch diameter divided by the number of teeth.
+8.1  | It's the share of the diameter that each tooth takes up.
+12.6 | Two gears with different modules can't mesh. Their teeth are spaced differently, and they jam within a tooth or two.
+21.0 | With equal modules, the teeth match, and the distance between the centers is fixed: half the module times the total number of teeth.
+30.6 | In this movement each mesh has its own module, so that every pair sits exactly where its pivots are drilled.
