@@ -1,5 +1,4 @@
 # Running order for Film 4, read by film.py.
-# Draft: follows the proposed outline; the scene files are written once it is approved.
 TITLE = "Learning How Watches Work: The Regulating Organ"
 OUT_NAME = "regulating_organ"
 SCENES = [

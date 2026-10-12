@@ -9,6 +9,7 @@ The series so far:
 1. **Learning How Watches Work: Movement Architecture** (2:23) tours a hand-wound movement tier by tier.
 2. **Learning How Watches Work: The Power Source** (about 5:10) is about the mainspring and barrel: what is inside the barrel, how winding works, the mainspring as a bent beam, how its torque falls as it unwinds, and two advanced chapters on the geometry of the coil and the best length for a spring in a given barrel.
 3. **Learning How Watches Work: The Gear Train** (about 9:00) is about the going train and the arithmetic of tooth counts: the five wheels in order, why a wheel always drives a pinion, the ratio law n₁z₁ = n₂z₂ and the module, how stage ratios multiply while torque divides, designing a train backward from the balance, the 6497's real train checked tooth by tooth, the motion work's 12 : 1, and two advanced chapters on moon-phase gearing, continued fractions and the Stern–Brocot tree.
+4. **Learning How Watches Work: The Regulating Organ** (about 7:50) is about the balance and hairspring, the watch's timekeeper: the two numbers that set its pace (the moment of inertia I and the hairspring's stiffness κ), Newton meets Hooke in I φ″ + κ φ = 0, the natural frequency f₀ = (1/2π)√(κ/I), a worked example at 2.5 Hz, how exact κ/I must be, regulation by the index pins or by masselottes, and three advanced chapters on temperature and its compensation, damping and Q, and whether the mainspring can pay for the swing.
 
 The visual style is technical illustration: solid parts with visible thickness, Côtes de Genève striping, perlage, ruby jewels and blued screws, all shown against a dark studio background.
 
@@ -61,6 +62,26 @@ Film 2's close-up barrel is in `films/film02_power_source/barrel.py`: an extrude
 
 Film 3's flat gears come from `films/film03_gear_train/train.py`: `GearSet` builds wheels and pinions from the same tooth outlines as the 3D model, places each driven gear so its teeth interleave with its driver's, and turns every gear from one tracker, so speeds follow the tooth ratios exactly. `elevation_arbor()` draws arbors in side view. Film 3 uses the documented 6497 tooth counts (barrel 85 → center pinion 12, center 80 → third pinion 10, third 60 → fourth pinion 8, fourth 70 → escape pinion 7, escape wheel 15), set with `movement.use_train(movement.TEETH_6497)`; the center-to-escape counts are from R. Allen, *Horological Times*, September 2006, and the barrel's 85/12 is inferred from the movement's barrel-to-center distance. Films 1 and 2 keep the model's original counts, so they render as before.
 
+## Film 4 scenes (`films/film04_regulating_organ/`)
+
+| # | File | Length | What it shows |
+|---|------|--------|---------------|
+| 00 | `scene00_title.py` | 10 s | Title card over the slowly orbiting movement with its bridges off, dimmed. |
+| 01 | `scene01_timekeeper.py` | 36 s | The timekeeper: the bridges lift and the camera pushes in to the balance; wheel, staff and hairspring are labeled, the balance is slowed ten times, and its two numbers, I and κ, are named. |
+| 02 | `scene02_two_numbers.py` | 42 s | Two numbers: the moment of inertia as mass weighted by the square of its distance (twice as far counts four times as much), then the hairspring's stiffness κ = E b h³ / 12 L, with hairspring and mainspring cross-sections to scale (the mainspring about 330 times stiffer). |
+| 03 | `scene03_newton_hooke.py` | 45 s | Newton meets Hooke: the restoring torque −κφ and Newton's law for turning give I φ″ + κ φ = 0, the equation of a mass on a spring, shown swinging in step; slowed, energy bars show it passing between spring and rim. |
+| 04 | `scene04_frequency.py` | 45 s | The natural frequency: ω₀ = √(κ/I), T₀ and f₀ as one timebase; 2.5 Hz gives 5 beats a second and 18,000 an hour, Film 3's B, and the 15-tooth escape wheel steps in time at 10 turns a minute. |
+| 05 | `scene05_example.py` | 44 s | A worked example with representative values: I = 4.0 × 10⁻⁹ kg m² at 2.5 Hz needs κ ≈ 9.9 × 10⁻⁷ N m/rad and holds about 11 μJ at 270°; a 0.20 × 0.040 mm ribbon reaches that stiffness at about 21 cm, drawn to scale beside a 4 Hz balance's 13 cm. |
+| 06 | `scene06_how_exact.py` | 42 s | How exact: Δf/f = ½Δκ/κ − ½ΔI/I; stiffening the spring by 0.02 % gains almost 9 s/day; one second a day is about 12 ppm, and the chronometer band of −4 to +6 s/day asks for κ/I to about one part in 10⁴. |
+| 07 | `scene07_regulation.py` | 48 s | Regulation: the regulator index moves the curb pins along the hairspring's outer coil, changing its active length (κ ∝ 1/L); about 0.05 mm is worth 10 s/day; free-sprung balances turn masselottes on the rim instead. |
+| 08 | `scene08_temperature.py` | 37 s | Advanced, temperature: warming changes every term of f₀; (1/f) df/dT = β/2 + 3αₛ/2 − αᵣ, and for a plain steel spring the modulus term swamps the rest: about −10 s/day per degree, −100 s/day for 10 °C. |
+| 09 | `scene09_compensation.py` | 34 s | Advanced, beating temperature: a cut bimetallic balance curls inward as it warms; a schematic plot of rate against temperature (plain steel, the bimetallic balance's middle temperature error, a nearly flat Elinvar spring); Guillaume's 1920 Nobel Prize, and Nivarox and silicon springs today. |
+| 10 | `scene10_damping.py` | 40 s | Advanced, damping and Q: a slowed balance with exaggerated damping runs down while its swing is traced; I φ″ + c φ′ + κ φ = 0 and Q = I ω₀ / c; at a representative Q of 300 it loses 2.1 % a cycle, about 0.57 μW, and a free swing would halve in about 26 s. |
+| 11 | `scene11_energy_bill.py` | 34 s | Advanced, paying for the swing: on a log scale, the mainspring's 2.5 to 4.9 μW over 46 hours, about a third passed on by the escapement, and the balance's 0.57 μW are the same order, each uncertain by about two; so the watchmaker reads the amplitude instead. |
+| 12 | `scene12_credits.py` | 16 s | End credits. |
+
+Film 4's numbers all come from `films/film04_regulating_organ/figures.py`, which computes each one from its inputs and cites its source (`python figures.py` prints the table). ETA does not publish the 6497's balance inertia, hairspring dimensions, amplitude or Q, so those are the reference chapter's representative values, and the film labels them so. The flat balance in `balance.py` (`BalanceModel`) has a hairspring that breathes as it swings, its outer end held at the stud or at the regulator's pins. Where the balance is shown in slow motion (marked on screen), the scene writes `<scene>.ticks.txt`, and `build.py` times the ticks to the slowed beats instead of the steady five a second.
+
 ## Quick start (macOS)
 
 ```bash
@@ -72,6 +93,7 @@ python build.py scene01_vertical_city            # one finished 1080p scene -> o
 python film.py 1 --build                         # every scene of Film 1, joined into one film
 python film.py 2 --build                         # the same for Film 2
 python film.py 3 --build                         # and Film 3
+python film.py 4 --build                         # and Film 4
 ```
 
 On Linux, install the system libraries with `sudo apt install libcairo2-dev libpango1.0-dev pkg-config ffmpeg`, then use a fresh environment (for example `conda create -n watch python=3.12`) and `pip install -r requirements.txt`. Installing into an existing base environment can leave mismatched NumPy and SciPy versions.
@@ -103,7 +125,7 @@ python film.py 1 --build        # build every scene at 1080p first, then join
 python film.py 1 --build -q l   # quick 480p preview of the whole film
 ```
 
-`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
+`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
 
 ## Making changes
 
@@ -115,7 +137,7 @@ Most adjustments need no code changes:
 - **Title and credits wording:** `TITLE`, `TAGLINE` in the film's `scene00_title.py`; the `CREDITS` list in its credits scene.
 - **Running order and chapter names:** the `SCENES` list in the film's `running_order.py`.
 - **Pronunciation:** if Kokoro misreads a word, add a respelling to the `PRONOUNCE` table in `build.py` (for example "wound" → "wownd", "ETA" → "E-T-A"). It changes only what the voice says; captions keep the real spelling.
-- **Sound effects:** an optional `<scene>.sfx.txt` lists `time | click [| level]` lines, mixed in at `--sfx-level`. Film 2's winding scene writes its own from its winding schedule, so the clicks follow the ratchet teeth.
+- **Sound effects:** an optional `<scene>.sfx.txt` lists `time | click [| level]` lines, mixed in at `--sfx-level`. Film 2's winding scene writes its own from its winding schedule, so the clicks follow the ratchet teeth. Film 4's slow-motion scenes write a `<scene>.ticks.txt` of beat times, which replaces the steady tick track.
 - **Voice:** pass `--voice` to `build.py`. The default is `bm_george` (British male). Other options include `am_michael` and `am_onyx` (American male) and `bf_emma` (British female). Kokoro has many more.
 
 Structural changes, such as new parts, new motion or new shots, go in `movement.py` or a new scene file.
@@ -140,6 +162,12 @@ films/
     running_order.py
     train.py                        flat meshing gears and side-view arbors (film-local helper)
     scene00_title.py ... scene11_credits.py, each narrated scene with its .voice.txt
+  film04_regulating_organ/          Film 4: the balance and hairspring
+    running_order.py
+    figures.py                      every number in the film, computed and sourced
+    balance.py                      flat balance with a breathing hairspring; beat log for slow motion
+    ui.py                           shared text, formula and layout helpers
+    scene00_title.py ... scene12_credits.py, each narrated scene with its .voice.txt
 films.py                            finds films and scenes by name (used by build.py and film.py)
 build.py                            render -> TTS -> mix -> captions -> mux, one scene
 film.py                             join one film's built scenes into a film with chapters
@@ -177,6 +205,8 @@ Film 1: produced by David Joyner; overall design by Gemini; design and text by C
 Film 2: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026); C.-A. Reymondin et al., *The Theory of Horology* (WOSTEP); mainspring dimensions from Dr. Ranfft's watch movement archive; ETA's technical communication for the 6497-1 / 6498-1.
 
 Film 3: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026); going-train tooth counts from R. Allen, "Coincidental Time, Part 1," *Horological Times*, September 2006; the 3 Hz train from Horology Student's notes on the Unitas / ETA 6497–6498; ETA's technical communication for the 6497-1 / 6498-1.
+
+Film 4: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "The regulating organ"; ETA's technical communication for the 6497-1 / 6498-1. The balance inertia, hairspring dimensions, amplitude and Q are the chapter's representative values; ETA does not publish them.
 
 - Animation: [Manim Community](https://www.manim.community/)
 - Geometry: [Shapely](https://shapely.readthedocs.io/)
