@@ -14,6 +14,7 @@ Narration lines and their start times live in scene07_beat_error.voice.txt. Numb
 The scene writes scene07_beat_error.ticks.txt on every render (one tick per crossing of the line of centers).
 """
 from manim import *
+import os
 import iso  # noqa: F401  (first: puts Film 4's helpers on the path)
 import figures as F
 from iso import IsoBalance, CrossLog
@@ -33,12 +34,16 @@ TURN_AT = 6.0                         # "If the collet is turned on the staff re
 OFF_AT = 9.0                          # "the roller jewel sits off the line of centers when the balance is at rest"
 GO_AT = 12.2                          # swinging again
 DT_AT = (13.6, 16.8)                  # "one interval is a fifth of a second plus epsilon", "the next a fifth minus"
-LIMP_AT = 21.0                        # "We've exaggerated it so you can hear the limp"
-BE_AT = 24.9                          # "A timing machine reports the difference, two epsilon, in milliseconds"
-SUM_AT = 30.7                         # "each pair still adds up to two fifths of a second"
-UNTOUCHED_AT = 33.6                   # "so the rate is untouched"
-BUT_AT = 39.6                         # "though it starts less reliably, and suffers more from escapement error"
-FINAL_HOLD_UNTIL = 47.2               # the last line ends about 45.7 s
+LISTEN_AT = 21.0                      # "Listen to the difference. First, a watch in beat."
+DEMO_A_AT = 25.3                      # in-beat ticks (wood block), no narration
+OUT_AT = 29.6                         # "Now one out of beat, exaggerated so you can hear it."
+DEMO_B_AT = 33.8                      # out-of-beat ticks (bell), no narration
+DEMO_END = 38.0                       # the balance's own tick track is muted from LISTEN_AT + 3 to here
+BE_AT = 38.4                          # "A timing machine reports the difference, two epsilon, in milliseconds"
+SUM_AT = 44.2                         # "each pair still adds up to two fifths of a second"
+UNTOUCHED_AT = 47.1                   # "so the rate is untouched"
+BUT_AT = 53.1                         # "though it starts less reliably, and suffers more from escapement error"
+FINAL_HOLD_UNTIL = 60.8               # the last line ends about 59.2 s
 FADE_OUT = 1.5
 
 # --- the balance ---------------------------------------------------------
@@ -46,6 +51,12 @@ BAL_AT, BAL_R, AMP = (-4.5, 1.0), 1.5, 1.2
 RATE = 0.25                           # slow motion
 OFFSET = AMP * np.sin(np.pi * F.BEAT_ERR_SHOWN / 2)   # EXAGGERATED: each interval 1/(2f) (1 +/- BEAT_ERR_SHOWN)
 LEVER_AT = (-4.5, -1.75)              # pallet-lever pivot, on the line of centers
+
+# --- the listening demo: two short runs of louder ticks, each its own sound (build.py SOUNDS)
+DEMO_HALF = 0.5                       # seconds between ticks in beat (slowed: a real 6497 ticks every 0.2 s)
+DEMO_N = 8                            # ticks in each run
+DEMO_LEVEL = 3.0                      # sfx level multiplier (build.py --sfx-level scales it)
+DEMO_Y, DEMO_X0, DEMO_DX = (-1.95, -2.75), 1.9, 0.62   # rows' y, first dot's x, x per second
 
 # --- the trace ---------------------------------------------------------------
 TRACE_X0, TRACE_Y, TRACE_W = 0.4, 1.05, 5.6
@@ -67,7 +78,8 @@ class Scene07(Scene):
         bal.rotor.add(roller, jewel)                        # turns with the staff
         bal.rate.set_value(RATE)
         bal.attach(self)
-        log = CrossLog(self, bal, active=lambda: bal.drive.get_value() > 0.5)
+        muted = lambda: LISTEN_AT + 3.0 < self.renderer.time < DEMO_END
+        log = CrossLog(self, bal, active=lambda: bal.drive.get_value() > 0.5 and not muted())
         slow = tag("slowed 4×").next_to(bal, UP, buff=0.25)
 
         lever = np.array([*LEVER_AT, 0.0])
@@ -126,6 +138,44 @@ class Scene07(Scene):
         but = label("but:  less reliable self-starting,  more escapement error at low amplitude", 0.26, WARM)
         but.to_edge(DOWN, buff=0.3).align_to(dts, LEFT)
 
+        # listening demo: each row's dots light as its ticks sound; the intervals are printed between them
+        s_err = F.BEAT_ERR_SHOWN
+        times_a = [DEMO_A_AT + k * DEMO_HALF for k in range(DEMO_N)]
+        gaps_b = [DEMO_HALF * (1 + s_err if k % 2 == 0 else 1 - s_err) for k in range(DEMO_N - 1)]
+        times_b = [DEMO_B_AT + sum(gaps_b[:k]) for k in range(DEMO_N)]
+
+        def demo_row(times, y, color, name, start):
+            dots = VGroup(*[Dot([DEMO_X0 + (t - start) * DEMO_DX * 2, y, 0], radius=0.09, color=color) for t in times])
+            gaps = VGroup(*[label(f"{b - a:.2f}", 0.2, color).move_to((dots[i].get_center() + dots[i + 1].get_center()) / 2 + UP * 0.25)
+                            for i, (a, b) in enumerate(zip(times, times[1:]))])
+            name_l = label(name, 0.24, color, bold=True).next_to(dots[0], LEFT, buff=0.3)
+
+            def flash(m):
+                now = self.renderer.time
+                for d, t in zip(m, times):
+                    lit = 0 <= now - t < 0.18
+                    d.set_opacity(1.0 if lit else (0.45 if now >= t else 0.12)).scale_to_fit_width(0.3 if lit else 0.18)
+            dots.add_updater(flash)
+            return VGroup(name_l, dots, gaps)
+        row_a = demo_row(times_a, DEMO_Y[0], COOL, "in beat", DEMO_A_AT)
+        row_b = demo_row(times_b, DEMO_Y[1], WARM, "out of beat", DEMO_B_AT)
+        note_a = label(f"every interval {DEMO_HALF:.2f} s", 0.22, COOL).next_to(row_a[1], DOWN, buff=0.12).align_to(row_a[1], LEFT)
+        note_b = label(f"long, short:  off by ±{s_err * DEMO_HALF:.2f} s,  2ε = {2 * s_err * DEMO_HALF:.2f} s  (exaggerated)",
+                       0.22, WARM).next_to(row_b[1], DOWN, buff=0.12).align_to(row_b[1], LEFT)
+        real = label(f"a real 6497 (representative):  {F.TICK_A:.4f} s,  {F.TICK_B:.4f} s,  2ε = {F.BEAT_ERR_REPR * 1e3:.1f} ms",
+                     0.22, GREY_B).next_to(note_b, DOWN, buff=0.14).align_to(note_b, LEFT)
+        demo = VGroup(row_a, row_b, note_a, note_b, real)
+        demo_head = label("listen  (slowed)", 0.24, GLOW, bold=True).next_to(row_a, UP, buff=0.35).align_to(row_a, LEFT)
+        demo.add(demo_head)
+
+        sfx = os.path.splitext(__file__)[0] + ".sfx.txt"
+        with open(sfx, "w") as f:
+            f.write("# Written by the scene on every render: the listening demo's ticks.\n")
+            for t in times_a:
+                f.write(f"{t:.3f} | wood | {DEMO_LEVEL}\n")
+            for t in times_b:
+                f.write(f"{t:.3f} | bell | {DEMO_LEVEL}\n")
+
         head = heading("BEAT ERROR", "a lopsided tick").to_corner(UL, buff=0.5)
         cur = curtain()
         self.add(dots, cur)
@@ -151,8 +201,15 @@ class Scene07(Scene):
         self.play(FadeIn(dts[0], shift=RIGHT * 0.1), FadeIn(fifth), run_time=0.8)
         wait_until(DT_AT[1])
         self.play(FadeIn(dts[1], shift=RIGHT * 0.1), run_time=0.8)
-        wait_until(LIMP_AT)                                 # hear the limp
-        self.play(FadeIn(exag), run_time=0.6)
+        wait_until(LISTEN_AT)                               # the listening demo
+        self.play(FadeOut(dts), FadeOut(fifth), FadeIn(exag), run_time=0.6)
+        self.play(FadeIn(demo_head), FadeIn(row_a), FadeIn(note_a), run_time=0.7)
+        wait_until(OUT_AT)
+        self.play(FadeIn(row_b), run_time=0.7)
+        wait_until(DEMO_B_AT + 4.2)
+        self.play(FadeIn(note_b), FadeIn(real), run_time=0.8)
+        wait_until(BE_AT - 0.7)
+        self.play(FadeOut(demo), FadeIn(dts), FadeIn(fifth), run_time=0.6)
         wait_until(BE_AT)                                   # beat error = 2 eps
         self.play(FadeIn(be, shift=UP * 0.1), FadeIn(rep), GrowFromCenter(rows_gap), run_time=0.9)
         wait_until(SUM_AT)                                  # each pair: 1/f

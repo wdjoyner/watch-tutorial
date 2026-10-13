@@ -138,11 +138,24 @@ def click_sound():
     return s / np.max(np.abs(s))
 
 
-SOUNDS = {"click": click_sound}
+def tone_sound(freq, decay, noise):
+    """A tick with a clear pitch: a decaying tone over a short noise transient."""
+    rng = np.random.default_rng(11)
+    L = int(0.09 * SR)
+    t = np.arange(L) / SR
+    s = (np.sin(2 * np.pi * freq * t) + 0.3 * np.sin(2 * np.pi * 2 * freq * t)) * np.exp(-t / decay)
+    s += noise * rng.normal(0, 1, L) * np.exp(-t / 0.002)
+    return s / np.max(np.abs(s))
+
+
+# Film 5 scene 07's listening demo: two distinct tick sounds, a low wood block and a high bell.
+SOUNDS = {"click": click_sound,
+          "wood": lambda: tone_sound(900, 0.018, 0.5),
+          "bell": lambda: tone_sound(2400, 0.035, 0.3)}
 
 
 def read_sfx(path):
-    """<scene>.sfx.txt: one `time_in_seconds | sound [| level]` per line (sound: click)."""
+    """<scene>.sfx.txt: one `time_in_seconds | sound [| level]` per line (sound: click, wood, bell)."""
     out = []
     for raw in open(path, encoding="utf-8"):
         raw = raw.strip()
