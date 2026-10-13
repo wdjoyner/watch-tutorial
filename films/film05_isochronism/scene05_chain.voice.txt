@@ -1,0 +1,9 @@
+# Narration for scene05_chain.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Put it together, and you get a chain.
+4.3  | As we saw in Film two, the mainspring's torque falls over the power reserve.
+10.4 | Less energy reaches the balance to pay its bill from Film four, so the amplitude falls, and the rate shifts.
+18.4 | A watch that keeps different time fully wound and half wound is showing you this chain.
+24.5 | Just where the amplitude settles is the escapement's story, for a later film.
+30.6 | Isochronism adjustment is the art of making this curve as flat as possible where the watch actually runs.

@@ -1,0 +1,10 @@
+# Narration for scene06_overcoil.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | A flat spiral has a flaw. As it winds and unwinds, its center of gravity wanders off the axis and pushes sideways on the pivots.
+11.7 | That adds an amplitude-dependent rate, and a positional error: dial up and crown down keep different time.
+19.8 | In 1795, Breguet raised the outer end of the spring and curved it back over the coils.
+28.3 | In 1860, Édouard Phillips found the shape that works:
+34.3 | the center of gravity of the end curve must lie on the radius at right angles to its junction, at a distance rho nought squared over its length.
+45.1 | Then the coils breathe concentrically.
+48.9 | Today's silicon springs get the same result by etching uneven coils.

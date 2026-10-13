@@ -51,6 +51,10 @@ SHIFT_FULL = rate_shift(BETA_ROUND, AMP_FULL)    # ~33 ppm
 SHIFT_LOW = rate_shift(BETA_ROUND, AMP_LOW)      # ~22 ppm
 DRIFT_S_DAY = s_per_day(SHIFT_FULL - SHIFT_LOW)  # ~0.97 s/day
 
+# the curve drawn in scene 3 uses the bound itself, so the drift is exactly the budget
+SHIFT_FULL_MAX = rate_shift(BETA_MAX, AMP_FULL)  # ~34.4 ppm
+SHIFT_LOW_MAX = rate_shift(BETA_MAX, AMP_LOW)    # ~22.9 ppm
+
 # --------------------------------------------------------------- for the parabola picture
 BETA_SHOWN = 2e-3                                # EXAGGERATED beta/kappa, so the curve bends visibly
 AMP_AXIS = np.radians(np.array([0.0, 330.0]))    # plotted amplitude range
@@ -119,6 +123,7 @@ def table():
         ("cubic / linear torque at 270 deg", f"{CUBIC_OVER_LINEAR:.1e}"),
         ("at 4e-6: shift at 270 / 220 deg", f"{SHIFT_FULL * 1e6:.1f} / {SHIFT_LOW * 1e6:.1f} ppm"),
         ("  drift between them", f"{DRIFT_S_DAY:.2f} s/day"),
+        ("at the bound: shift at 270 / 220 deg", f"{SHIFT_FULL_MAX * 1e6:.1f} / {SHIFT_LOW_MAX * 1e6:.1f} ppm"),
         ("beat error (REPR.) 2 eps", f"{BEAT_ERR_REPR * 1e3:.1f} ms: ticks {TICK_A:.4f} s / {TICK_B:.4f} s, sum {FULL_PERIOD:.4f} s"),
         ("Phillips curve: r1, a1 / r2, a2 (rho0 = 1)", f"{PH_R1:.4f}, {np.degrees(PH_A1):.2f} deg / {PH_R2}, {np.degrees(PH_A2):.0f} deg"),
         ("  developed length l", f"{PH_L:.4f} rho0"),

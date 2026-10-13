@@ -1,0 +1,8 @@
+# Narration for scene02_parabola.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | The Poincaré–Lindstedt method gives the result: the frequency rises with the square of the amplitude, by three beta theta squared over eight kappa.
+12.5 | Plot rate against amplitude, and you get a parabola.
+16.8 | A perfectly linear spring would give a flat line.
+21.0 | With beta positive, a spring that stiffens, the watch runs fast while the swing is large, and loses as the amplitude falls.
+30.8 | With beta negative, it gains.

@@ -1,0 +1,9 @@
+# Narration for scene04_real_sources.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | But the cubic term is a stand-in. At these tiny strains, the hairspring's metal isn't measurably nonlinear.
+9.6  | The real amplitude dependence has three sources.
+14.1 | The escapement must unlock just before center, which makes the watch lose, more so as the amplitude falls.
+22.5 | The hairspring doesn't breathe concentrically about its pinning points.
+27.7 | And in the vertical positions, any residual unbalance in the balance feels gravity.
+34.2 | Beta is an effective number that lumps all three together.

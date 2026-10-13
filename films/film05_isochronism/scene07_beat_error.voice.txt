@@ -1,0 +1,10 @@
+# Narration for scene07_beat_error.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Last, beat error.
+3.4  | If the collet is turned on the staff relative to the stud, the roller jewel sits off the line of centers when the balance is at rest.
+12.9 | Then one interval is a fifth of a second plus epsilon, and the next a fifth minus epsilon.
+21.0 | We've exaggerated it so you can hear the limp.
+24.9 | A timing machine reports the difference, two epsilon, in milliseconds.
+30.7 | But each pair still adds up to two fifths of a second, so the rate is untouched.
+36.9 | A lopsided watch can keep good time, though it starts less reliably, and suffers more from escapement error at low amplitude.

@@ -1,0 +1,8 @@
+# Narration for scene01_beyond_hooke.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Film four treated the hairspring as perfectly linear: twist it twice as far, and it pushes back twice as hard.
+9.1  | That's Hooke's law, and it's only the first term of the true torque curve.
+14.4 | A spring that acts the same whichever way it's twisted can't have a squared term, so the next correction is cubic: minus beta phi cubed.
+24.6 | Near the center it's negligible. It matters only near the ends of a big swing,
+31.1 | and there it changes how long each swing takes, not how quickly the swing dies.

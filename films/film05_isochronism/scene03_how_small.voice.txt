@@ -1,0 +1,8 @@
+# Narration for scene03_how_small.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | How small must beta be?
+3.9  | Suppose the amplitude falls from two hundred seventy degrees to two hundred twenty over the power reserve, and we allow the rate to change by one second a day, about twelve parts per million.
+17.5 | Then beta over kappa must be below about four millionths per radian squared.
+23.5 | At the end of the swing, the cubic torque is then only one ten-thousandth of the linear torque, and the rate is held to about one part in a hundred thousand.
+35.0 | Isochronism is a parts-per-hundred-thousand game.
