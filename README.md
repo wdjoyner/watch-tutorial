@@ -10,6 +10,7 @@ The series so far:
 2. **Learning How Watches Work: The Power Source** (about 5:10) is about the mainspring and barrel: what is inside the barrel, how winding works, the mainspring as a bent beam, how its torque falls as it unwinds, and two advanced chapters on the geometry of the coil and the best length for a spring in a given barrel.
 3. **Learning How Watches Work: The Gear Train** (about 9:00) is about the going train and the arithmetic of tooth counts: the five wheels in order, why a wheel always drives a pinion, the ratio law n₁z₁ = n₂z₂ and the module, how stage ratios multiply while torque divides, designing a train backward from the balance, the 6497's real train checked tooth by tooth, the motion work's 12 : 1, and two advanced chapters on moon-phase gearing, continued fractions and the Stern–Brocot tree.
 4. **Learning How Watches Work: The Regulating Organ** (about 7:50) is about the balance and hairspring, the watch's timekeeper: the two numbers that set its pace (the moment of inertia I and the hairspring's stiffness κ), Newton meets Hooke in I φ″ + κ φ = 0, the natural frequency f₀ = (1/2π)√(κ/I), a worked example at 2.5 Hz, how exact κ/I must be, regulation by the index pins or by masselottes, and three advanced chapters on temperature and its compensation, damping and Q, and whether the mainspring can pay for the swing.
+5. **Learning How Watches Work: Isochronism** (about 6:00) is about why a watch's rate drifts with the size of the balance's swing, and how watchmakers fight it: the cubic term beyond Hooke's law, the Poincaré–Lindstedt parabola Δf/f ≈ 3βΘ²/8κ, how small β must be (a parts-per-hundred-thousand game), where amplitude dependence really comes from, the chain of error from the mainspring to the rate, Breguet's overcoil and Phillips' conditions (on a terminal curve computed to meet them), and beat error, with a listening demo.
 
 The visual style is technical illustration: solid parts with visible thickness, Côtes de Genève striping, perlage, ruby jewels and blued screws, all shown against a dark studio background.
 
@@ -82,6 +83,22 @@ Film 3's flat gears come from `films/film03_gear_train/train.py`: `GearSet` buil
 
 Film 4's numbers all come from `films/film04_regulating_organ/figures.py`, which computes each one from its inputs and cites its source (`python figures.py` prints the table). ETA does not publish the 6497's balance inertia, hairspring dimensions, amplitude or Q, so those are the reference chapter's representative values, and the film labels them so. The flat balance in `balance.py` (`BalanceModel`) has a hairspring that breathes as it swings, its outer end held at the stud or at the regulator's pins. Where the balance is shown in slow motion (marked on screen), the scene writes `<scene>.ticks.txt`, and `build.py` times the ticks to the slowed beats instead of the steady five a second.
 
+## Film 5 scenes (`films/film05_isochronism/`)
+
+| # | File | Length | What it shows |
+|---|------|--------|---------------|
+| 00 | `scene00_title.py` | 10 s | Title card over the slowly orbiting movement with its bridges off, dimmed. |
+| 01 | `scene01_beyond_hooke.py` | 40 s | Beyond Hooke's law: torque against angle beside a slowed balance; the straight line −κφ is only the first term, symmetry rules out a φ² term, and the cubic −βφ³ (exaggerated) parts from the line only near the ends of the swing, so it changes the period, not the damping. |
+| 02 | `scene02_parabola.py` | 37 s | Rate against amplitude: Poincaré–Lindstedt gives ω(Θ) ≈ ω₀(1 + 3βΘ²/8κ); as a slowed balance runs down, a dot rides down the parabola (β exaggerated) beside the flat line of a linear spring; with β > 0 the watch loses as the amplitude falls, and the curve flips over for β < 0. |
+| 03 | `scene03_how_small.py` | 42 s | How small: the chapter's example, at real numbers. The amplitude falls from 270° to 220° (representative); holding the drift to 1 s/day (11.6 ppm) needs \|β\|/κ ≲ 4 × 10⁻⁶ rad⁻², so at the end of the swing the cubic torque is about 10⁻⁴ of the linear: a parts-per-hundred-thousand game. |
+| 04 | `scene04_real_sources.py` | 41 s | Where it really comes from: the cubic term is a stand-in; three schematic cards show escapement error (unlocking just before center), the hairspring breathing off-center (its center of gravity marked, magnified) and a heavy spot in gravity, all feeding one effective β. |
+| 05 | `scene05_chain.py` | 42 s | The chain of error: four linked panels run down together, from the mainspring's torque (Film 2) to the energy reaching the balance (Film 4), the amplitude and the rate; where the amplitude settles is left for a future film on the escapement; isochronism adjustment flattens the curve where the watch runs. |
+| 06 | `scene06_overcoil.py` | 57 s | The overcoil: a flat spiral's center of gravity wanders (magnified) and pushes on the pivots; Breguet's 1795 overcoil in plan and side view; Phillips' 1860 conditions, OG ⊥ OC and OG = ρ₀²/ℓ, shown on a terminal curve solved to meet them (ℓ = 3.745 ρ₀, OG = 0.2670 ρ₀, ∠GOC = 90.0°); silicon springs etched with uneven coils. |
+| 07 | `scene07_beat_error.py` | 77 s | Beat error: the collet, stud and roller jewel are named; the collet is turned and the jewel comes to rest off the line of centers, so successive intervals are 1/(2f) ± ε; a listening demo plays even ticks, then lopsided ones (exaggerated), with the intervals printed; a timing-machine trace splits into two flat rows, 2ε apart, while each pair still sums to 0.4 s. |
+| 08 | `scene08_credits.py` | 17 s | End credits. |
+
+Film 5's numbers come from `films/film05_isochronism/figures.py`, in the same style as Film 4's, including the Phillips curve: two arcs leave the outer coil, and the first arc's radius and angle are solved numerically so that both of Phillips' conditions hold (`python figures.py` prints the check). The amplitudes, β and beat error are representative, since ETA does not publish them, and anything exaggerated for the eye or ear is tagged on screen. Film 5 reuses Film 4's `balance.py` and `ui.py` from Film 4's folder (its scenes `import iso` first); its own `iso.py` adds a balance whose frequency follows its amplitude, a tick log for beat error, a plain plot frame and a schematic flat spring.
+
 ## Quick start (macOS)
 
 ```bash
@@ -94,6 +111,7 @@ python film.py 1 --build                         # every scene of Film 1, joined
 python film.py 2 --build                         # the same for Film 2
 python film.py 3 --build                         # and Film 3
 python film.py 4 --build                         # and Film 4
+python film.py 5 --build                         # and Film 5
 ```
 
 On Linux, install the system libraries with `sudo apt install libcairo2-dev libpango1.0-dev pkg-config ffmpeg`, then use a fresh environment (for example `conda create -n watch python=3.12`) and `pip install -r requirements.txt`. Installing into an existing base environment can leave mismatched NumPy and SciPy versions.
@@ -125,7 +143,7 @@ python film.py 1 --build        # build every scene at 1080p first, then join
 python film.py 1 --build -q l   # quick 480p preview of the whole film
 ```
 
-`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
+`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4, `out/isochronism.mp4` for Film 5) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
 
 ## Making changes
 
@@ -137,7 +155,7 @@ Most adjustments need no code changes:
 - **Title and credits wording:** `TITLE`, `TAGLINE` in the film's `scene00_title.py`; the `CREDITS` list in its credits scene.
 - **Running order and chapter names:** the `SCENES` list in the film's `running_order.py`.
 - **Pronunciation:** if Kokoro misreads a word, add a respelling to the `PRONOUNCE` table in `build.py` (for example "wound" → "wownd", "ETA" → "E-T-A"). It changes only what the voice says; captions keep the real spelling.
-- **Sound effects:** an optional `<scene>.sfx.txt` lists `time | click [| level]` lines, mixed in at `--sfx-level`. Film 2's winding scene writes its own from its winding schedule, so the clicks follow the ratchet teeth. Film 4's slow-motion scenes write a `<scene>.ticks.txt` of beat times, which replaces the steady tick track.
+- **Sound effects:** an optional `<scene>.sfx.txt` lists `time | click [| level]` lines, mixed in at `--sfx-level`. Film 2's winding scene writes its own from its winding schedule, so the clicks follow the ratchet teeth. Film 4's slow-motion scenes write a `<scene>.ticks.txt` of beat times, which replaces the steady tick track. Film 5's beat-error scene writes both: its ticks follow the balance across the line of centers, and its listening demo uses two pitched tick sounds, `wood` and `bell`.
 - **Voice:** pass `--voice` to `build.py`. The default is `bm_george` (British male). Other options include `am_michael` and `am_onyx` (American male) and `bf_emma` (British female). Kokoro has many more.
 
 Structural changes, such as new parts, new motion or new shots, go in `movement.py` or a new scene file.
@@ -168,6 +186,11 @@ films/
     balance.py                      flat balance with a breathing hairspring; beat log for slow motion
     ui.py                           shared text, formula and layout helpers
     scene00_title.py ... scene12_credits.py, each narrated scene with its .voice.txt
+  film05_isochronism/               Film 5: isochronism, the overcoil and beat error
+    running_order.py
+    figures.py                      every number in the film, computed and sourced (incl. the Phillips curve)
+    f4.py, iso.py                   reuse of Film 4's helpers; amplitude-dependent balance, tick log, plots
+    scene00_title.py ... scene08_credits.py, each narrated scene with its .voice.txt
 films.py                            finds films and scenes by name (used by build.py and film.py)
 build.py                            render -> TTS -> mix -> captions -> mux, one scene
 film.py                             join one film's built scenes into a film with chapters
@@ -207,6 +230,8 @@ Film 2: produced by David Joyner; Python code, design, text, and rendering with 
 Film 3: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026); going-train tooth counts from R. Allen, "Coincidental Time, Part 1," *Horological Times*, September 2006; the 3 Hz train from Horology Student's notes on the Unitas / ETA 6497–6498; ETA's technical communication for the 6497-1 / 6498-1.
 
 Film 4: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "The regulating organ"; ETA's technical communication for the 6497-1 / 6498-1. The balance inertia, hairspring dimensions, amplitude and Q are the chapter's representative values; ETA does not publish them.
+
+Film 5: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "Isochronism: anharmonicity, the Duffing correction, and the overcoil"; E. Phillips, "Mémoire sur le spiral réglant des chronomètres et des montres," *Journal de mathématiques pures et appliquées* (1860); ETA's technical communication for the 6497-1 / 6498-1. The amplitudes, β and beat error are representative values; ETA does not publish them.
 
 - Animation: [Manim Community](https://www.manim.community/)
 - Geometry: [Shapely](https://shapely.readthedocs.io/)
