@@ -37,11 +37,13 @@ KOKORO_FILES = ["kokoro-v1.0.onnx", "voices-v1.0.bin"]
 # "Brocot" (of the Stern-Brocot tree) is French: final t silent.
 # Film 4: "Elinvar" is EL-in-var (Kokoro says ih-LIN-var), "Nivarox" NEE-va-rox,
 # "masselottes" mass-LOTS (French).
-# Film 5: "Breguet" is breh-GAY (Kokoro says BREG-it), "Edouard" AY-dwar.
+# Film 5: "Breguet" is breh-GAY (Kokoro says BREG-it), "Edouard" AY-dwar; Kokoro reads years
+# digit by digit ("one thousand seven hundred ..."), so they are spelled out.
 # Whole words, case-insensitive.
 PRONOUNCE = {"wound": "wownd", "wind": "wined", "eta": "E-T-A", "brocot": "broco",
              "elinvar": "Ellinvar", "nivarox": "Neevarox", "masselottes": "mass-lots",
-             "breguet": "Bregay", "édouard": "Ehdwahr"}
+             "breguet": "Bregay", "édouard": "Ehdwahr",
+             "1795": "seventeen ninety-five", "1860": "eighteen sixty"}
 QUALITY = {"l": "480p15", "m": "720p30", "h": "1080p30", "p": "1440p60", "k": "2160p60"}
 
 

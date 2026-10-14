@@ -2,10 +2,12 @@
 # One line per sentence:   start_time_in_seconds | text
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
 1.0  | Last, beat error.
-3.4  | If the collet is turned on the staff relative to the stud, the roller jewel sits off the line of centers when the balance is at rest.
-12.9 | Then one interval is a fifth of a second plus epsilon, and the next a fifth minus epsilon.
-21.0 | Listen to the difference. First, a watch in beat.
-29.6 | Now one out of beat, exaggerated so you can hear it.
-38.4 | A timing machine reports the difference, two epsilon, in milliseconds.
-44.2 | But each pair still adds up to two fifths of a second, so the rate is untouched.
-50.4 | A lopsided watch can keep good time, though it starts less reliably, and suffers more from escapement error at low amplitude.
+3.4  | The hairspring's inner end is held by a small collar on the balance staff, called the collet. Its outer end is held by the stud.
+12.9 | On the staff below sits the roller jewel, the small ruby pin that the lever's fork pushes on.
+20.2 | If the collet is turned on the staff, that jewel sits off the line of centers when the balance is at rest.
+27.9 | Then one interval is a fifth of a second plus epsilon, and the next a fifth minus epsilon.
+36.0 | Listen to the difference. First, a watch in beat.
+44.6 | Now one out of beat, exaggerated so you can hear it.
+53.4 | A timing machine reports the difference, two epsilon, in milliseconds.
+59.2 | But each pair still adds up to two fifths of a second, so the rate is untouched.
+65.4 | A lopsided watch can keep good time, though it starts less reliably, and suffers more from escapement error at low amplitude.

@@ -30,20 +30,23 @@ from ui import ftext, label, heading, tag, curtain, clock, WARM, COOL
 FADE_IN = 1.0
 HEAD_AT = 1.2                         # "Last, beat error"
 STOP_AT = 3.4                         # the balance comes to rest
-TURN_AT = 6.0                         # "If the collet is turned on the staff relative to the stud"
-OFF_AT = 9.0                          # "the roller jewel sits off the line of centers when the balance is at rest"
-GO_AT = 12.2                          # swinging again
-DT_AT = (13.6, 16.8)                  # "one interval is a fifth of a second plus epsilon", "the next a fifth minus"
-LISTEN_AT = 21.0                      # "Listen to the difference. First, a watch in beat."
-DEMO_A_AT = 25.3                      # in-beat ticks (wood block), no narration
-OUT_AT = 29.6                         # "Now one out of beat, exaggerated so you can hear it."
-DEMO_B_AT = 33.8                      # out-of-beat ticks (bell), no narration
-DEMO_END = 38.0                       # the balance's own tick track is muted from LISTEN_AT + 3 to here
-BE_AT = 38.4                          # "A timing machine reports the difference, two epsilon, in milliseconds"
-SUM_AT = 44.2                         # "each pair still adds up to two fifths of a second"
-UNTOUCHED_AT = 47.1                   # "so the rate is untouched"
-BUT_AT = 53.1                         # "though it starts less reliably, and suffers more from escapement error"
-FINAL_HOLD_UNTIL = 60.8               # the last line ends about 59.2 s
+COLLET_AT = 7.4                       # "a small collar on the balance staff, called the collet"
+STUD_AT = 10.0                        # "Its outer end is held by the stud"
+JEWEL_AT = 14.6                       # "the roller jewel, the small ruby pin that the lever's fork pushes on"
+TURN_AT = 20.4                        # "If the collet is turned on the staff"
+OFF_AT = 23.6                         # "that jewel sits off the line of centers when the balance is at rest"
+GO_AT = 27.2                          # swinging again
+DT_AT = (28.6, 31.8)                  # "one interval is a fifth of a second plus epsilon", "the next a fifth minus"
+LISTEN_AT = 36.0                      # "Listen to the difference. First, a watch in beat."
+DEMO_A_AT = 40.3                      # in-beat ticks (wood block), no narration
+OUT_AT = 44.6                         # "Now one out of beat, exaggerated so you can hear it."
+DEMO_B_AT = 48.8                      # out-of-beat ticks (bell), no narration
+DEMO_END = 53.0                       # the balance's own tick track is muted from LISTEN_AT + 3 to here
+BE_AT = 53.4                          # "A timing machine reports the difference, two epsilon, in milliseconds"
+SUM_AT = 59.2                         # "each pair still adds up to two fifths of a second"
+UNTOUCHED_AT = 62.1                   # "so the rate is untouched"
+BUT_AT = 68.1                         # "though it starts less reliably, and suffers more from escapement error"
+FINAL_HOLD_UNTIL = 75.8               # the last line ends about 74.2 s
 FADE_OUT = 1.5
 
 # --- the balance ---------------------------------------------------------
@@ -90,6 +93,13 @@ class Scene07(Scene):
                       Line(lever + UP * 0.75 + LEFT * 0.12, lever + UP * 0.75 + RIGHT * 0.12)).set_stroke(STEEL_HI, 2.5)
         loc_lbl = label("line of centers", 0.22).next_to(lever, RIGHT, buff=0.25).shift(UP * 0.35)
         lever_lbl = label("pallet lever", 0.22).next_to(pivot, DOWN, buff=0.12)
+        def part(text, target, at):
+            t = label(text, 0.24, GLOW).move_to(c + at)
+            return VGroup(t, Arrow(t.get_left() + LEFT * 0.05, target, buff=0.08, stroke_width=2.5, tip_length=0.13, color=GLOW))
+        collet_lbl = part("collet: holds the\nspring's inner end", bal.collet.get_center() + RIGHT * 0.05, RIGHT * 2.5 + UP * 1.25)
+        stud_lbl = part("stud: holds the\nspring's outer end", bal.stud.get_center(), RIGHT * 2.5 + UP * 0.1)
+        jewel_lbl = part("roller jewel", jewel.get_center() + RIGHT * 0.05, RIGHT * 2.3 + DOWN * 0.85)
+        fork_lbl = label("lever's fork", 0.24, GLOW).next_to(lever + UP * 0.85, LEFT, buff=0.3)
         turned = label("collet turned\non the staff", 0.24, WARM).move_to(c + RIGHT * 2.45 + UP * 0.55)
         offl = label("at rest: the jewel\nsits off the line", 0.24, WARM).move_to(c + RIGHT * 2.3 + DOWN * 1.15)
         arrow_off = Arrow(offl.get_left() + LEFT * 0.05, c + DOWN * BAL_R * 0.34 + RIGHT * 0.2, buff=0.1,
@@ -190,8 +200,14 @@ class Scene07(Scene):
         wait_until(STOP_AT)                                 # the balance comes to rest, in beat
         bal.manual.set_value(0.0)
         self.play(bal.drive.animate.set_value(0.0), run_time=1.6)
+        wait_until(COLLET_AT)                               # the parts, named
+        self.play(FadeIn(collet_lbl), run_time=0.7)
+        wait_until(STUD_AT)
+        self.play(FadeIn(stud_lbl), run_time=0.7)
+        wait_until(JEWEL_AT)
+        self.play(FadeIn(jewel_lbl), FadeIn(fork_lbl), Indicate(fork, color=GLOW), run_time=0.9)
         wait_until(TURN_AT)                                 # the collet turns on the staff
-        self.play(FadeIn(turned), run_time=0.6)
+        self.play(FadeOut(collet_lbl), FadeOut(stud_lbl), FadeOut(jewel_lbl), FadeOut(fork_lbl), FadeIn(turned), run_time=0.7)
         self.play(bal.offset.animate.set_value(OFFSET), run_time=1.6)
         wait_until(OFF_AT)                                  # at rest, off the line
         self.play(FadeIn(offl), GrowArrow(arrow_off), run_time=0.8)
