@@ -12,7 +12,12 @@ import os
 import prev  # noqa: F401  (Film 4 and 5 helpers on the path)
 import numpy as np
 from manim import *
+import ui
 from ui import label
+
+# Film 6 uses a few more subscripts (J sub k, t sub k, phi-dot minus); Film 4's table is
+# extended here, at import, so Films 4 and 5 render exactly as before.
+ui._SUB.update({"ₖ": "k", "₋": "−", "ₗ": "l", "ᵢ": "i", "ₙ": "n", "ₘ": "m"})
 
 LEADER = GREY_B
 

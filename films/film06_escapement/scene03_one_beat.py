@@ -44,7 +44,7 @@ CAP_RATE = 1 / 200                    # model clock for the drop's speed cap (th
 PHASE_COLOR = dict(lock=GREY_A, unlock=COOL, impulse=WARM, drop=GLOW)
 TEXT = dict(slow="slowed down over a thousand times", schematic="schematic Swiss lever",
             phase=dict(lock="LOCK", unlock="UNLOCK", impulse="IMPULSE", drop="DROP"),
-            beat="one beat:  0.2 s", active="active:  {:.1f} ms", locked="locked {:.0f} % of the time",
+            beat="one beat:  0.2 s", active="active:  {:.1f} ms", locked="locked {:.0f}% of the time",
             phases=("unlock", "impulse I", "impulse II", "drop"),
             source="Petrangeli (2017): a model Swiss lever at 2.5 Hz")
 # =====================================================================
