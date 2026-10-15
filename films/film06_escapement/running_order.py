@@ -12,7 +12,8 @@ SCENES = [
     ("scene06_escapement_error", "Escapement Error"),
     ("scene07_balance_sheet", "Energy In, Energy Out"),
     ("scene08_limit_cycle", "The Limit Cycle"),
-    ("scene09_running_down", "Running Down"),
-    ("scene10_lift_angle", "Reading the Amplitude"),
-    ("scene11_credits", "Credits"),
+    ("scene09_torsiometer", "Measuring the Torque"),
+    ("scene10_running_down", "Running Down"),
+    ("scene11_lift_angle", "Reading the Amplitude"),
+    ("scene12_credits", "Credits"),
 ]

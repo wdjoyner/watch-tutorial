@@ -23,7 +23,10 @@ Sources
   [SKO] Seiko Epson, US Patent 6,431,746 B1 (2002), "Mechanical timepiece with
         timed annular balance rotating angle control mechanism", FIG. 8: measured
         mainspring torque about 27 g cm at full wind, 23 at 20 h, 18 at 40 h. A
-        Seiko wristwatch, not the 6497: label it so.
+        Seiko wristwatch, not the 6497: label it so. ETA publishes no torque curve
+        for the 6497 (none in CT 6497-1, 2007, 2016 or 2025).
+  [HOR] Horopedia, "The torsiometer" (horopedia.org/torsiometer): the instrument
+        that measures barrel torque during winding and unwinding (scene 09).
   [F4], [F5] Films 4 and 5's figures.py (2.5 Hz, Q 300, 270 / 220 deg).
 
 ETA does not publish the 6497's amplitude, losses, impulse energy or Q.
@@ -151,6 +154,8 @@ J_CONST = E_IN / (2 * OMEGA0 * AMP)              # E_in = 2 J omega0 Theta when 
 SKO_HOURS = (0, 20, 40)
 SKO_TORQUE = (27.0, 23.0, 18.0)                  # g cm [SKO]
 SKO_FRAC = tuple(t / SKO_TORQUE[0] for t in SKO_TORQUE)                 # 1, 0.85, 0.67
+GCM = 9.80665e-5                                 # N m per g cm (gram-force centimeter)
+SKO_MNM = tuple(t * GCM * 1e3 for t in SKO_TORQUE)                      # 2.65, 2.26, 1.77 mN m (scene 09)
 SKO_DROP_PCT = (1 - SKO_FRAC[-1]) * 100                                 # 33 % over 40 h
 SKO_THETA = tuple(theta_star(f * E_IN, MU_COU, MU_VIS, OMEGA0) / DEG for f in SKO_FRAC)  # 270, ~242, ~205 deg
 E_IN_LOW_FRAC = SKO_FRAC[-1]
@@ -210,6 +215,7 @@ def table():
         ("  mu_Cou, mu_vis", f"{MU_COU:.2e} N m, {MU_VIS:.2e} N m s"),
         ("  constant-impulse J", f"{J_CONST:.2e} N m s"),
         ("Seiko torque 0/20/40 h (g cm)", f"{SKO_TORQUE}  -> E_in x {tuple(round(f, 3) for f in SKO_FRAC)}"),
+        ("  in mN m", f"{tuple(round(t, 2) for t in SKO_MNM)}"),
         ("  -> Theta* at 0/20/40 h", f"{tuple(round(t) for t in SKO_THETA)} deg  ({SKO_DROP_PCT:.0f} % less torque)"),
         ("Petrangeli loss / gain per period", f"{GP_LOSS_PCT:.1f} % / {GP_GAIN_PCT:.1f} % of E_bal"),
         ("  corrected peak speed", f"{GP_WMAX_NEW:.2f} rad/s"),
