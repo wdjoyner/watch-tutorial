@@ -16,7 +16,9 @@ Sources
         correction (sec. 7.8); phase timings (sec. 5). As corrected in [MAW]:
         unlocking loss 0.27 % (not 2.7 %), corrected speed 75.71 rad/s.
   [ETA] ETA technical communication CT 6497-1 (version 13, 15.04.2025):
-        2.5 Hz (18,000 A/h), typical lift angle of the balance 44 deg.
+        2.5 Hz (18,000 A/h), typical lift angle of the balance 44 deg. The same
+        44 deg is in CT 6497-1 ESI 452207 version 02 (23.05.07) and CT 6497-1
+        FDE 482160 version 10 (08.02.2016). None of these gives barrel torque.
   [WOS] WOSTEP, The Theory of Horology, ch. 6: normal lift angles 38-55 deg.
   [SKO] Seiko Epson, US Patent 6,431,746 B1 (2002), "Mechanical timepiece with
         timed annular balance rotating angle control mechanism", FIG. 8: measured
