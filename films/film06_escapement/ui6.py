@@ -70,3 +70,9 @@ def write_sfx(scene_file, rows):
         f.write("# Written by the scene on every render: time | sound | level.\n")
         for t, snd, lvl in rows:
             f.write(f"{t:.3f} | {snd} | {lvl}\n")
+
+
+def fmark(markup, scale=0.5, color=WHITE):
+    """A formula given as Pango markup, for subscripts Unicode lacks: fmark('μ<sub>Cou</sub>')."""
+    from movement import FONT_SERIF
+    return MarkupText(markup, font=FONT_SERIF, slant=ITALIC, color=color).scale(scale)
