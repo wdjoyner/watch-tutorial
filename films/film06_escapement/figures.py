@@ -18,6 +18,10 @@ Sources
   [ETA] ETA technical communication CT 6497-1 (version 13, 15.04.2025):
         2.5 Hz (18,000 A/h), typical lift angle of the balance 44 deg.
   [WOS] WOSTEP, The Theory of Horology, ch. 6: normal lift angles 38-55 deg.
+  [SKO] Seiko Epson, US Patent 6,431,746 B1 (2002), "Mechanical timepiece with
+        timed annular balance rotating angle control mechanism", FIG. 8: measured
+        mainspring torque about 27 g cm at full wind, 23 at 20 h, 18 at 40 h. A
+        Seiko wristwatch, not the 6497: label it so.
   [F4], [F5] Films 4 and 5's figures.py (2.5 Hz, Q 300, 270 / 220 deg).
 
 ETA does not publish the 6497's amplitude, losses, impulse energy or Q.
@@ -74,7 +78,7 @@ GP_DT_CHECK = airy_shift(GP_DV, GP_PHI, AMP, GP_OMEGA0)    # same thing, MAW's f
 # escapement error scales like 1 / A^2 for a fixed unlocking impulse [MAW]
 ESC_ERR_RATIO = (AMP / AMP_LOW) ** 2             # 1.51: half as large again at 220 as at 270 deg
 
-# ROUGH ESTIMATE (derived here, not in the sources; optional): size of the
+# ROUGH ESTIMATE, shown in a box crediting [GP] as its basis (scene 06): size of the
 # unlocking error if the unlocking resistance is Petrangeli's friction loss,
 # J = Delta E / phidot, applied at the middle of his 12 deg unlocking, which
 # starts about 23 deg before center (his 12 + 24 + 10 deg span, centered).
@@ -85,6 +89,10 @@ UNLOCK_PHI = -(46 / 2 - 6) * DEG                 # -17 deg: before center
 UNLOCK_DT = airy_shift(-UNLOCK_J / GP_I, UNLOCK_PHI, AMP, GP_OMEGA0)   # > 0: later, loses
 UNLOCK_S_DAY = UNLOCK_DT * BEATS_PER_S * DAY                           # ~1 s/day lost
 UNLOCK_S_DAY_LOW = UNLOCK_S_DAY * ESC_ERR_RATIO                        # at 220 deg
+UNLOCK_BOX = ("Rough estimate, built on Petrangeli's Swiss-lever model (2017):",
+              f"unlocking friction {GP_UNLOCK_E * 1e9:.1f} nJ per beat, taken as a backward kick",
+              f"about {-UNLOCK_PHI / DEG:.0f}\u00b0 before center",
+              f"loses about {UNLOCK_S_DAY:.1f} s/day at 270\u00b0, {UNLOCK_S_DAY_LOW:.1f} s/day at 220\u00b0")
 
 # --------------------------------------------------------------- energy balance [MAW]
 def w_loss(theta, mu_cou, mu_vis, omega0):
@@ -134,9 +142,17 @@ assert abs(theta_star(E_IN, MU_COU, MU_VIS, OMEGA0) - AMP) < 1e-9
 # constant energy vs constant impulse: the same 270 deg operating point
 J_CONST = E_IN / (2 * OMEGA0 * AMP)              # E_in = 2 J omega0 Theta when J is fixed
 
-# running down: the mainspring's torque falls, E_in with it. REPRESENTATIVE 30 % drop.
-E_IN_LOW_FRAC = 0.70
-THETA_LOW = theta_star(E_IN_LOW_FRAC * E_IN, MU_COU, MU_VIS, OMEGA0)    # ~212 deg
+# running down: the escapement delivers a fixed energy per beat set by the train's
+# torque [MAW, constant energy], so E_in follows the mainspring torque. The torque
+# curve is the measured one in [SKO] FIG. 8 (a Seiko wristwatch, not the 6497),
+# applied to our REPRESENTATIVE 6497 balance, with E_in = loss at 270 deg at full wind.
+SKO_HOURS = (0, 20, 40)
+SKO_TORQUE = (27.0, 23.0, 18.0)                  # g cm [SKO]
+SKO_FRAC = tuple(t / SKO_TORQUE[0] for t in SKO_TORQUE)                 # 1, 0.85, 0.67
+SKO_DROP_PCT = (1 - SKO_FRAC[-1]) * 100                                 # 33 % over 40 h
+SKO_THETA = tuple(theta_star(f * E_IN, MU_COU, MU_VIS, OMEGA0) / DEG for f in SKO_FRAC)  # 270, ~242, ~205 deg
+E_IN_LOW_FRAC = SKO_FRAC[-1]
+THETA_LOW = SKO_THETA[-1] * DEG
 
 # --- Petrangeli's one correction step [GP sec. 7.8], as corrected in [MAW]
 GP_LOSS = 2.176e-4                               # N mm per period
@@ -186,11 +202,13 @@ def table():
         ("Petrangeli Airy shift (eq. 5)", f"{GP_DT:.2e} s (MAW form: {GP_DT_CHECK:.2e} s)"),
         ("escapement error 220 vs 270 deg", f"x {ESC_ERR_RATIO:.2f}"),
         ("ROUGH unlocking error 270 / 220 deg", f"{UNLOCK_S_DAY:.2f} / {UNLOCK_S_DAY_LOW:.2f} s/day lost"),
+        ("  box", " | ".join(UNLOCK_BOX)),
         ("limit cycle (scaled) Theta*", f"{LC_THETA:.3f}  (chapter: 4.24)"),
         ("6497 REPR.: E_bal, loss/cycle", f"{E_BAL * 1e6:.2f} uJ, {LOSS * 1e6:.3f} uJ"),
         ("  mu_Cou, mu_vis", f"{MU_COU:.2e} N m, {MU_VIS:.2e} N m s"),
         ("  constant-impulse J", f"{J_CONST:.2e} N m s"),
-        ("  E_in down 30 % -> Theta*", f"{THETA_LOW / DEG:.0f} deg"),
+        ("Seiko torque 0/20/40 h (g cm)", f"{SKO_TORQUE}  -> E_in x {tuple(round(f, 3) for f in SKO_FRAC)}"),
+        ("  -> Theta* at 0/20/40 h", f"{tuple(round(t) for t in SKO_THETA)} deg  ({SKO_DROP_PCT:.0f} % less torque)"),
         ("Petrangeli loss / gain per period", f"{GP_LOSS_PCT:.1f} % / {GP_GAIN_PCT:.1f} % of E_bal"),
         ("  corrected peak speed", f"{GP_WMAX_NEW:.2f} rad/s"),
         ("  amplitude step", f"{GP_DTHETA:.3f} rad = {GP_DTHETA / DEG:.2f} deg"),
