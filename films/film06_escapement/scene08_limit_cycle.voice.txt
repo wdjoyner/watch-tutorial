@@ -1,0 +1,7 @@
+# Narration for scene08_limit_cycle.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Here is the same idea in the phase plane, with friction exaggerated so it happens in a few swings.
+9.0  | Start small, and the balance spirals out. Start large, and it spirals in. Both end on the same loop, a limit cycle. The watch chooses its own amplitude.
+20.8 | Petrangeli did this bookkeeping for his Swiss lever. At an assumed two hundred seventy degrees, the impulses supplied about eight and a half percent of the balance's energy per period, and the losses took about four.
+36.6 | The surplus raises the peak speed from seventy-four to about seventy-five point seven radians per second, so the amplitude climbs about six degrees. Repeat, until gain equals loss.

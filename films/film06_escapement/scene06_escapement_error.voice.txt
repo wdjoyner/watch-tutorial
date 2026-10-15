@@ -1,0 +1,9 @@
+# Narration for scene06_escapement_error.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | How big is the effect? Petrangeli worked a Swiss lever at this same frequency. A shock that changes the speed by a hundredth of a radian per second, twenty-four degrees from center, moves the tick by less than a microsecond.
+17.6 | But the escapement can't act exactly at center. The roller jewel has to unlock the fork on its way in, a little before center, and unlocking pushes against the motion.
+29.9 | A backward kick before center delays the tick, so the watch loses.
+35.4 | With the amplitude squared in the denominator, the error grows as the swing shrinks: half as large again at two hundred twenty degrees as at two hundred seventy.
+47.5 | A rough estimate built on Petrangeli's model puts it at about a second a day at two hundred seventy degrees.
+55.9 | This is the escapement error from Film five, now with its formula.

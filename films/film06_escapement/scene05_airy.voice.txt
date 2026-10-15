@@ -1,0 +1,9 @@
+# Narration for scene05_airy.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | In eighteen twenty-six, the astronomer George Airy asked how such a kick changes the timing.
+8.3  | Draw the swing in the phase plane: angle across, speed up. The free balance goes round a circle.
+15.8 | A kick is a jump straight up. At the center, straight up points straight out from the circle. The circle grows, but the balance stays on schedule.
+26.1 | Away from center, part of the kick runs along the circle. That part shifts the phase, and every later tick moves with it.
+35.0 | The shift is proportional to the kick, and to how far from center it lands.
+40.7 | So deliver the impulse at the center. That is Airy's rule, and every good escapement follows it.

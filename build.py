@@ -39,11 +39,13 @@ KOKORO_FILES = ["kokoro-v1.0.onnx", "voices-v1.0.bin"]
 # "masselottes" mass-LOTS (French).
 # Film 5: "Breguet" is breh-GAY (Kokoro says BREG-it), "Edouard" AY-dwar; Kokoro reads years
 # digit by digit ("one thousand seven hundred ..."), so they are spelled out.
+# Film 6: "Petrangeli" is Italian, pe-tran-JEL-li (Kokoro stresses the first syllable).
 # Whole words, case-insensitive.
 PRONOUNCE = {"wound": "wownd", "wind": "wined", "eta": "E-T-A", "brocot": "broco",
              "elinvar": "Ellinvar", "nivarox": "Neevarox", "masselottes": "mass-lots",
              "breguet": "Bregay", "édouard": "Ehdwahr",
-             "1795": "seventeen ninety-five", "1860": "eighteen sixty"}
+             "1795": "seventeen ninety-five", "1860": "eighteen sixty",
+             "petrangeli": "Petran-jelly", "1826": "eighteen twenty-six"}
 QUALITY = {"l": "480p15", "m": "720p30", "h": "1080p30", "p": "1440p60", "k": "2160p60"}
 
 

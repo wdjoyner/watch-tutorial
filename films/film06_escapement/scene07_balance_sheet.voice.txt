@@ -1,0 +1,9 @@
+# Narration for scene07_balance_sheet.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Now the payoff. Each cycle, the balance loses energy in two ways.
+6.9  | Dry, Coulomb friction is a fixed torque, acting over a path of four amplitudes. Oil and air act like viscous drag, which grows with the square of the amplitude.
+18.9 | The escapement turns the wheel through fixed angles under the train's torque, so it delivers about the same energy every beat, whatever the swing.
+29.1 | Where the curves cross, the books balance. That is the operating amplitude, theta star.
+35.8 | Swing less, and the escapement gives more than friction takes, so the amplitude grows. Swing more, and it shrinks. Theta star is stable.
+45.9 | Even if each kick were a fixed impulse instead, the energy in would only grow in a straight line, and the parabola would still win.

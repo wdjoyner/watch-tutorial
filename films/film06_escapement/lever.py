@@ -356,7 +356,7 @@ class LeverEscapement(VGroup):
         if name == "exit_stone":
             return L(np.mean(self.g_stones[1], axis=0))
         if name == "pallet_fork":
-            return L((0.0, 1.38))
+            return L((0.0, 1.24))
         if name == "fork":
             return L((-0.06, 1.70))
         if name == "lever_pivot":

@@ -1,0 +1,8 @@
+# Narration for scene10_running_down.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | ETA doesn't publish the sixty-four ninety-seven's torque curve, so let's borrow Seiko's.
+7.9  | Each impulse carries energy in proportion to the train's torque, so as the mainspring runs down, the flat line drops.
+16.9 | The crossing slides left. For our representative balance, the amplitude falls from two hundred seventy degrees to about two hundred forty after twenty hours, and two hundred five after forty.
+31.2 | A lower amplitude means a different rate, through isochronism and the escapement error. That closes the chain from Film five.
+40.9 | Old oil does the same from the other side: the loss curve steepens, and the amplitude sinks. A watchmaker sees it on the timing machine long before the owner notices.

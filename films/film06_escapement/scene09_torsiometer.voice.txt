@@ -1,0 +1,9 @@
+# Narration for scene09_torsiometer.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | How do we know a mainspring's torque? We measure it, on an instrument watchmakers call a torsiometer: a small dynamometer.
+10.2 | The barrel is clamped in a chuck, and lets down slowly against a brake. A magnetic brake gives a smooth, steady resistance without rubbing.
+20.5 | Between them sits the torque sensor: a small metal element carrying strain gauges. The torque twists it very slightly, the gauges' electrical resistance changes, and out comes a voltage proportional to the torque.
+36.1 | An encoder counts the turns. Plot torque against turns, and you have the spring's torque curve.
+43.1 | Wind it up and let it down, and the two curves don't quite match: the coils rub on each other, and the gap between them is energy lost to friction.
+53.7 | Seiko published one such measurement in a patent: about two point six five millinewton meters at full wind, two point two six after twenty hours, and one point seven seven after forty. A third less torque.
