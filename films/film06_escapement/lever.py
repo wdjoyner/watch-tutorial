@@ -183,6 +183,7 @@ class LeverEscapement(VGroup):
         self.wbase, self.lever_now, self.wheel_now = 0.0, BANK_L, 0.0
         self._phi_prev = None
         self.events = []
+        self.skipped_drops = False        # True: also log a drop when one frame jumps impulse -> lock (fast, unslowed runs)
 
         P = lambda pts: [self.pt(p) for p in pts]
         # parts in their lock-pose outline (geometry units); each is redrawn from its angle
@@ -334,6 +335,8 @@ class LeverEscapement(VGroup):
             self.events.append((self.video_t, after))
         if before == "drop" and after == "lock":
             self.events.append((self.video_t, "bank"))
+        elif self.skipped_drops and before == "impulse" and after == "lock":
+            self.events.append((self.video_t, "drop"))   # a fast frame stepped over the drop (title, credits)
         self._phi_prev = phi
 
     def attach(self, scene):

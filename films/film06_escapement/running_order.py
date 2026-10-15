@@ -1,5 +1,5 @@
 # Running order for Film 6, read by film.py.
-# Proposed: scene names follow the outline; awaiting approval before scene code.
+# Scene names and chapter titles (used for the film and its chapter list).
 TITLE = "Learning How Watches Work: The Escapement"
 OUT_NAME = "escapement"
 SCENES = [

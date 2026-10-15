@@ -1,0 +1,13 @@
+# Written by the scene on every render: video time of each beat, for build.py's tick track.
+0.467
+1.267
+2.067
+2.867
+3.667
+4.467
+5.267
+6.067
+6.867
+7.667
+8.467
+9.267
