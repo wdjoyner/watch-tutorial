@@ -11,6 +11,7 @@ The series so far:
 3. **Learning How Watches Work: The Gear Train** (about 9:00) is about the going train and the arithmetic of tooth counts: the five wheels in order, why a wheel always drives a pinion, the ratio law n₁z₁ = n₂z₂ and the module, how stage ratios multiply while torque divides, designing a train backward from the balance, the 6497's real train checked tooth by tooth, the motion work's 12 : 1, and two advanced chapters on moon-phase gearing, continued fractions and the Stern–Brocot tree.
 4. **Learning How Watches Work: The Regulating Organ** (about 7:50) is about the balance and hairspring, the watch's timekeeper: the two numbers that set its pace (the moment of inertia I and the hairspring's stiffness κ), Newton meets Hooke in I φ″ + κ φ = 0, the natural frequency f₀ = (1/2π)√(κ/I), a worked example at 2.5 Hz, how exact κ/I must be, regulation by the index pins or by masselottes, and three advanced chapters on temperature and its compensation, damping and Q, and whether the mainspring can pay for the swing.
 5. **Learning How Watches Work: Isochronism** (about 6:00) is about why a watch's rate drifts with the size of the balance's swing, and how watchmakers fight it: the cubic term beyond Hooke's law, the Poincaré–Lindstedt parabola Δf/f ≈ 3βΘ²/8κ, how small β must be (a parts-per-hundred-thousand game), where amplitude dependence really comes from, the chain of error from the mainspring to the rate, Breguet's overcoil and Phillips' conditions (on a terminal curve computed to meet them), and beat error, with a listening demo.
+6. **Learning How Watches Work: The Escapement** (about 10:40) is about the Swiss lever escapement and where the amplitude settles: the escapement's three jobs (lock, unlock, impulse) on a contact-accurate close-up, one beat in slow motion, the balance as a hybrid system of smooth swings and sudden kicks, Airy's theorem (impulse at the center leaves the rate alone), escapement error and why unlocking makes a watch lose, the energy balance and the stable limit cycle, a digression on measuring mainspring torque with a torsiometer, how the amplitude falls as the mainspring runs down, and how a timing machine reads the amplitude by ear from the lift angle.
 
 The visual style is technical illustration: solid parts with visible thickness, Côtes de Genève striping, perlage, ruby jewels and blued screws, all shown against a dark studio background.
 
@@ -99,6 +100,26 @@ Film 4's numbers all come from `films/film04_regulating_organ/figures.py`, which
 
 Film 5's numbers come from `films/film05_isochronism/figures.py`, in the same style as Film 4's, including the Phillips curve: two arcs leave the outer coil, and the first arc's radius and angle are solved numerically so that both of Phillips' conditions hold (`python figures.py` prints the check). The amplitudes, β and beat error are representative, since ETA does not publish them, and anything exaggerated for the eye or ear is tagged on screen. Film 5 reuses Film 4's `balance.py` and `ui.py` from Film 4's folder (its scenes `import iso` first); its own `iso.py` adds a balance whose frequency follows its amplitude, a tick log for beat error, a plain plot frame and a schematic flat spring.
 
+## Film 6 scenes (`films/film06_escapement/`)
+
+| # | File | Length | What it shows |
+|---|------|--------|---------------|
+| 00 | `scene00_title.py` | 10 s | Title card over the lever escapement close-up, slowed 4× and dimmed, ticking at each drop. |
+| 01 | `scene01_recap.py` | 41 s | Where we left off: a slowed balance with its frequency f₀ = (1/2π)√(κ/I), a little energy lost each swing (representative Q = 300), and the chain of error from the mainspring to the rate with a question mark over the amplitude: the escapement decides it. |
+| 02 | `scene02_three_jobs.py` | 46 s | Lock, unlock, impulse: a schematic Swiss lever in close-up (escape wheel, pallet fork, stones, roller jewel, banking pins), running in slow motion (about 25 to 200×, tagged) with real contact kinematics; the escapement's three jobs. |
+| 03 | `scene03_one_beat.py` | 58 s | One beat in slow motion, step by step, with the phase named live (lock, unlock, impulse, drop); Petrangeli's timeline shows the action takes about 13.9 ms, so the train is locked about 93% of the time. |
+| 04 | `scene04_kicks.py` | 50 s | Smooth swings, sudden kicks: the hybrid equation I φ″ + c φ′ + κ φ + β φ³ = Σ Jₖ δ(t − tₖ) built term by term; the angle stays continuous while the speed jumps (exaggerated run); a kick adds ΔE ≈ J φ′₋, most at the center, 87% halfway out. |
+| 05 | `scene05_airy.py` | 50 s | Airy's theorem (1826) in the phase plane: a kick at the center only grows the circle and stays on schedule with an unkicked ghost; the same kick off center has a tangential part and falls behind; ΔT = (J/I) φ*/(A²ω₀²): impulse at the center. |
+| 06 | `scene06_escapement_error.py` | 64 s | Escapement error: Petrangeli's worked Swiss lever (a shock moves the tick by less than a microsecond); unlocking pushes back just before center, so the tick comes late and the watch loses; the error grows as 1/A², ×1.51 at 220°; a boxed rough estimate credited to Petrangeli's model (about 1.1 s/day lost at 270°, 1.7 at 220°). |
+| 07 | `scene07_balance_sheet.py` | 58 s | Energy in, energy out: dry (Coulomb) loss 4 μ_Cou Θ plus viscous loss π μ_vis ω₀ Θ² against the escapement's roughly constant energy per cycle; they cross at Θ* (270°, representative), which is stable; a fixed-impulse escapement would still settle. |
+| 08 | `scene08_limit_cycle.py` | 53 s | The limit cycle: small and large starts spiral onto the same loop in the phase plane (friction exaggerated, the chapter's scaled example) while the amplitude per swing converges; then Petrangeli's one bookkeeping step: impulses 8.6%, losses 4.0% per period, peak speed 74.02 → 75.71 rad/s, about +6°. |
+| 09 | `scene09_torsiometer.py` | 72 s | Measuring the torque, a digression: a schematic torsiometer (barrel in a chuck, strain-gauge torque sensor giving a voltage ∝ τ, encoder, magnetic brake), a schematic torque-against-turns loop whose gap is coil friction, then Seiko's measured curve: 2.65, 2.26 and 1.77 mN·m at 0, 20 and 40 hours. |
+| 10 | `scene10_running_down.py` | 56 s | Running down: ETA publishes no torque curve for the 6497, so Seiko's is borrowed; the energy-in line drops with it and the crossing slides from 270° to about 242° and 205°, closing Film 5's chain; old oil (illustrative factor, tagged) steepens the loss curve instead. |
+| 11 | `scene11_lift_angle.py` | 61 s | The lift angle: the balance angle through one beat with ETA's 44° lift window; the tick's three sounds (unlock, impulse, drop) played 150× slower; Δt ≈ 10.4 ms at 270°, longer at 220°; Θ = θ_lift/(2 sin(π f Δt)); entering 52° instead reads 319°, with the rate unchanged. |
+| 12 | `scene12_credits.py` | 23 s | End credits over the same escapement. |
+
+Film 6's numbers come from `films/film06_escapement/figures.py`, which computes each one and cites its source: the reference chapter, G. Petrangeli's "Mathematics of a Watch Escapement" (2017), ETA's CT 6497-1 (lift angle 44°), WOSTEP, Seiko's US Patent 6,431,746 (FIG. 8, the torque curve) and Horopedia (the torsiometer); `python figures.py` prints the table. Petrangeli's balance is a model Swiss lever at the 6497's frequency, not the 6497, and the scenes say so when they quote him. The balance losses, amplitudes and Q are representative, and anything exaggerated is tagged on screen. Film 6 reuses Films 4 and 5's helpers through `prev.py` (every scene imports it first). Its own `lever.py` is a 2D Swiss lever close-up whose outlines are traced from the chapter's anatomy figure: `python lever.py` solves the contacts between wheel, stones, fork and roller jewel against the balance angle with Shapely and writes `lever_table.json`, and `LeverEscapement` plays it back, driven by trackers for speed, slow motion near the center, visibility and manual angle, logging each unlock, impulse and drop for the tick track. `ui6.py` adds callouts, Pango-markup formulas with subscripts, and writers for `.ticks.txt` and `.sfx.txt`.
+
 ## Quick start (macOS)
 
 ```bash
@@ -112,6 +133,7 @@ python film.py 2 --build                         # the same for Film 2
 python film.py 3 --build                         # and Film 3
 python film.py 4 --build                         # and Film 4
 python film.py 5 --build                         # and Film 5
+python film.py 6 --build                         # and Film 6
 ```
 
 On Linux, install the system libraries with `sudo apt install libcairo2-dev libpango1.0-dev pkg-config ffmpeg`, then use a fresh environment (for example `conda create -n watch python=3.12`) and `pip install -r requirements.txt`. Installing into an existing base environment can leave mismatched NumPy and SciPy versions.
@@ -143,7 +165,7 @@ python film.py 1 --build        # build every scene at 1080p first, then join
 python film.py 1 --build -q l   # quick 480p preview of the whole film
 ```
 
-`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4, `out/isochronism.mp4` for Film 5) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
+`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4, `out/isochronism.mp4` for Film 5, `out/escapement.mp4` for Film 6) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
 
 ## Making changes
 
@@ -155,7 +177,7 @@ Most adjustments need no code changes:
 - **Title and credits wording:** `TITLE`, `TAGLINE` in the film's `scene00_title.py`; the `CREDITS` list in its credits scene.
 - **Running order and chapter names:** the `SCENES` list in the film's `running_order.py`.
 - **Pronunciation:** if Kokoro misreads a word, add a respelling to the `PRONOUNCE` table in `build.py` (for example "wound" → "wownd", "ETA" → "E-T-A"). It changes only what the voice says; captions keep the real spelling.
-- **Sound effects:** an optional `<scene>.sfx.txt` lists `time | click [| level]` lines, mixed in at `--sfx-level`. Film 2's winding scene writes its own from its winding schedule, so the clicks follow the ratchet teeth. Film 4's slow-motion scenes write a `<scene>.ticks.txt` of beat times, which replaces the steady tick track. Film 5's beat-error scene writes both: its ticks follow the balance across the line of centers, and its listening demo uses two pitched tick sounds, `wood` and `bell`.
+- **Sound effects:** an optional `<scene>.sfx.txt` lists `time | click [| level]` lines, mixed in at `--sfx-level`. Film 2's winding scene writes its own from its winding schedule, so the clicks follow the ratchet teeth. Film 4's slow-motion scenes write a `<scene>.ticks.txt` of beat times, which replaces the steady tick track. Film 5's beat-error scene writes both: its ticks follow the balance across the line of centers, and its listening demo uses two pitched tick sounds, `wood` and `bell`. Film 6's lift-angle scene writes a `.sfx.txt` for its slowed three-sound tick (`wood` for the unlock, `click` for the impulse, `bell` for the drop), and its escapement close-ups write `.ticks.txt` from the drops.
 - **Voice:** pass `--voice` to `build.py`. The default is `bm_george` (British male). Other options include `am_michael` and `am_onyx` (American male) and `bf_emma` (British female). Kokoro has many more.
 
 Structural changes, such as new parts, new motion or new shots, go in `movement.py` or a new scene file.
@@ -191,6 +213,13 @@ films/
     figures.py                      every number in the film, computed and sourced (incl. the Phillips curve)
     f4.py, iso.py                   reuse of Film 4's helpers; amplitude-dependent balance, tick log, plots
     scene00_title.py ... scene08_credits.py, each narrated scene with its .voice.txt
+  film06_escapement/                Film 6: the Swiss lever escapement and the limit cycle
+    running_order.py
+    figures.py                      every number in the film, computed and sourced
+    prev.py                         puts Films 4 and 5's helpers on the path (imported first)
+    lever.py                        2D Swiss lever close-up with solved contacts (lever_geometry.json -> lever_table.json)
+    ui6.py                          callouts, subscript formulas, tick and sound-effect writers
+    scene00_title.py ... scene12_credits.py, each narrated scene with its .voice.txt
 films.py                            finds films and scenes by name (used by build.py and film.py)
 build.py                            render -> TTS -> mix -> captions -> mux, one scene
 film.py                             join one film's built scenes into a film with chapters
@@ -232,6 +261,8 @@ Film 3: produced by David Joyner; Python code, design, text, and rendering with 
 Film 4: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "The regulating organ"; ETA's technical communication for the 6497-1 / 6498-1. The balance inertia, hairspring dimensions, amplitude and Q are the chapter's representative values; ETA does not publish them.
 
 Film 5: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "Isochronism: anharmonicity, the Duffing correction, and the overcoil"; E. Phillips, "Mémoire sur le spiral réglant des chronomètres et des montres," *Journal de mathématiques pures et appliquées* (1860); ETA's technical communication for the 6497-1 / 6498-1. The amplitudes, β and beat error are representative values; ETA does not publish them.
+
+Film 6: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "The escapement: impulses, Airy's theorem, and the limit cycle"; G. Petrangeli, "Mathematics of a Watch Escapement" (2017); G. B. Airy, "On the Disturbances of Pendulums and Balances, and on the Theory of Escapements," *Trans. Cambridge Phil. Soc.* 3 (1830, read 1826); Seiko Epson, US Patent 6,431,746 B1 (2002), FIG. 8; Horopedia, "The torsiometer"; ETA's technical communication CT 6497-1; WOSTEP, *The Theory of Horology*. The balance losses, amplitudes and Q are representative values; ETA does not publish them.
 
 - Animation: [Manim Community](https://www.manim.community/)
 - Geometry: [Shapely](https://shapely.readthedocs.io/)
