@@ -83,7 +83,7 @@ class Scene07(Scene):
 
         dot = Dot(p.c2p(star, e_in), radius=0.1, color=WHITE)
         drop = DashedLine(p.c2p(star, e_in), p.c2p(star, 0), stroke_width=1.5, color=WHITE)
-        sl = fmark(TEXT["star"], 0.55, WHITE).next_to(p.c2p(star, e_in * 0.55), LEFT, buff=0.12)
+        sl = fmark(TEXT["star"], 0.55, WHITE).next_to(p.c2p(star, e_in * 0.72), LEFT, buff=0.1)
         a_less = Arrow(p.c2p(150, 0.02), p.c2p(240, 0.02), buff=0, stroke_width=5, color=GLOW, tip_length=0.18)
         a_more = Arrow(p.c2p(355, 0.02), p.c2p(300, 0.02), buff=0, stroke_width=5, color=WARM, tip_length=0.18)
         t_less = label(TEXT["gain"], 0.22, GLOW).next_to(a_less, UP, buff=0.06)
