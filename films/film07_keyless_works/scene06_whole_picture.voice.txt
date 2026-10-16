@@ -1,0 +1,11 @@
+# Narration for scene06_whole_picture.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Put it all together.
+3.3  | The crown turns the stem, and the keyless works sends that turning one of two ways.
+9.6  | Pushed in, it goes through the winding works to the mainspring.
+14.2 | Pulled out, it goes through the motion work to the hands.
+18.5 | So the crown supplies two different things.
+22.0 | Pushed in, it supplies energy, which the barrel stores and the train spends.
+27.9 | Pulled out, it supplies information: the time you want the hands to show.
+33.4 | Sliding the stem picks the destination; turning it drives it.

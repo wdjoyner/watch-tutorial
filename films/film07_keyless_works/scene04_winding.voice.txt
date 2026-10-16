@@ -1,0 +1,12 @@
+# Narration for scene04_winding.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Pushed in, turning the crown winds the mainspring.
+5.0  | The sliding pinion turns the winding pinion, which turns the crown wheel, which turns the ratchet wheel on the barrel arbor.
+14.0 | The arbor reels in the spring, as we saw in Film 2.
+18.9 | The click lets the ratchet turn one way only.
+23.1 | Turn the crown backward, and the Breguet teeth ride over each other, so nothing unwinds.
+29.8 | In this model, each turn of the crown moves the ratchet sixteen teeth: sixteen clicks.
+36.6 | The barrel has about eight turns to give, so a full wind takes about thirty turns of the crown.
+43.9 | Then the running path takes over: the spring turns the barrel drum, and the drum drives the gear train.
+51.6 | Winding turns the arbor, and running turns the drum.

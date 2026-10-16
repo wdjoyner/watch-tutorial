@@ -1,0 +1,14 @@
+# Narration for scene03_two_positions.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Here is the keyless works drawn flat. Pushed in, the crown is in the winding position.
+7.8  | The yoke spring holds the sliding pinion against the winding pinion.
+13.3 | Their facing teeth are Breguet teeth, cut like a ratchet, so they lock when the crown turns forward.
+20.9 | Now pull the crown out, slowly.
+24.0 | The groove in the stem turns the setting lever.
+27.9 | The lever swings the yoke, and the yoke slides the sliding pinion off the winding pinion and onto the setting wheel.
+36.4 | The jumper snaps into its second notch and holds it there.
+41.0 | Pushing the crown back reverses every step.
+45.0 | The crown only ever turns the stem; sliding the stem chooses where that turning goes.
+52.0 | The reference text numbers three positions, zero to two, and position one sets the date.
+59.0 | The sixty-four ninety-seven has no date, so its stem has just two: pushed in is position zero, and pulled out is position two.

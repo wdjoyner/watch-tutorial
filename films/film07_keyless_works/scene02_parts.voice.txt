@@ -1,0 +1,11 @@
+# Narration for scene02_parts.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Turn the movement over, to the dial side. The keyless works sits beside the crown.
+7.4  | The crown is the knob you turn. It turns the stem, a steel shaft that can also slide in and out.
+15.3 | On the stem's round part, the winding pinion turns freely.
+20.2 | On its square part, the sliding pinion slides along the stem, but always turns with it, so it works as a clutch.
+28.6 | The setting lever has a pin in a groove on the stem, so it turns when the stem is pulled.
+35.3 | It moves the yoke, a forked arm that holds the sliding pinion, and the yoke spring pushes back.
+42.6 | The setting lever jumper is a spring with notches that holds the lever in each position.
+49.3 | The setting wheels lead to the motion work: the minute wheel, the cannon pinion, which carries the minute hand, and the hour wheel, which carries the hour hand.

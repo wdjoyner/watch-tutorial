@@ -1,0 +1,11 @@
+# Narration for scene05_setting.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Pulled out, the sliding pinion turns the setting wheel, which turns the intermediate setting wheel, which turns the minute wheel.
+9.6  | The minute wheel turns the cannon pinion and the minute hand, and, through its own pinion, the hour wheel and the hour hand.
+18.0 | Thirty-six to twelve, times forty to ten, is twelve to one, just as in Film 3, so the hands stay together.
+26.6 | The two setting wheels only pass the motion along; their tooth counts cancel.
+32.6 | But the cannon pinion sits on the center wheel's arbor, and the going train is still turning that arbor.
+40.0 | So how can the hands turn freely?
+43.2 | The cannon pinion grips the arbor only by friction: tight enough to carry the hands, loose enough to slip under the crown.
+51.9 | It is a slipping clutch. The hands move, and the train never feels it.

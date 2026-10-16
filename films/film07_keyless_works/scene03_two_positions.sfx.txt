@@ -1,0 +1,4 @@
+# Written by the scene on every render: time | sound | level.
+36.800 | click | 0.7
+44.000 | click | 0.7
+48.733 | click | 0.7

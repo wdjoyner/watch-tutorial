@@ -1,0 +1,8 @@
+# Narration for scene01_recap.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Over six films, we followed the energy through a watch.
+5.7  | The mainspring stores it. The gear train carries it. The escapement and the balance meter it out, one beat at a time.
+14.4 | One part is left: the part you touch.
+18.0 | Old watches needed a key to wind them, and another to set the hands.
+23.5 | The keyless works does both, with the crown alone. That is this film.

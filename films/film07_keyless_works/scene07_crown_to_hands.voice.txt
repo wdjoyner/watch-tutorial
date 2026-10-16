@@ -1,0 +1,13 @@
+# Narration for scene07_crown_to_hands.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | This is the last film in the series, so let's make one pass through the whole movement.
+7.0  | Film one laid out its three tiers.
+10.6 | Here at the crown is the keyless works.
+14.2 | Winding feeds the barrel, where the mainspring stores the energy: Film two.
+20.2 | The gear train carries it, wheel by wheel: Film three.
+24.8 | At the end of the train, the escapement locks and releases it, and keeps the balance swinging: Film six.
+32.5 | The balance and hairspring set the pace: Film four.
+36.7 | Film five asked why that pace drifts with the size of the swing.
+42.1 | Back under the dial, the motion work turns the hands.
+46.4 | From the crown to the hands, that is how a watch works.
