@@ -182,7 +182,7 @@ class Scene04(Scene):
         # ---------------------------------------------------------- text
         head = heading(*TEXT["head"]).to_corner(UL, buff=0.45)
         side_l = label(TEXT["dial_side"], 0.22, GREY_B).move_to([-2.3, -0.75, 0])
-        side_r = label(TEXT["bridge_side"], 0.22, GREY_B).move_to([BR_C[0] - 1.9, -1.0, 0])
+        side_r = label(TEXT["bridge_side"], 0.22, GREY_B).move_to([BR_C[0], -1.55, 0])
 
         def P(xy):
             return np.array([xy[0], xy[1], 0.0])
@@ -263,7 +263,7 @@ class Scene04(Scene):
         # ---------------------------------------------------------- to a full wind
         wait_until(FULL_AT)
         full = ftext(TEXT["full"].format(F.DEV_TURNS, Z_RATCHET, F.Z_WIND_PINION, F.CROWN_TURNS_FULL), 0.42,
-                     WIND_COLOR).move_to([2.35, -2.0, 0])
+                     WIND_COLOR).move_to([2.85, -2.0, 0])
         note = label(TEXT["full_note"], 0.2, GREY_B).next_to(full, DOWN, buff=0.15)
         self.play(FadeIn(full, shift=UP * 0.1), FadeIn(note), run_time=0.9)
 
@@ -271,7 +271,7 @@ class Scene04(Scene):
         wait_until(RUN_AT)
         sped = tag(TEXT["sped"], GLOW, 0.2).move_to([BR_C[0] + 1.6, 2.5, 0])
         c_drum = callout(TEXT["drum"], lambda: P(BR_C + polar(R_DRUM, 225)[:2]), (1.4, -0.75), color=RUN_COLOR)
-        c_cent = callout(TEXT["center"], lambda: P(cp_c), (4.6, -1.95), color=RUN_COLOR)
+        c_cent = callout(TEXT["center"], lambda: P(cp_c), (4.9, -2.3), color=RUN_COLOR)
         self.play(FadeOut(count_lbl), FadeOut(num), FadeOut(model), FadeOut(one), FadeOut(full), FadeOut(note),
                   FadeOut(pushed), inset_vis.animate.set_value(0.0), FadeOut(inset_cap), run_time=0.6)
         self.play(FadeIn(c_drum), FadeIn(c_cent), FadeIn(sped), run_time=0.7)
