@@ -53,7 +53,7 @@ FINAL_HOLD_UNTIL = 60.2        # the last line ends about 59.2 s
 FADE_OUT = 1.5
 
 # --- camera and layout ----------------------------------------------
-CAM_START = dict(phi=14, theta=-90, zoom=1.0)
+CAM_START = dict(phi=14, theta=-90, zoom=0.86)
 RING_KEYLESS = ((2.65, 0.15), 1.25)       # (dial-up model xy, radius), around the keyless works
 RING_MOTION = ((-0.55, -0.35), 1.05)      # around the motion work
 WIND_COLOR, SET_COLOR = "#ffb54a", "#7fe0a0"
@@ -125,7 +125,7 @@ class Scene02(ThreeDScene):
 
         # straight down, then crossfade to the flat view
         wait_until(FLAT[0])
-        self.move_camera(phi=0, theta=-90 * DEGREES, run_time=FLAT[1] - FLAT[0],
+        self.move_camera(phi=0, theta=-90 * DEGREES, zoom=1.0, run_time=FLAT[1] - FLAT[0],
                          added_anims=[dim["dial"].animate.set_value(0.0), FadeOut(rings),
                                       kw.vis.animate.set_value(1.0), ds.vis.animate.set_value(1.0),
                                       ds.hands_vis.animate.set_value(1.0), FadeIn(flat_tag)])
