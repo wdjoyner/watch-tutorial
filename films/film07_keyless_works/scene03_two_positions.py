@@ -68,7 +68,8 @@ TEXT = dict(
     yoke_spring="yoke spring", sliding="sliding pinion", winding="winding pinion",
     breguet="Breguet teeth: they lock\nwhen the crown turns forward",
     groove="groove in the stem", lever="setting lever", yoke="yoke", setting_wheel="setting wheel",
-    jumper="jumper: a notch\nfor each position",
+    jumper="setting lever jumper:\na notch for each position",
+    crown="crown", stem="stem",
     demo_wind="turning the crown pushed in:\nthe winding pinion turns",
     demo_set="turning the crown pulled out:\nthe setting wheel turns",
     key_head="crown positions",
@@ -112,7 +113,10 @@ class Scene03(Scene):
         wait_until(HEAD_AT)
         self.play(FadeIn(head), FadeIn(schem), run_time=0.8)
         wait_until(WIND_POS_AT)
-        self.play(FadeIn(pos_in, shift=DOWN * 0.1), *glow(["crown"], 1.0), run_time=0.7)
+        c_crown = callout(TEXT["crown"], lambda: kw.anchor("crown"), (1.3, 2.75))
+        c_stem = callout(TEXT["stem"], lambda: kw.anchor("stem"), (-2.0, 0.9))
+        self.play(FadeIn(pos_in, shift=DOWN * 0.1), FadeIn(c_crown), FadeIn(c_stem), *glow(["crown"], 1.0),
+                  run_time=0.7)
         self.play(*glow(["crown"], 0.0), run_time=0.6)
 
         wait_until(SPRING_AT)
@@ -126,7 +130,7 @@ class Scene03(Scene):
 
         # ---------------------------------------------------------- the Breguet teeth, magnified
         wait_until(ZOOM_IN_AT)
-        self.play(FadeOut(c_spring), FadeOut(c_slide), FadeOut(c_wind), run_time=0.4)
+        self.play(FadeOut(c_spring), FadeOut(c_slide), FadeOut(c_wind), FadeOut(c_crown), FadeOut(c_stem), run_time=0.4)
         self.play(*kw.zoom_to(CLUTCH_LOCAL, ZOOM_SCREEN, ZOOM_SCALE), FadeIn(zoom_tag), mask.animate.set_fill(opacity=1),
                   run_time=1.6, rate_func=smooth)
         c_breg = callout(TEXT["breguet"], lambda: kw.anchor("breguet"), (2.9, -1.6))
@@ -139,7 +143,8 @@ class Scene03(Scene):
 
         # ---------------------------------------------------------- the slow pull
         wait_until(PULL_SAY_AT)
-        self.play(FadeIn(slowed, shift=DOWN * 0.1), *glow(["crown"], 1.0), run_time=0.6)
+        c_crown2 = callout(TEXT["crown"], lambda: kw.anchor("crown"), (1.3, 2.75))
+        self.play(FadeIn(slowed, shift=DOWN * 0.1), FadeIn(c_crown2), *glow(["crown"], 1.0), run_time=0.6)
         wait_until(PULL_START)
         pull_up = kw.pull.animate(run_time=HUMP_AT - PULL_START, rate_func=linear).set_value(0.5)
         c_groove = callout(TEXT["groove"], lambda: kw.anchor("groove"), (2.9, 2.45))
@@ -164,7 +169,7 @@ class Scene03(Scene):
         self.play(FadeIn(c_jump), FadeOut(pos_in), FadeIn(pos_out), run_time=0.7)
         self.wait(2.0)
         self.play(*glow(["setting_lever", "yoke", "sliding_pinion", "setting_wheel", "jumper"], 0.0),
-                  *[FadeOut(c) for c in (c_groove, c_lever, c_yoke, c_slide2, c_sw, c_jump)], run_time=0.8)
+                  *[FadeOut(c) for c in (c_groove, c_lever, c_yoke, c_slide2, c_sw, c_jump, c_crown2)], run_time=0.8)
 
         # ---------------------------------------------------------- push back
         wait_until(PUSH_AT)

@@ -72,8 +72,9 @@ TEXT = dict(
     head=("WINDING", "crown pushed in"),
     dial_side="dial side", bridge_side="bridge side",
     sliding="sliding pinion", winding="winding pinion", crown_wheel="crown wheel", ratchet="ratchet wheel",
-    arbor="arbor", click="click: one way only", plate="through the plate",
-    inset="the spring (Film 2)", back="turned backward", ride="Breguet teeth\nride over",
+    arbor="barrel arbor", click="click: one way only", plate="through the plate",
+    inset="mainspring (Film 2)",
+    crown="crown", stem="stem", back="turned backward", ride="Breguet teeth\nride over",
     held="held by the click", count="clicks", model="in this model",
     one_turn="1 crown turn  =  {} clicks", full="{:.0f} barrel turns  ×  {} / {}  ≈  {:.0f} crown turns",
     full_note="about 8 turns from let down to fully wound (Film 2)",
@@ -192,6 +193,8 @@ class Scene04(Scene):
         c_rat = callout(TEXT["ratchet"], lambda: P(BR_C + np.array([0.5, 0.75])), (5.9, 2.5), color=WIND_COLOR)
         c_arb = callout(TEXT["arbor"], lambda: P(BR_C), (6.2, 1.2), color=WIND_COLOR)
         c_click = callout(TEXT["click"], lambda: P(cl_p), (1.0, -0.6), color=WHITE)
+        c_crown = callout(TEXT["crown"], lambda: kw.anchor("crown"), (-0.85, 1.3), color=WIND_COLOR)
+        c_stem = callout(TEXT["stem"], lambda: kw.anchor("stem"), (-3.45, 1.15), color=WIND_COLOR)
         plate = DashedVMobject(ArcBetweenPoints(kw.anchor("winding_pinion") + UP * 0.25, P(cw_c) + LEFT * 0.4,
                                                 angle=-0.9), num_dashes=22).set_stroke(WIND_COLOR, 2.5)
         plate_lbl = label(TEXT["plate"], 0.2, WIND_COLOR).move_to([0.35, 2.05, 0])
@@ -213,6 +216,7 @@ class Scene04(Scene):
             return Succession(Wait(max(0.0, t - WIND[0])), AnimationGroup(*anims, run_time=run_time))
         self.play(kw.spin.animate(run_time=WIND[1] - WIND[0], rate_func=rate_functions.ease_in_out_sine)
                   .increment_value(turns),
+                  at(WIND[0] + 0.2, FadeIn(c_crown), FadeIn(c_stem)),
                   at(LABEL_AT["sliding"], FadeIn(c_slide), kw.glow["sliding_pinion"].animate.set_value(1.0)),
                   at(LABEL_AT["winding"], FadeIn(c_wind), kw.glow["winding_pinion"].animate.set_value(1.0)),
                   at(LABEL_AT["crown_wheel"], Create(plate), FadeIn(plate_lbl), FadeIn(c_cw), run_time=1.0),

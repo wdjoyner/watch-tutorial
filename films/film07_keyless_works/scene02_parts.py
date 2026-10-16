@@ -75,6 +75,13 @@ TEXT = dict(
     cannon="cannon pinion: carries\nthe minute hand",
     hour="hour wheel: carries\nthe hour hand",
 )
+# short name tags that stay on each part once its definition has faded: (name, screen position)
+TAGS = dict(
+    crown=("crown", (5.45, 3.3)), stem=("stem", (3.7, 3.3)), winding=("winding pinion", (2.45, 1.65)),
+    sliding=("sliding pinion", (0.95, 3.3)), lever=("setting lever", (4.6, 1.45)), yoke=("yoke", (1.95, 0.35)),
+    spring=("yoke spring", (-0.45, -0.3)), jumper=("setting lever jumper", (5.55, -1.15)),
+)
+TAG_SCALE, TAG_COLOR = 0.2, GREY_A
 # =====================================================================
 
 
@@ -134,41 +141,48 @@ class Scene02(ThreeDScene):
         # ---------------------------------------------------------- the parts, one by one
         shown = []
 
-        def name(text, anchor, at, parts=(), color=WHITE, many=False, keep=1):
-            """Fade out older callouts (keeping `keep`), then show this one and light its parts."""
+        def name(text, anchor, at, parts=(), color=WHITE, many=False, keep=1, tag_key=None):
+            """Fade out older callouts (keeping `keep`), leaving a short name tag on each part that has one,
+            then show this callout and light its parts."""
             c = (callouts if many else callout)(text, anchor, at, color=color, scale=0.24)
             old = shown[:-keep] if keep else shown[:]
             for o in old:
                 shown.remove(o)
             anims = [FadeOut(o[0]) for o in old] + [*[kw.glow[p].animate.set_value(0.0) for o in old for p in o[1]]]
+            for o in old:
+                if o[2]:
+                    t, pos = TAGS[o[2]]
+                    anims.append(FadeIn(callout(t, o[3], pos, color=TAG_COLOR, scale=TAG_SCALE)))
             anims += [FadeIn(c)] + [kw.glow[p].animate.set_value(1.0) for p in parts]
-            shown.append((c, parts))
+            shown.append((c, parts, tag_key, anchor))
             self.play(*anims, run_time=0.7)
 
         wait_until(CROWN_AT)
-        name(TEXT["crown"], lambda: kw.anchor("crown"), (5.0, 3.35), ("crown",))
+        name(TEXT["crown"], lambda: kw.anchor("crown"), (5.0, 3.35), ("crown",), tag_key="crown")
         wait_until(STEM_AT)
-        name(TEXT["stem"], lambda: kw.anchor("stem"), (2.3, 3.35), ("stem",))
+        name(TEXT["stem"], lambda: kw.anchor("stem"), (2.3, 3.35), ("stem",), tag_key="stem")
         wait_until(STEM_SLIDE[0])
         self.play(kw.pull.animate.set_value(0.15), run_time=1.1, rate_func=smooth)
         self.play(kw.pull.animate.set_value(0.0), run_time=1.1, rate_func=smooth)
         wait_until(WIND_PIN_AT)
-        name(TEXT["winding"], lambda: kw.anchor("winding_pinion"), (5.35, 1.35), ("winding_pinion",), keep=0)
+        name(TEXT["winding"], lambda: kw.anchor("winding_pinion"), (5.35, 1.35), ("winding_pinion",), keep=0,
+             tag_key="winding")
         wait_until(SLIDING_AT)
-        name(TEXT["sliding"], lambda: kw.anchor("sliding_pinion"), (0.1, 3.35), ("sliding_pinion",))
+        name(TEXT["sliding"], lambda: kw.anchor("sliding_pinion"), (0.1, 3.35), ("sliding_pinion",), tag_key="sliding")
         wait_until(SPIN[0])
         self.play(ds.crown.animate.increment_value(0.6), run_time=SPIN[1] - SPIN[0], rate_func=smooth)
         wait_until(LEVER_AT)
-        name(TEXT["lever"], lambda: kw.anchor("setting_lever"), (5.3, 1.15), ("setting_lever", "stem"), keep=0)
+        name(TEXT["lever"], lambda: kw.anchor("setting_lever"), (5.3, 1.15), ("setting_lever", "stem"), keep=0,
+             tag_key="lever")
         wait_until(LEVER_WIGGLE[0])
         self.play(kw.pull.animate.set_value(0.16), run_time=1.4, rate_func=smooth)
         self.play(kw.pull.animate.set_value(0.0), run_time=1.4, rate_func=smooth)
         wait_until(YOKE_AT)
-        name(TEXT["yoke"], lambda: kw.anchor("yoke"), (2.5, -1.35), ("yoke",), keep=0)
+        name(TEXT["yoke"], lambda: kw.anchor("yoke"), (2.5, -1.35), ("yoke",), keep=0, tag_key="yoke")
         wait_until(SPRING_AT)
-        name(TEXT["spring"], lambda: kw.anchor("yoke_spring"), (-0.6, -1.45), ("yoke_spring",))
+        name(TEXT["spring"], lambda: kw.anchor("yoke_spring"), (-0.6, -1.45), ("yoke_spring",), tag_key="spring")
         wait_until(JUMPER_AT)
-        name(TEXT["jumper"], lambda: kw.anchor("jumper"), (4.9, -1.5), ("jumper",), keep=0)
+        name(TEXT["jumper"], lambda: kw.anchor("jumper"), (4.9, -1.5), ("jumper",), keep=0, tag_key="jumper")
         wait_until(SETTING_AT)
         name(TEXT["setting"], [ds.gp("setting", 70), ds.gp("inter", 95)], (-0.3, 2.9), color=SET_COLOR, many=True,
              keep=0)

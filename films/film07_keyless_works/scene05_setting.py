@@ -69,6 +69,7 @@ TEXT = dict(
     arbor="center wheel's arbor: turned by the going train", sped="train sped up",
     question="?", friction="friction fit", clutch="a slipping clutch: the hands move, the arbor keeps its pace",
     schematic="schematic; setting-wheel tooth counts illustrative",
+    crown="crown", sliding="sliding pinion",
 )
 # =====================================================================
 
@@ -94,6 +95,8 @@ class Scene05(Scene):
 
         gp = ds.gp
         calls = dict(
+            crown=callout(TEXT["crown"], lambda: kw.anchor("crown"), (6.05, 2.1), color=WHITE),
+            sliding=callout(TEXT["sliding"], lambda: kw.anchor("sliding_pinion"), (2.6, 3.25), color=WHITE),
             setting=callout(TEXT["setting"], gp("setting", 60), (0.75, 2.8), color=SET_COLOR),
             intermediate=callout(TEXT["intermediate"], gp("inter", 100), (-1.3, 2.55), color=SET_COLOR),
             minute=callout(TEXT["minute"], gp("minute", 120), (-4.4, 2.0), color=SET_COLOR),
@@ -111,7 +114,8 @@ class Scene05(Scene):
                   run_time=FADE_IN)
         self.remove(cur)
         wait_until(HEAD_AT)
-        self.play(FadeIn(head), FadeIn(pulled), FadeIn(schem), run_time=0.6)
+        self.play(FadeIn(head), FadeIn(pulled), FadeIn(schem), FadeIn(calls["crown"]), FadeIn(calls["sliding"]),
+                  run_time=0.6)
 
         # ---------------------------------------------------------- setting: the train and the hands
         def at(t0, t, *anims, run_time=0.7):
@@ -138,15 +142,15 @@ class Scene05(Scene):
         # ---------------------------------------------------------- the arbor keeps turning
         wait_until(ARBOR_AT)
         a_lbl = callout(TEXT["arbor"], lambda: c0 + 0.3 * np.array([np.cos(arbor_mark._ang),
-                                                                    np.sin(arbor_mark._ang), 0]), (-2.4, -2.35))
+                                                                    np.sin(arbor_mark._ang), 0]), (0.2, -2.3))
         sped = tag(TEXT["sped"], GLOW, 0.2).next_to(schem, DOWN, buff=0.12, aligned_edge=RIGHT)
         q = label(TEXT["question"], 0.9, GLOW, bold=True).move_to(c0 + np.array([1.1, 1.0, 0]))
         ring = Circle(radius=0.2).move_to(c0).set_stroke(GLOW, 5, 0)
         fric = label(TEXT["friction"], 0.26, GLOW, bold=True).move_to(c0 + np.array([1.55, 0.45, 0]))
         clutch = label(TEXT["clutch"], 0.26, GLOW, bold=True).move_to([1.6, -2.42, 0])
         self.play(FadeOut(ratio), FadeOut(rnote), FadeOut(idler), *[FadeOut(c) for k, c in calls.items()
-                                                                    if k not in ("cannon",)],
-                  FadeOut(calls["cannon"]), mark_vis.animate.set_value(1.0), FadeIn(a_lbl), FadeIn(sped),
+                                                                    if k not in ("cannon", "minute_hand", "hour_hand")],
+                  mark_vis.animate.set_value(1.0), FadeIn(a_lbl), FadeIn(sped),
                   run_time=0.8)
         run = arbor.animate(run_time=RUN[1] - RUN[0], rate_func=linear).set_value(ARBOR_TURNS)
         t0 = RUN[0]
