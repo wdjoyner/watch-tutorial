@@ -41,8 +41,8 @@ FADE_OUT = 1.5
 CYCLES, N = 3, 400
 RUN_MU_VIS, RUN_MU_COU = 1 / 6, 0.1     # EXAGGERATED further than the chapter's run (Q 6), so the jumps show
 RUN_E_IN = 11.1                       # energy per cycle that holds this run at about 4.24
-PLOT_X, PLOT_W, PLOT_H = -6.2, 7.0, 1.55
-ANGLE_Y, SPEED_Y = 0.05, -2.35        # vertical centers of the two plots
+PLOT_X, PLOT_W, PLOT_H = -6.2, 7.0, 1.3
+ANGLE_Y, SPEED_Y = 0.65, -1.15        # vertical centers of the two plots (all above the caption band)
 TEXT = dict(lhs=("I φ″", "+ c φ′", "+ κ φ", "+ β φ³"), eq="=", rhs="Σ Jₖ δ(t − tₖ)",
             under=("inertia", "damping", "hairspring", "cubic term", "kicks at times tₖ"),
             angle="angle φ", speed="speed φ′  (the kicks)", time="time", stays="the angle is continuous",
@@ -89,23 +89,23 @@ class Scene04(Scene):
         stays = label(TEXT["stays"], 0.22, COOL).next_to(pa.c2p(CYCLES, 0), RIGHT, buff=0.25)
         jumps = label(TEXT["jumps"], 0.22, WARM).next_to(ps.c2p(CYCLES, 0), RIGHT, buff=0.25)
         exag = tag(TEXT["exag"], GLOW, 0.18).next_to(ps.x_axis, DOWN, buff=0.15).align_to(ps.x_axis, LEFT)
-        hybrid = label(TEXT["hybrid"], 0.3, GLOW, bold=True).next_to(eq, DOWN, buff=0.75)
+        hybrid = label(TEXT["hybrid"], 0.3, GLOW, bold=True).next_to(eq, DOWN, buff=0.45)
         plots = VGroup(pa, ps, zero_a, zero_s, labs)
 
         # the kick's energy: speed across the swing, kick at the center and halfway out
         px0 = 1.9
-        pe = Plot((px0, -3.2), 4.0, 2.3, (-1.05, 1.05), (0, 1.15))
+        pe = Plot((px0, -2.15), 4.0, 1.8, (-1.05, 1.05), (0, 1.15))
         prof = pe.curve(lambda u: np.sqrt(max(0.0, 1 - u * u)), -1, 1, color=WARM, width=3)
-        e_eq = ftext(TEXT["energy"], 0.5).next_to(pe, UP, buff=0.55).align_to(pe, LEFT)
+        e_eq = ftext(TEXT["energy"], 0.5).next_to(pe, UP, buff=0.85).align_to(pe, LEFT)
         e_lbl = label(TEXT["sp"], 0.2, WARM).next_to(pe.y_axis, UP, buff=0.06)
-        ax_lbls = VGroup(label("−A", 0.2).next_to(pe.c2p(-1, 0), DOWN, buff=0.1),
+        ax_lbls = VGroup(label("−Θ", 0.2).next_to(pe.c2p(-1, 0), DOWN, buff=0.1),
                          label("0", 0.2).next_to(pe.c2p(0, 0), DOWN, buff=0.1),
-                         label("+A", 0.2).next_to(pe.c2p(1, 0), DOWN, buff=0.1))
+                         label("+Θ", 0.2).next_to(pe.c2p(1, 0), DOWN, buff=0.1))
         k_c = Arrow(pe.c2p(0, 0), pe.c2p(0, 1.0), buff=0, stroke_width=5, color=GLOW, tip_length=0.16)
         k_h = Arrow(pe.c2p(0.5, 0), pe.c2p(0.5, F.KICK_AT_HALF), buff=0, stroke_width=5, color=GLOW, tip_length=0.16)
         t_c = label(f'{TEXT["center"]}: 100%', 0.2, GLOW).next_to(k_c, UP, buff=0.06).shift(LEFT * 0.35)
         t_h = label(f'{TEXT["half"]}: ' + TEXT["pct"].format(F.KICK_AT_HALF * 100), 0.2, GLOW).next_to(k_h, RIGHT, buff=0.08)
-        fastest = label(TEXT["fastest"], 0.22, GREY_A).next_to(pe.x_axis, DOWN, buff=0.45)
+        fastest = label(TEXT["fastest"], 0.22, GREY_A).next_to(e_eq, DOWN, buff=0.15).align_to(e_eq, LEFT)
 
         cur = curtain()
         self.add(cur)
@@ -130,7 +130,7 @@ class Scene04(Scene):
         self.play(FadeIn(hybrid, shift=UP * 0.1), run_time=0.8)
         wait_until(ENERGY_AT)
         lower = VGroup(plots, ang, spd, marks, jump_dots, stays, jumps, exag)
-        self.play(lower.animate.scale(0.62, about_point=[PLOT_X, -3.9, 0]), FadeOut(hybrid), run_time=1.0)
+        self.play(lower.animate.scale(0.74, about_point=[PLOT_X, -2.6, 0]), FadeOut(hybrid), run_time=1.0)
         self.play(Write(e_eq), FadeIn(pe), FadeIn(e_lbl), FadeIn(ax_lbls), Create(prof), run_time=1.4)
         wait_until(CENTER_AT)
         self.play(GrowArrow(k_c), FadeIn(t_c), FadeIn(fastest), run_time=0.8)

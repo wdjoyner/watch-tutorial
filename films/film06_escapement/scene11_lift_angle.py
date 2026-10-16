@@ -79,11 +79,11 @@ class Scene11(Scene):
         w = TAU * F.F_6497
         phi = lambda amp: (lambda tm: amp * np.sin(w * tm / 1000.0))
         a_big, a_small = F.AMP / F.DEG, F.AMP_LOW / F.DEG
-        p = Plot((-6.3, -3.0), 7.0, 4.6, (-T_MS, T_MS), (-300, 300))
+        p = Plot((-6.3, -2.05), 7.0, 4.0, (-T_MS, T_MS), (-300, 300))     # above the caption band
         zero = DashedLine(p.c2p(-T_MS, 0), p.c2p(T_MS, 0), stroke_width=1, color=GREY_D)
         ticks = VGroup(*[p.xtick(x, f"{x:.0f}", 0.2) for x in (-100, -50, 0, 50, 100)],
                        *[p.ytick(y, f"{y:+.0f}°".replace("+0", "0"), 0.2) for y in (-270, 0, 270)])
-        axl = VGroup(label(TEXT["t"], 0.22).next_to(p.x_axis, DOWN, buff=0.38).align_to(p.x_axis, RIGHT),
+        axl = VGroup(label(TEXT["t"], 0.22).next_to(p.x_axis, DOWN, buff=0.32).align_to(p.x_axis, RIGHT),
                      label(TEXT["phi"], 0.22).next_to(p.y_axis, UP, buff=0.08).align_to(p.y_axis, LEFT))
         c_big = p.curve(phi(a_big), -T_MS, T_MS, color=COOL, width=3)
         c_small = DashedVMobject(p.curve(phi(a_small), -T_MS, T_MS, color=WARM, width=2.5), num_dashes=50)

@@ -1,0 +1,9 @@
+# Narration for scene03b_symbols.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Before the mathematics, here are the symbols we'll use. They all describe the balance.
+7.3  | Phi is its angle at any moment, measured from rest. It swings back and forth, out to plus Theta and back to minus Theta.
+16.9 | Theta is the amplitude: the largest angle of a swing. Theta star is the amplitude the watch finally settles at.
+26.3 | Phi prime is the angular speed: how fast phi changes, in radians per second. It is largest at the center, and zero at the ends of the swing.
+37.7 | The escapement kicks the balance at moments t sub k. Phi sub k is the angle at that moment, and J is the size of the kick, an angular impulse.
+49.4 | Finally, from Film four: I is the balance's inertia, kappa is the hairspring's stiffness, and omega nought is two pi times f nought.

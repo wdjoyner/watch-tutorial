@@ -46,7 +46,7 @@ FINAL_HOLD_UNTIL = 70.7               # the last line ends about 68.7 s
 FADE_OUT = 1.5
 
 LET_DOWN_RATE = 0.12                  # bench turns per video second (slowed for the eye)
-BENCH_Y = 1.25
+BENCH_Y = 1.65
 X = dict(barrel=-5.0, sensor=-2.4, encoder=0.3, brake=3.0)
 N_TURNS = 7.0                         # schematic x range of the torque plot
 TEXT = dict(q="how do we know the torque?", name="torsiometer:  a mainspring dynamometer",
@@ -148,7 +148,7 @@ class Scene09(Scene):
         bench = VGroup(base, shaft, barrel, jaws, sensor, enc, brake, mags)
 
         # ---------------- torque vs turns (schematic)
-        p = Plot((-6.2, -3.55), 5.6, 2.6, (0, N_TURNS), (0, 1.1))
+        p = Plot((-6.2, -2.15), 5.6, 1.85, (0, N_TURNS), (0, 1.1))     # above the caption band
         pl = VGroup(p.xlabel(TEXT["x"], 0.22), p.ylabel(TEXT["y"], 0.22))
         pl[0].next_to(p.x_axis, DOWN, buff=0.12).align_to(p.x_axis, RIGHT)
         c_down = p.curve(tau_down, N_TURNS, 0, color=COOL, width=3)
@@ -160,11 +160,11 @@ class Scene09(Scene):
         schem = tag(TEXT["schem"], GLOW, 0.17).next_to(p.x_axis, DOWN, buff=0.12).align_to(p.x_axis, LEFT)
 
         # ---------------- Seiko's measurement
-        sk = Plot((1.6, -3.1), 4.4, 2.1, (0, 45), (0, 3.4))
-        sk_t = VGroup(*[sk.xtick(h, f"{h}", 0.2) for h in F.SKO_HOURS], *[sk.ytick(v, f"{v}", 0.2) for v in (1, 2, 3)])
+        sk = Plot((1.6, -2.05), 4.4, 1.7, (0, 45), (0, 4.0))
+        sk_t = VGroup(*[sk.xtick(h, f"{h}", 0.2) for h in F.SKO_HOURS], *[sk.ytick(v, f"{v}", 0.2) for v in (1, 2, 3, 4)])
         sk_l = VGroup(label(TEXT["sk_x"], 0.2).next_to(sk.x_axis, DOWN, buff=0.34).align_to(sk.x_axis, RIGHT),
                       label(TEXT["sk_y"], 0.2).next_to(sk.y_axis, UP, buff=0.08).align_to(sk.y_axis, LEFT))
-        sk_src = tag(TEXT["sk_src"], GREY_B, 0.16).next_to(sk, UP, buff=0.3).align_to(sk.y_axis, LEFT)
+        sk_src = tag(TEXT["sk_src"], GREY_B, 0.16).move_to(sk.c2p(45, 3.8), aligned_edge=RIGHT)
         pts = [sk.c2p(h, t) for h, t in zip(F.SKO_HOURS, F.SKO_MNM)]
         dots = VGroup(*[Dot(pt, radius=0.07, color=GLOW) for pt in pts])
         vals = VGroup(*[label(f"{t:.2f}", 0.22, GLOW).next_to(pt, UR, buff=0.06) for t, pt in zip(F.SKO_MNM, pts)])

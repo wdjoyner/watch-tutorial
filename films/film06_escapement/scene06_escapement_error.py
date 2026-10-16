@@ -3,8 +3,8 @@ unlocking makes the watch lose.
 1. Petrangeli's worked Swiss lever (2.5 Hz): a shock of 0.01 rad/s at 24 deg
    moves the tick by 7.5e-7 s, less than a microsecond.
 2. Unlocking happens just before center and pushes against the motion: J < 0
-   at phi* < 0, so J phi* > 0 and Delta T > 0: the tick comes late, the watch loses.
-3. With A^2 in the denominator, the error is 1.51 times larger at 220 deg than at 270.
+   at phi_k < 0, so J phi_k > 0 and Delta T > 0: the tick comes late, the watch loses.
+3. With Theta^2 (amplitude squared) in the denominator, the error is 1.51 times larger at 220 deg than at 270.
 4. A boxed rough estimate, credited to Petrangeli's model: about 1.1 s/day lost
    at 270 deg, 1.7 at 220 (figures.UNLOCK_BOX).
 
@@ -42,13 +42,13 @@ FADE_OUT = 1.5
 
 UNLOCK_SPAN = (-23.0, -11.0)          # degrees of balance angle while unlocking [GP: 12 deg, before the 24 + 10 deg impulse]
 TEXT = dict(gp="Petrangeli (2017): a model Swiss lever at 2.5 Hz",
-            formula="ΔT = (I / κ) · φ* · Δφ′ / A²",
+            formula="ΔT = (I / κ) · φₖ · Δφ′ / Θ²",
             values=(f"I = {sci(F.GP_I, 1)} kg m²,   κ = {sci(F.GP_K, 2)} N m / rad",
-                    f"Δφ′ = {F.GP_DV} rad/s  at  φ* = 24°,   A = 270°"),
+                    f"Δφ′ = {F.GP_DV} rad/s  at  φₖ = 24°,   Θ = 270°"),
             result=f"ΔT ≈ {sci(F.GP_DT, 1)} s:  less than a microsecond",
             sp="speed", unlock="unlocking:\npushes back", center="center", motion="motion",
-            sign=("before center:  φ* < 0", "pushing back:  J < 0", "so  J · φ* > 0  and  ΔT > 0", "the tick comes late: the watch loses"),
-            square="error  ∝  1 / A²", amp=("270°", "220°"), ratio="× {:.2f}",
+            sign=("before center:  φₖ < 0", "pushing back:  J < 0", "so  J · φₖ > 0  and  ΔT > 0", "the tick comes late: the watch loses"),
+            square="error  ∝  1 / Θ²", amp=("270°", "220°"), ratio="× {:.2f}",
             film5="the escapement error of Film 5, now with its formula")
 # =====================================================================
 
@@ -68,11 +68,12 @@ class Scene06(Scene):
         gp = VGroup(src, formula, vals, result).arrange(DOWN, buff=0.35).move_to([0, 0.3, 0])
 
         # 2. unlocking before center: the speed profile, the unlocking zone, the push back
-        pe = Plot((-6.3, -3.4), 5.4, 2.5, (-90, 90), (0, 1.2))
+        PE_Y, PE_H = -2.15, 2.1                 # bottom and height of the speed profile (above the caption band)
+        pe = Plot((-6.3, PE_Y), 5.4, PE_H, (-90, 90), (0, 1.2))
         prof = pe.curve(lambda u: np.sqrt(max(0.0, 1 - (u / 90) ** 2)), -90, 90, color=WARM, width=3)   # schematic: +-90 stands for +-A
         x0, x1 = pe.c2p(UNLOCK_SPAN[0], 0)[0], pe.c2p(UNLOCK_SPAN[1], 0)[0]
-        zone = Rectangle(width=x1 - x0, height=2.5).set_stroke(width=0).set_fill(COOL, 0.25)
-        zone.move_to([(x0 + x1) / 2, -3.4 + 1.25, 0])
+        zone = Rectangle(width=x1 - x0, height=PE_H).set_stroke(width=0).set_fill(COOL, 0.25)
+        zone.move_to([(x0 + x1) / 2, PE_Y + PE_H / 2, 0])
         um = (UNLOCK_SPAN[0] + UNLOCK_SPAN[1]) / 2
         top = pe.c2p(um, np.sqrt(1 - (um / 90) ** 2))
         push = Arrow(top + UP * 0.05, top + DOWN * 0.75, buff=0, stroke_width=5, color=COOL, tip_length=0.16)
@@ -85,11 +86,11 @@ class Scene06(Scene):
         diag = VGroup(pe, spl, prof, cl, zone, zl, mot, motl)
 
         sign = VGroup(*[ftext(s, 0.42, c) for s, c in zip(TEXT["sign"], (GREY_A, COOL, WHITE, WARM))])
-        sign.arrange(DOWN, aligned_edge=LEFT, buff=0.22).move_to([2.6, -2.1, 0])
+        sign.arrange(DOWN, aligned_edge=LEFT, buff=0.2).move_to([2.6, -1.2, 0])
 
-        # 3. 1 / A^2
-        sq = ftext(TEXT["square"], 0.55, GLOW).move_to([2.6, -1.0, 0])
-        base_y, bw, unit = -3.6, 0.8, 1.2
+        # 3. 1 / Theta^2
+        sq = ftext(TEXT["square"], 0.55, GLOW).move_to([2.6, -0.65, 0])
+        base_y, bw, unit = -2.25, 0.8, 0.8
         bars = VGroup()
         for i, (a, h) in enumerate(zip(TEXT["amp"], (1.0, F.ESC_ERR_RATIO))):
             r = Rectangle(width=bw, height=unit * h).set_stroke(width=0).set_fill(COOL if i == 0 else WARM, 0.85)
@@ -101,8 +102,8 @@ class Scene06(Scene):
         lines = VGroup(label(F.UNLOCK_BOX[0], 0.22, GLOW, bold=True),
                        *[label(t, 0.22, WHITE) for t in F.UNLOCK_BOX[1:]]).arrange(DOWN, aligned_edge=LEFT, buff=0.12)
         box = VGroup(SurroundingRectangle(lines, buff=0.22, corner_radius=0.1).set_stroke(GLOW, 1.4).set_fill(BG, 0.92), lines)
-        box.move_to([3.2, 1.0, 0])
-        f5 = tag(TEXT["film5"], WARM, 0.22).move_to([3.2, -0.2, 0])
+        box.move_to([3.2, 1.05, 0])
+        f5 = tag(TEXT["film5"], WARM, 0.22).move_to([3.2, -0.05, 0])
 
         cur = curtain()
         self.add(cur)

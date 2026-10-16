@@ -41,9 +41,9 @@ FINAL_HOLD_UNTIL = 52.0               # the last line ends about 50.1 s
 FADE_OUT = 1.5
 
 CYCLES, N = 6, 400
-O, S = np.array([-3.4, -0.35, 0.0]), 0.42     # phase-plane origin on screen, and scale (units per model unit)
+O, S = np.array([-3.0, 0.1, 0.0]), 0.36       # phase-plane origin on screen, and scale (kept above the caption band)
 TEXT = dict(phi="φ", vel="φ′ / ω₀", small="small start", large="large start", loop="limit cycle",
-            exag="friction exaggerated (Q = 12): the chapter's scaled example", amp="amplitude at each swing",
+            exag="friction exaggerated about {:.0f}×: the chapter's scaled example".format(prev.figures4.Q / F.LC_Q), amp="amplitude at each swing",
             swing="swing", star="Θ* = {:.2f}", chooses="the watch chooses its own amplitude",
             gp="Petrangeli (2017): his Swiss lever, assumed at 270°", per="per period, as a share of the balance's energy",
             gain="impulses:  {:.1f}%", loss="losses:  {:.1f}%",
@@ -62,7 +62,7 @@ class Scene08(Scene):
         head = heading("THE LIMIT CYCLE", "the watch chooses its amplitude").to_corner(UL, buff=0.5)
 
         P = lambda x, v: O + S * np.array([x, v, 0.0])
-        ext = 3.3
+        ext = 2.75
         axes = VGroup(Arrow(O + LEFT * ext, O + RIGHT * ext, buff=0, stroke_width=2, color=GREY_B, tip_length=0.12),
                       Arrow(O + DOWN * ext, O + UP * ext, buff=0, stroke_width=2, color=GREY_B, tip_length=0.12))
         axl = VGroup(label(TEXT["phi"], 0.26).next_to(axes[0].get_end(), DOWN, buff=0.08),
@@ -81,11 +81,11 @@ class Scene08(Scene):
         lp = P(F.LC_THETA * np.sin(-0.8), F.LC_THETA * np.cos(-0.8))
         t_loop = label(TEXT["loop"], 0.24, WHITE, bold=True).move_to(P(-6.6, 6.0))
         t_loop = VGroup(t_loop, Line(t_loop.get_bottom() + DOWN * 0.05, lp, stroke_width=1.2, color=WHITE))
-        exag = tag(TEXT["exag"], GLOW, 0.18).to_edge(DOWN, buff=0.3).shift(LEFT * 2.6)
+        exag = tag(TEXT["exag"], GLOW, 0.18).to_corner(UR, buff=0.4)
 
         # amplitude at each swing
         npk = 2 * CYCLES + 1
-        pa = Plot((1.3, -2.6), 5.0, 3.6, (0, npk - 1), (0, 7.2))
+        pa = Plot((1.3, -2.0), 5.0, 3.3, (0, npk - 1), (0, 7.2))
         dots = VGroup()
         for key in ("small", "large"):
             _, _, peaks, col = runs[key]
@@ -99,17 +99,17 @@ class Scene08(Scene):
         # Petrangeli's step
         gp = tag(TEXT["gp"], GREY_B, 0.2).move_to([3.6, 2.6, 0])
         per = label(TEXT["per"], 0.2, GREY_B).next_to(gp, DOWN, buff=0.18)
-        base, unit = np.array([2.2, -0.2, 0]), 0.16
+        base, unit = np.array([2.2, 0.55, 0]), 0.15
         bar_g = Rectangle(width=0.9, height=unit * F.GP_GAIN_PCT).set_stroke(width=0).set_fill(GLOW, 0.9)
         bar_g.move_to(base, aligned_edge=DOWN)
         bar_l = Rectangle(width=0.9, height=unit * F.GP_LOSS_PCT).set_stroke(width=0).set_fill(WARM, 0.9)
         bar_l.move_to(base + RIGHT * 1.6, aligned_edge=DOWN)
         lab_g = label(TEXT["gain"].format(F.GP_GAIN_PCT), 0.22, GLOW).next_to(bar_g, DOWN, buff=0.1)
         lab_l = label(TEXT["loss"].format(F.GP_LOSS_PCT), 0.22, WARM).next_to(bar_l, DOWN, buff=0.1)
-        speed = fmark(TEXT["speed"], 0.44).move_to([3.9, -1.25, 0])
+        speed = fmark(TEXT["speed"], 0.44).move_to([3.9, -0.45, 0])
         speed_n = ftext(TEXT["speed_n"], 0.42, GLOW).next_to(speed, DOWN, buff=0.2)
-        step = fmark(TEXT["step"], 0.42).next_to(speed_n, DOWN, buff=0.3)
-        repeat = label(TEXT["repeat"], 0.28, WHITE, bold=True).next_to(step, DOWN, buff=0.3)
+        step = fmark(TEXT["step"], 0.42).next_to(speed_n, DOWN, buff=0.25)
+        repeat = label(TEXT["repeat"], 0.28, WHITE, bold=True).next_to(step, DOWN, buff=0.25)
 
         cur = curtain()
         self.add(cur)

@@ -67,7 +67,7 @@ class Scene07(Scene):
         imp = lambda d: 2 * F.J_CONST * F.OMEGA0 * d * D * uj
         star = F.AMP / D                                       # 270 by construction
 
-        p = Plot((-5.6, -3.2), 9.0, 5.4, (0, THETA_MAX), (0, Y_MAX))
+        p = Plot((-5.6, -2.0), 9.0, 4.4, (0, THETA_MAX), (0, Y_MAX))     # above the caption band
         ticks = VGroup(*[p.xtick(d, f"{d:.0f}°", 0.2) for d in (90, 180, 270, 360)],
                        *[p.ytick(y, f"{y:.1f}", 0.2) for y in (0.1, 0.2, 0.3, 0.4)])
         xl, yl = p.xlabel(TEXT["x"], 0.24), p.ylabel(TEXT["y"], 0.24)
@@ -76,9 +76,9 @@ class Scene07(Scene):
         c_loss = p.curve(loss, 0, THETA_MAX, color=WARM, width=4)
         c_in = Line(p.c2p(0, e_in), p.c2p(THETA_MAX, e_in)).set_stroke(GLOW, 4)
         l_dry = fmark(TEXT["dry"], 0.4, GREY_B).next_to(p.c2p(THETA_MAX, dry(THETA_MAX)), RIGHT, buff=0.1)
-        l_visc = fmark(TEXT["visc"], 0.4, COOL).next_to(p.c2p(THETA_MAX, visc(THETA_MAX)), RIGHT, buff=0.1)
+        l_visc = fmark(TEXT["visc"], 0.4, COOL).next_to(p.c2p(THETA_MAX, visc(THETA_MAX)), RIGHT, buff=0.1).shift(DOWN * 0.12)
         l_loss = fmark(TEXT["loss"], 0.42, WARM).next_to(p.c2p(THETA_MAX, loss(THETA_MAX)), RIGHT, buff=0.1)
-        l_in = fmark(TEXT["ein"], 0.42, GLOW).next_to(p.c2p(THETA_MAX, e_in), RIGHT, buff=0.1)
+        l_in = fmark(TEXT["ein"], 0.42, GLOW).next_to(p.c2p(THETA_MAX, e_in), RIGHT, buff=0.1).shift(UP * 0.1)
         rep = tag(TEXT["repr"], GREY_B, 0.18).to_corner(UR, buff=0.4)
 
         dot = Dot(p.c2p(star, e_in), radius=0.1, color=WHITE)

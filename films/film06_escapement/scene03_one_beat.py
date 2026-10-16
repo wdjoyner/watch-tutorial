@@ -39,7 +39,7 @@ FINAL_HOLD_UNTIL = 56.0               # the last line ends about 54.1 s
 FADE_OUT = 1.5
 
 # --- the close-up ----------------------------------------------------
-CENTER, SCALE, RIM_R = (0.0, -4.35), 3.4, 0.6
+CENTER, SCALE, RIM_R = (0.0, -3.55), 3.0, 0.6     # wheel's lower half is cropped; the action stays above y = -2.7
 CAP_RATE = 1 / 200                    # model clock for the drop's speed cap (the drop takes a moment to see)
 PHASE_COLOR = dict(lock=GREY_A, unlock=COOL, impulse=WARM, drop=GLOW)
 TEXT = dict(slow="slowed down over a thousand times", schematic="schematic Swiss lever",
@@ -84,7 +84,7 @@ class Scene03(Scene):
         # Petrangeli's timings
         W = 10.0
         x0 = -W / 2
-        y_top, y_mag = -0.9, -2.5
+        y_top, y_mag = -0.35, -1.75
         beat = Rectangle(width=W, height=0.32).set_stroke(GREY_B, 1.2).set_fill(GREY_D, 0.6).move_to([0, y_top, 0])
         act_w = W * F.GP_ACTIVE / F.HALF_PERIOD
         act = Rectangle(width=act_w, height=0.32).set_stroke(width=0).set_fill(GLOW, 0.9)
@@ -104,9 +104,9 @@ class Scene03(Scene):
                      DashedLine(act.get_corner(DR), [x0 + W, y_mag + 0.21, 0], stroke_width=1.2, color=GREY_B))
         locked = label(TEXT["locked"].format(F.GP_LOCKED_FRAC * 100), 0.34, WHITE, bold=True)
         locked.next_to(beat, UP, buff=0.55).shift(RIGHT * 1.5)
-        src = tag(TEXT["source"], GREY_B, 0.18).to_edge(DOWN, buff=0.35)
+        src = tag(TEXT["source"], GREY_B, 0.18).next_to(head, DOWN, buff=0.35, aligned_edge=LEFT)
         timing = VGroup(beat, act, beat_lbl, act_lbl, fan, segs)
-        shade = Rectangle(width=W + 1.4, height=3.6).set_stroke(width=0).set_fill(BG, 0.85).move_to([0, -1.9, 0])
+        shade = Rectangle(width=W + 1.4, height=3.6).set_stroke(width=0).set_fill(BG, 0.85).move_to([0, -1.2, 0])
 
         cur = curtain()
         self.add(cur)

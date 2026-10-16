@@ -5,5 +5,5 @@
 8.3  | Draw the swing in the phase plane: angle across, speed up. The free balance goes round a circle.
 15.8 | A kick is a jump straight up. At the center, straight up points straight out from the circle. The circle grows, but the balance stays on schedule.
 26.1 | Away from center, part of the kick runs along the circle. That part shifts the phase, and every later tick moves with it.
-35.0 | The shift is proportional to the kick, and to how far from center it lands.
-40.7 | So deliver the impulse at the center. That is Airy's rule, and every good escapement follows it.
+35.0 | The shift is proportional to the kick J, and to phi sub k, the angle where it lands. It shrinks as the amplitude, Theta, grows.
+45.2 | So deliver the impulse at the center. That is Airy's rule, and every good escapement follows it.

@@ -175,6 +175,74 @@ def srt_time(s):
     return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
 
 
+CAPTION_CHARS = 42      # per caption line, the usual subtitle limit
+
+
+def caption_chunks(text, max_lines=2, width=CAPTION_CHARS):
+    """Split one narration line into caption cues of at most `max_lines` lines of
+    `width` characters, breaking at sentence ends, then at commas, colons and
+    semicolons, then between words. Returns a list of cue texts (lines joined by \\n)."""
+    import textwrap
+    limit = max_lines * width - 6       # a little slack, so word breaks never force a third line
+    pieces = re.split(r"(?<=[.!?])\s+", text.strip())
+    out = []
+    for p in pieces:
+        if len(p) <= limit:
+            out.append(p)
+            continue
+        parts, cur = re.split(r"(?<=[,;:])\s+", p), ""
+        for q in parts:
+            if cur and len(cur) + 1 + len(q) > limit:
+                out.append(cur)
+                cur = q
+            else:
+                cur = f"{cur} {q}" if cur else q
+        if cur:
+            out.append(cur)
+    cues = []
+    for c in out:                        # any piece still too long: split between words
+        while len(c) > limit:
+            cut = c.rfind(" ", 0, limit)
+            cut = cut if cut > 0 else limit
+            cues.append(c[:cut])
+            c = c[cut:].strip()
+        cues.append(c)
+    merged = []                          # rejoin short neighbors that fit together
+    for c in cues:
+        if merged and len(merged[-1]) + 1 + len(c) <= limit and not re.search(r"[.!?]$", merged[-1]):
+            merged[-1] += " " + c
+        else:
+            merged.append(c)
+    # one line if it fits; otherwise two lines of about equal length
+    def two_lines(c):
+        if len(c) <= width:
+            return c
+        rows = textwrap.wrap(c, width=min(width, len(c) // 2 + 8))
+        return "\n".join(rows if len(rows) <= max_lines else textwrap.wrap(c, width=width))
+    return [two_lines(c) for c in merged]
+
+
+def write_srt(path, lines, clips, short):
+    """One cue per narration line; with `short`, each line is split into cues of at
+    most two short lines, timed in proportion to their length."""
+    n = 0
+    with open(path, "w", encoding="utf-8") as f:
+        for (start, audio), (_, text) in zip(clips, lines):
+            end = start + len(audio) / SR
+            if not short:
+                n += 1
+                f.write(f"{n}\n{srt_time(start)} --> {srt_time(end + 0.2)}\n{text}\n\n")
+                continue
+            cues = caption_chunks(text)
+            weights = [len(c) + 8 for c in cues]          # +8: each cue's pause is roughly constant
+            t = start
+            for k, (c, w) in enumerate(zip(cues, weights)):
+                t1 = start + (end - start) * sum(weights[:k + 1]) / sum(weights)
+                n += 1
+                f.write(f"{n}\n{srt_time(t)} --> {srt_time(t1 + (0.2 if k == len(cues) - 1 else 0.0))}\n{c}\n\n")
+                t = t1
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("scene", help="scene name, e.g. scene01_vertical_city, or <film>/<scene>, e.g. 2/scene00_title")
@@ -254,9 +322,9 @@ def main():
     sf.write(wav, np.clip(mix, -1, 1), SR)
 
     srt = os.path.join(out, name + ".srt")
-    with open(srt, "w", encoding="utf-8") as f:
-        for i, (start, audio) in enumerate(clips, 1):
-            f.write(f"{i}\n{srt_time(start)} --> {srt_time(start + len(audio) / SR + 0.2)}\n{lines[i - 1][1]}\n\n")
+    from films import running_order
+    short = bool(running_order(film).get("SHORT_CAPTIONS", False))   # opt-in per film (Film 6 on)
+    write_srt(srt, lines, clips, short)
 
     print("[4/4] muxing")
     final = os.path.join(out, name + ".mp4")

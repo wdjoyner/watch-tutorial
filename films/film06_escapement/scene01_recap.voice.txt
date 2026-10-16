@@ -1,7 +1,7 @@
 # Narration for scene01_recap.
 # One line per sentence:   start_time_in_seconds | text
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
-1.0  | Two films ago, we met the balance and hairspring. Their two numbers set the rate: f nought equals one over two pi, times the square root of kappa over I.
-12.5 | Friction takes about two percent of the balance's energy every cycle, at a representative Q of three hundred, and something has to pay that bill.
-23.4 | Last film, we saw the rate shift with the amplitude, so a falling mainspring torque becomes a drifting rate.
-31.4 | One question was left open: where does the amplitude settle? The answer lies in the escapement.
+1.0  | Two films ago, we met the balance and hairspring. Two numbers, the balance's inertia I and the hairspring's stiffness kappa, set how often it swings: its frequency, f nought, equals one over two pi, times the square root of kappa over I.
+18.4 | Friction takes about two percent of the balance's energy every cycle, and something has to pay that bill.
+26.4 | Last film, we saw the frequency shift with the amplitude, the size of the swing. That changes the watch's rate: how many seconds a day it gains or loses.
+38.1 | So a falling mainspring torque becomes a drifting rate. One question was left open: where does the amplitude settle? The answer lies in the escapement.

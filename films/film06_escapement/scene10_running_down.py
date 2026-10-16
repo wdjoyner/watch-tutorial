@@ -70,7 +70,7 @@ class Scene10(Scene):
         def star():
             return F.theta_star(frac.get_value() * F.E_IN, F.MU_COU, oil.get_value() * F.MU_VIS, F.OMEGA0) / D
 
-        p = Plot((-5.6, -3.2), 8.2, 5.0, (0, THETA_MAX), (0, Y_MAX))
+        p = Plot((-5.6, -2.0), 8.2, 4.4, (0, THETA_MAX), (0, Y_MAX))     # above the caption band
         ticks = VGroup(*[p.xtick(d, f"{d:.0f}°", 0.2) for d in (90, 180, 270, 360)],
                        *[p.ytick(y, f"{y:.1f}", 0.2) for y in (0.1, 0.2, 0.3, 0.4)])
         axl = VGroup(p.xlabel(TEXT["x"], 0.24), p.ylabel(TEXT["y"], 0.24))
@@ -103,7 +103,7 @@ class Scene10(Scene):
         chain.arrange(RIGHT, buff=0.55)
         arrows = VGroup(*[Arrow(a.get_right(), b.get_left(), buff=0.08, stroke_width=2.5, tip_length=0.12, color=GREY_B)
                           for a, b in zip(chain, chain[1:])])
-        chain_g = VGroup(chain, arrows).move_to([0.0, 2.1, 0])
+        chain_g = VGroup(chain, arrows).move_to([0.6, 2.95, 0])
         chain_box = SurroundingRectangle(chain_g, buff=0.18, corner_radius=0.1).set_stroke(GREY_B, 1.2).set_fill(BG, 0.9)
         f5 = tag(TEXT["film5"], WARM, 0.2).next_to(chain_box, DOWN, buff=0.15)
         oil_t = tag(TEXT["oil"].format(OLD_OIL), GLOW, 0.2).next_to(src, DOWN, buff=0.15).align_to(src, RIGHT)

@@ -4,7 +4,8 @@ At the center (phi* = 0) that jump is radial: the circle grows, but the kicked
 balance stays level with an unkicked "ghost" (same phase, same tick times).
 Away from center the jump has a tangential part: the kicked balance falls
 behind its ghost, and every later tick moves with it. Then the formula,
-Delta T = (J/I) phi* / (A^2 omega0^2), proportional to J phi*. Kicks are drawn
+Delta T = (J/I) phi_k / (Theta^2 omega0^2), proportional to J phi_k (phi_k: the angle
+where the kick lands; Theta: the amplitude). Kicks are drawn
 large (exaggerated) so the effect can be seen.
 
 Build (render + voice + mux):   python build.py 6/scene05_airy
@@ -28,22 +29,25 @@ AIRY_AT = 1.2                         # "In eighteen twenty-six, the astronomer 
 PLANE_AT = 8.4                        # "Draw the swing in the phase plane ..."
 CENTER_START, CENTER_KICK = 15.8, 18.6   # demo 1: start, and the kick at the top of the circle
 OFF_START, OFF_KICK = 26.1, 28.4      # demo 2: start, and the kick away from center
-FORMULA_AT = 35.0                     # "The shift is proportional to the kick ..."
-RULE_AT = 40.8                        # "So deliver the impulse at the center."
-FINAL_HOLD_UNTIL = 49.0               # the last line ends about 47.2 s
+FORMULA_AT = 35.0                     # "The shift is proportional to the kick J, and to phi sub k ..."
+GLOSS_AT = 37.6                       # "... the angle where it lands. It shrinks as the amplitude, Theta, grows."
+RULE_AT = 45.2                        # "So deliver the impulse at the center."
+FINAL_HOLD_UNTIL = 53.7               # the last line ends about 51.7 s
 FADE_OUT = 1.5
 
 # --- the phase plane -------------------------------------------------
-O = np.array([-2.2, -0.45, 0.0])      # origin of the phase plane on screen
-R0 = 1.9                              # free orbit radius
-KICK = 0.75                           # EXAGGERATED jump (screen units)
+O = np.array([-2.4, 0.15, 0.0])       # origin of the phase plane on screen (kept above the caption band)
+R0 = 1.6                              # free orbit radius
+KICK = 0.62                           # EXAGGERATED jump (screen units)
 W = 1.1                               # orbit angular speed, rad per video second (slow, for the eye)
 OFF_DEG = 50.0                        # where the off-center kick lands, degrees from the top
 TEXT = dict(airy="George Biddell Airy, 1826", phi="angle φ", vel="speed φ′ / ω₀", free="free swing: a circle",
             ghost="dashed: the same balance, unkicked", kick="kick", radial="radial: the amplitude grows",
             on_time="still on schedule", tang="tangential part: the phase shifts", late="falls behind",
-            exag="kicks drawn much larger than real", formula="ΔT = (J / I) · φ* / (A² ω₀²)",
-            prop="∝  J · φ*", rule="Airy's rule: impulse at the center")
+            exag="kicks drawn much larger than real", formula="ΔT = (J / I) · φₖ / (Θ² ω₀²)",
+            prop="∝  J · φₖ", rule="Airy's rule: impulse at the center",
+            gloss=("ΔT: the shift in the tick times", "J: the kick    φₖ: the angle where it lands",
+                   "Θ: the amplitude    I, ω₀: from Film 4"))
 # =====================================================================
 
 
@@ -85,13 +89,13 @@ class Scene05(Scene):
         head = heading("AIRY'S THEOREM", "where to kick").to_corner(UL, buff=0.5)
         airy = label(TEXT["airy"], 0.3, GLOW).next_to(head, DOWN, buff=0.35, aligned_edge=LEFT)
 
-        ax = VGroup(Arrow(O + LEFT * 3.0, O + RIGHT * 3.0, buff=0, stroke_width=2, color=GREY_B, tip_length=0.14),
-                    Arrow(O + DOWN * 3.0, O + UP * 3.3, buff=0, stroke_width=2, color=GREY_B, tip_length=0.14))
+        ax = VGroup(Arrow(O + LEFT * 2.7, O + RIGHT * 2.7, buff=0, stroke_width=2, color=GREY_B, tip_length=0.14),
+                    Arrow(O + DOWN * 2.55, O + UP * 2.85, buff=0, stroke_width=2, color=GREY_B, tip_length=0.14))
         ax_l = VGroup(label(TEXT["phi"], 0.24).next_to(ax[0].get_end(), DOWN, buff=0.1),
                       label(TEXT["vel"], 0.24).next_to(ax[1].get_end(), RIGHT, buff=0.1))
         circle = Circle(radius=R0, color=COOL, stroke_width=3).move_to(O)
         free = label(TEXT["free"], 0.24, COOL).next_to(circle, DOWN, buff=0.15).shift(RIGHT * 1.4)
-        exag = tag(TEXT["exag"], GLOW, 0.18).to_corner(DR, buff=0.4)
+        exag = tag(TEXT["exag"], GLOW, 0.18).to_corner(UR, buff=0.4)
 
         # side notes, right column
         col_x = 1.55
@@ -103,11 +107,13 @@ class Scene05(Scene):
         notes["on_time"].move_to([col_x, 1.1, 0], aligned_edge=LEFT)
         notes["tang"].move_to([col_x, 1.6, 0], aligned_edge=LEFT)
         notes["late"].move_to([col_x, 1.1, 0], aligned_edge=LEFT)
-        formula = ftext(TEXT["formula"], 0.52).move_to([col_x, -0.4, 0], aligned_edge=LEFT)
+        formula = ftext(TEXT["formula"], 0.52).move_to([col_x, 0.15, 0], aligned_edge=LEFT)
         prop = ftext(TEXT["prop"], 0.56, GLOW).next_to(formula, DOWN, buff=0.3, aligned_edge=LEFT)
         rule = label(TEXT["rule"], 0.32, GLOW, bold=True)
         rule_box = VGroup(SurroundingRectangle(rule, buff=0.2, corner_radius=0.1).set_stroke(GLOW, 1.4), rule)
-        rule_box.move_to([col_x, -2.4, 0], aligned_edge=LEFT)
+        gloss = VGroup(*[label(g, 0.2, GREY_A) for g in TEXT["gloss"]]).arrange(DOWN, aligned_edge=LEFT, buff=0.08)
+        gloss.next_to(prop, DOWN, buff=0.25, aligned_edge=LEFT)
+        rule_box.next_to(gloss, DOWN, buff=0.3, aligned_edge=LEFT)
 
         def demo(t0, t_kick, kick_th):
             """Objects for one demonstration: start so the kick lands at angle kick_th (from the top)."""
@@ -116,9 +122,9 @@ class Scene05(Scene):
             ghost = DashedVMobject(Circle(radius=0.12, color=GREY_A, stroke_width=2), num_dashes=8)
             ghost.add_updater(lambda m: m.move_to(ob.ghost()))
             ray_g = DashedLine(O, O + UP, stroke_width=1.5, color=GREY_A)
-            ray_g.add_updater(lambda m: m.put_start_and_end_on(O, O + 2.9 * (ob.ghost() - O) / max(np.linalg.norm(ob.ghost() - O), 1e-6)))
+            ray_g.add_updater(lambda m: m.put_start_and_end_on(O, O + 2.5 * (ob.ghost() - O) / max(np.linalg.norm(ob.ghost() - O), 1e-6)))
             ray_r = Line(O, O + UP, stroke_width=2.5, color=WARM)
-            ray_r.add_updater(lambda m: m.put_start_and_end_on(O, O + 2.9 * (ob.real() - O) / max(np.linalg.norm(ob.real() - O), 1e-6)))
+            ray_r.add_updater(lambda m: m.put_start_and_end_on(O, O + 2.5 * (ob.real() - O) / max(np.linalg.norm(ob.real() - O), 1e-6)))
             big = Circle(radius=ob.r1, color=WARM, stroke_width=2).move_to(O).set_stroke(opacity=0.0)
             big.add_updater(lambda m: m.set_stroke(opacity=0.6 if ob.kicked() else 0.0))
             kp = pt(R0, ob.thk)
@@ -165,6 +171,8 @@ class Scene05(Scene):
         wait_until(FORMULA_AT)
         self.play(Write(formula), run_time=1.4)
         self.play(FadeIn(prop, shift=UP * 0.1), run_time=0.6)
+        wait_until(GLOSS_AT)
+        self.play(FadeIn(gloss), run_time=0.8)
         wait_until(RULE_AT)
         self.play(FadeIn(rule_box, shift=UP * 0.1), run_time=0.8)
 

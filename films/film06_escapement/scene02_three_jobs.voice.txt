@@ -1,9 +1,10 @@
 # Narration for scene02_three_jobs.
 # One line per sentence:   start_time_in_seconds | text
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
-1.0  | The escapement sits between the gear train and the balance.
-5.6  | The last wheel of the train is the escape wheel, with fifteen teeth.
-10.8 | Beside it pivots the pallet fork. Its two arms carry red jewels, the pallet stones, and its far end is a fork.
-19.8 | On the balance staff sits the roller jewel, also called the impulse pin: the small ruby pin we met in Film five.
-28.7 | Two banking pins limit how far the fork can swing.
-33.2 | The escapement has three jobs. It locks the train, it unlocks it once per beat, and it gives the balance a push, called the impulse.
+1.0  | The escapement is the link between the gear train and the balance. In a Swiss lever watch, it has three parts: the escape wheel, the pallet fork, and the roller jewel on the balance.
+14.0 | The escape wheel is the last wheel of the train, with fifteen teeth.
+19.4 | Beside it pivots the pallet fork. Its two arms carry red jewels, the pallet stones, and its far end is a fork.
+28.4 | On the balance staff sits the roller jewel, also called the impulse pin: the small ruby pin we met in Film five.
+37.2 | Two banking pins limit how far the fork can swing.
+41.8 | The balance and hairspring are not part of the escapement. They are the oscillator it serves.
+48.4 | The escapement has three jobs. It locks the train, it unlocks it once per beat, and it gives the balance a push, called the impulse.
