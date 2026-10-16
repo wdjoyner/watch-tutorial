@@ -33,6 +33,7 @@ SHOW_AT = 1.0                         # "Here is one beat in slow motion."
 PSI_KEYS = [(0.0, -200.0), (2.0, -200.0), (14.2, -40.0), (16.0, -25.0), (22.6, -11.5),   # lock, then unlock
             (23.0, -11.5), (31.0, 15.0),                                                  # impulse
             (32.3, 15.0), (35.5, 21.0), (41.5, 150.0)]                                    # drop, lock, free swing
+NOTE_AT = (15.6, 23.2, 32.3)          # captions for unlock, impulse, drop: where the energy goes
 TIMING_AT = 42.7                      # "In Petrangeli's worked model ... about fourteen milliseconds"
 LOCKED_AT = 49.0                      # "For ninety-three percent of each beat, the train stands still."
 FINAL_HOLD_UNTIL = 56.0               # the last line ends about 54.1 s
@@ -46,7 +47,10 @@ TEXT = dict(slow="slowed down over a thousand times", schematic="schematic Swiss
             phase=dict(lock="LOCK", unlock="UNLOCK", impulse="IMPULSE", drop="DROP"),
             beat="one beat:  0.2 s", active="active:  {:.1f} ms", locked="locked {:.0f}% of the time",
             phases=("unlock", "impulse I", "impulse II", "drop"),
-            source="Petrangeli (2017): a model Swiss lever at 2.5 Hz")
+            source="Petrangeli (2017): a model Swiss lever at 2.5 Hz",
+            notes=("unlock: the balance turns the fork, and spends a little energy doing it",
+                   "impulse: mainspring → train → escape wheel → pallet stone → fork → roller jewel → balance",
+                   "drop: the wheel jumps free; the balance gets nothing more"))
 # =====================================================================
 
 
@@ -108,6 +112,12 @@ class Scene03(Scene):
         timing = VGroup(beat, act, beat_lbl, act_lbl, fan, segs)
         shade = Rectangle(width=W + 1.4, height=3.6).set_stroke(width=0).set_fill(BG, 0.85).move_to([0, -1.2, 0])
 
+        notes = [label(t, 0.24, c) for t, c in zip(TEXT["notes"], (COOL, WARM, GLOW))]
+        for n in notes:
+            n.move_to([0, -2.3, 0])
+        note_bg = RoundedRectangle(corner_radius=0.1, width=max(n.width for n in notes) + 0.5, height=0.5)
+        note_bg.set_stroke(GREY_D, 1).set_fill(BG, 0.9).move_to([0, -2.3, 0])
+
         cur = curtain()
         self.add(cur)
 
@@ -117,9 +127,16 @@ class Scene03(Scene):
         wait_until(SHOW_AT)
         self.play(FadeIn(head), esc.vis.animate.set_value(1.0), FadeIn(slow), FadeIn(sch), run_time=1.0)
         self.add(word)
+        shown = None
+        for n, t in zip(notes, NOTE_AT):
+            wait_until(t)
+            anims = [FadeIn(n, shift=UP * 0.08)] + ([FadeOut(shown)] if shown else [FadeIn(note_bg)])
+            self.play(*anims, run_time=0.6)
+            shown = n
 
         wait_until(TIMING_AT)
-        self.play(esc.vis.animate.set_value(0.35), FadeIn(shade), FadeOut(word), run_time=0.8)
+        self.play(esc.vis.animate.set_value(0.35), FadeIn(shade), FadeOut(word), FadeOut(shown), FadeOut(note_bg),
+                  run_time=0.8)
         self.play(FadeIn(beat), FadeIn(beat_lbl), run_time=0.6)
         self.play(FadeIn(act), FadeIn(act_lbl), run_time=0.6)
         self.play(Create(fan), LaggedStart(*[FadeIn(s) for s in segs], lag_ratio=0.3), FadeIn(src), run_time=1.6)

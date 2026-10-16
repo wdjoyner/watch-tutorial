@@ -25,16 +25,19 @@ from ui import ftext, label, heading, tag, curtain, clock, WARM, COOL
 
 # --- timeline --------------------------------------------------------
 FADE_IN = 1.0
-HEAD_AT = 1.2                         # "we treat each impulse as instantaneous"
-LHS_AT = (11.0, 12.1, 13.2, 14.4)      # inertia, damping, the hairspring, its small cubic term
-RHS_AT = 18.0                         # "a sudden kick, an angular impulse J sub k"
-PLOTS_AT = 19.3                       # the angle stays put, the speed jumps (drawn as the line is spoken)
-JUMP_AT = 24.0                        # "...and the speed jumps by J over I"
-HYBRID_AT = 29.4                      # "mathematicians call this a hybrid system"
-ENERGY_AT = 33.6                      # "A kick adds energy J times the speed just before it."
-CENTER_AT = 40.0                      # "...where the balance moves fastest, at the center"
-HALF_AT = 43.5                        # "Halfway out, it does eighty-seven percent as much."
-FINAL_HOLD_UNTIL = 49.0               # the last line ends about 47.0 s
+HEAD_AT = 1.2                         # "To do the mathematics, we take the impulse from one beat ..."
+PUSH_AT = 5.0                         # "... about ten milliseconds of pushing through the fork ..."
+SQUEEZE_AT = 8.6                      # "... and treat it as a single, instantaneous kick."
+CLEAR_AT = 11.6                       # the beat bar leaves before the equation
+LHS_AT = (16.9, 18.0, 19.1, 20.3)      # inertia, damping, the hairspring, its small cubic term
+RHS_AT = 23.9                         # "a sudden kick, an angular impulse J sub k"
+PLOTS_AT = 25.3                       # the angle stays put, the speed jumps (drawn as the line is spoken)
+JUMP_AT = 30.0                        # "...and the speed jumps by J over I"
+HYBRID_AT = 35.4                      # "mathematicians call this a hybrid system"
+ENERGY_AT = 39.6                      # "A kick adds energy J times the speed just before it."
+CENTER_AT = 46.0                      # "...where the balance moves fastest, at the center"
+HALF_AT = 49.5                        # "Halfway out, it does eighty-seven percent as much."
+FINAL_HOLD_UNTIL = 55.0               # the last line ends about 53.0 s
 FADE_OUT = 1.5
 
 # --- the run (chapter's scaled example, EXAGGERATED) ---------------------
@@ -49,7 +52,11 @@ TEXT = dict(lhs=("I φ″", "+ c φ′", "+ κ φ", "+ β φ³"), eq="=", rhs="�
             jumps="the speed jumps by J / I", hybrid="hybrid system: smooth flow + sudden jumps",
             exag="friction and kicks exaggerated", energy="ΔE = J φ′₋ + J² / 2I  ≈  J φ′₋",
             fastest="most energy per kick where it is fastest", center="center", half="halfway out",
-            pct="{:.0f}%", sp="speed")
+            pct="{:.0f}%", sp="speed",
+            bar_src="one beat's action, Petrangeli (2017): a model Swiss lever at 2.5 Hz",
+            bar=("unlock", "impulse: the push through the fork", "drop"),
+            push="about {:.0f} ms of pushing", kick="the model: one instantaneous kick J",
+            back="unlocking pushes back a little: see Escapement Error")
 # =====================================================================
 
 
@@ -107,6 +114,25 @@ class Scene04(Scene):
         t_h = label(f'{TEXT["half"]}: ' + TEXT["pct"].format(F.KICK_AT_HALF * 100), 0.2, GLOW).next_to(k_h, RIGHT, buff=0.08)
         fastest = label(TEXT["fastest"], 0.22, GREY_A).next_to(e_eq, DOWN, buff=0.15).align_to(e_eq, LEFT)
 
+        # one beat's action (scene 03's bar): the impulse, squeezed into a kick
+        BW, BY = 9.0, 0.9
+        ms = dict(unlock=F.GP_PHASES["unlock"], impulse=F.GP_PHASES["impulse I"] + F.GP_PHASES["impulse II"],
+                  drop=F.GP_PHASES["drop"])
+        bars, x = VGroup(), -BW / 2
+        for key, col in (("unlock", COOL), ("impulse", WARM), ("drop", GLOW)):
+            w = BW * ms[key] / F.GP_ACTIVE
+            bars.add(Rectangle(width=w, height=0.42).set_stroke(BG, 2).set_fill(col, 0.85).move_to([x + w / 2, BY, 0]))
+            x += w
+        bar_l = VGroup(label(TEXT["bar"][0], 0.22, COOL).next_to(bars[0], DOWN, buff=0.12),
+                       label(TEXT["bar"][1], 0.22, WARM).next_to(bars[1], DOWN, buff=0.12),
+                       label(TEXT["bar"][2], 0.22, GLOW).next_to(bars[2], DOWN, buff=0.12).shift(RIGHT * 0.15))
+        bar_src = tag(TEXT["bar_src"], GREY_B, 0.18).next_to(bars, UP, buff=0.3).align_to(bars, LEFT)
+        push = label(TEXT["push"].format(ms["impulse"] * 1e3), 0.28, WARM, bold=True).next_to(bars[1], UP, buff=0.18)
+        spike_x = bars[1].get_center()[0]
+        spike = Arrow([spike_x, BY - 0.9, 0], [spike_x, BY + 0.9, 0], buff=0, stroke_width=6, color=WARM, tip_length=0.2)
+        kick_l = label(TEXT["kick"], 0.28, WARM, bold=True).next_to(spike, UP, buff=0.12)
+        back = label(TEXT["back"], 0.22, COOL).next_to(bar_l, DOWN, buff=0.35).align_to(bars, LEFT)
+
         cur = curtain()
         self.add(cur)
 
@@ -114,7 +140,16 @@ class Scene04(Scene):
         self.play(cur.animate.set_fill(opacity=0), run_time=FADE_IN, rate_func=smooth)
         self.remove(cur)
         wait_until(HEAD_AT)
-        self.play(FadeIn(head), run_time=0.8)
+        self.play(FadeIn(head), FadeIn(bar_src), LaggedStart(*[FadeIn(b) for b in bars], lag_ratio=0.3),
+                  FadeIn(bar_l), run_time=1.2)
+        wait_until(PUSH_AT)
+        self.play(FadeIn(push, shift=DOWN * 0.1), Indicate(bars[1], color=WHITE, scale_factor=1.04), run_time=0.9)
+        wait_until(SQUEEZE_AT)
+        self.play(ReplacementTransform(bars[1], spike), FadeOut(push), FadeOut(bar_l[1]), FadeIn(kick_l),
+                  bars[0].animate.set_fill(opacity=0.35), bars[2].animate.set_fill(opacity=0.35), FadeIn(back),
+                  run_time=1.2)
+        wait_until(CLEAR_AT)
+        self.play(FadeOut(VGroup(bar_src, bars[0], bars[2], bar_l[0], bar_l[2], spike, kick_l, back)), run_time=0.8)
         for k, t in enumerate(LHS_AT):
             wait_until(t)
             self.play(FadeIn(parts[k], shift=UP * 0.1), FadeIn(unders[k]), run_time=0.6)

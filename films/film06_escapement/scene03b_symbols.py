@@ -26,17 +26,17 @@ from ui import label, heading, tag, curtain, clock, WARM, COOL
 # --- timeline --------------------------------------------------------
 FADE_IN = 1.0
 HEAD_AT = 1.2                         # "Before the mathematics, here are the symbols we'll use."
-PHI_AT = 7.3                          # "Phi is its angle at any moment, measured from rest."
+PHI_AT = 7.3                          # "phi is its angle at any moment, measured from rest."
 SWING_AT = 11.6                       # "It swings back and forth, out to plus Theta and back to minus Theta."
 THETA_AT = 16.9                       # "Theta is the amplitude: the largest angle of a swing."
 STAR_AT = 21.3                        # "Theta star is the amplitude the watch finally settles at."
-SPEED_AT = 26.3                       # "Phi prime is the angular speed ..."
+SPEED_AT = 26.3                       # "phi prime is the angular speed ..."
 SLOPE_AT = 31.0                       # "It is largest at the center, and zero at the ends of the swing."
-TK_AT = 37.7                          # "The escapement kicks the balance at moments t sub k."
-PHIK_AT = 41.6                        # "Phi sub k is the angle at that moment ..."
-J_AT = 44.6                           # "... and J is the size of the kick, an angular impulse."
-CONST_AT = (51.6, 53.6, 55.8)         # "I is the balance's inertia", "kappa ...", "omega nought is ..."
-FINAL_HOLD_UNTIL = 60.8               # the last line ends about 58.8 s
+TK_AT = 38.3                          # "Each impulse from the escapement is treated as a kick, at a moment t sub k."
+PHIK_AT = 43.2                        # "phi sub k is the angle at that moment ..."
+J_AT = 46.3                           # "... and J is the size of the kick, an angular impulse."
+CONST_AT = (53.2, 55.2, 57.4)         # "I is the balance's inertia", "kappa ...", "omega nought is ..."
+FINAL_HOLD_UNTIL = 62.4               # the last line ends about 60.4 s
 FADE_OUT = 1.5
 
 CYCLES = 1.5                          # swings shown on the plot, in full periods
@@ -47,7 +47,7 @@ ROWS = [  # (symbol as Pango markup, meaning)
     ("Θ", "the amplitude: the largest angle of a swing"),
     ("Θ*", "the amplitude the watch settles at"),
     ("φ′", "the angular speed: how fast φ changes (rad/s)"),
-    ("t<sub>k</sub>", "the moment of a kick"),
+    ("t<sub>k</sub>", "the moment of a kick: an impulse, taken as instantaneous"),
     ("φ<sub>k</sub>", "the angle at that moment"),
     ("J", "the size of the kick (an angular impulse)"),
     ("I", "the balance's inertia (Film 4)"),
