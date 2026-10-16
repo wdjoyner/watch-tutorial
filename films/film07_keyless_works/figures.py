@@ -9,10 +9,15 @@ Sources
         setting, and date setting": the parts, the crown positions 0 / 1 / 2,
         the winding and setting paths, the cannon pinion's friction fit, the
         motion work's 12 : 1 (36/12 x 40/10).
-  [ETA] ETA technical communication CT 6497-1: hand-wound, no date; the stem
-        has two positions (pushed in: winding; pulled out: hand setting).
-        TO CHECK against the CT the user will attach (stem numbering, and
-        whether the 6497-1 stops the balance when the stem is pulled).
+  [ETA] ETA technical communication CT 6497-1 (ESI 452207 02, 2007): hand-wound,
+        no date; the stem has two positions (pushed in: winding; pulled out:
+        hand setting). Its parts list names winding stem, winding pinion,
+        sliding pinion, setting lever, setting lever jumper, yoke, yoke spring,
+        setting wheel, intermediate setting wheel, minute wheel, driver cannon
+        pinion and hour wheel; its exploded drawing (p. 5) shows the winding
+        pinion next to the crown end of the stem and the sliding pinion inboard.
+        The handsetting parts include no stop lever, so the balance keeps
+        running while the hands are set (no hacking).
   [F2]  Film 2: about 8 barrel turns of development for the 6497's spring.
   [F3]  Film 3: motion work 36/12 x 40/10 = 12.
   [MOD] movement.py WIND_TEETH: winding pinion 16, crown wheel 36, ratchet 60.
