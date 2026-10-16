@@ -12,6 +12,6 @@ SCENES = [
     ("scene04_winding", "Winding"),
     ("scene05_setting", "Setting the Hands"),
     ("scene06_whole_picture", "The Whole Picture"),
-    ("scene07_crown_to_hands", "From the Crown to the Hands"),
+    ("scene07_crown_to_hands", "Series Epilogue: From the Crown to the Hands"),
     ("scene08_credits", "Credits"),
 ]
