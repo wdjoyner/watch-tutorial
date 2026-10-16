@@ -4,7 +4,7 @@
 
 Every part of the movement (plate, going train, lever escapement, balance, bridges, winding and setting works) is generated procedurally. The model follows the **ETA 6497-1** (Unitas), a hand-wound 16½‴ movement: its layout is traced from ETA's technical communication, and its parts carry ETA's part numbers in the code. The parts move with physically consistent kinematics: wheels and pinions actually mesh, the escape wheel steps at 18,000 vibrations per hour, the small-seconds wheel turns once a minute and the center wheel once an hour. The narration is synthesized locally with the open-source Kokoro voice model. One command takes a scene from source to a finished MP4 with voice, an escapement tick track and captions, and a second joins the scenes into one film.
 
-The series so far:
+The series, complete in seven films:
 
 1. **Learning How Watches Work: Movement Architecture** (2:23) tours a hand-wound movement tier by tier.
 2. **Learning How Watches Work: The Power Source** (about 5:10) is about the mainspring and barrel: what is inside the barrel, how winding works, the mainspring as a bent beam, how its torque falls as it unwinds, and two advanced chapters on the geometry of the coil and the best length for a spring in a given barrel.
@@ -12,6 +12,7 @@ The series so far:
 4. **Learning How Watches Work: The Regulating Organ** (about 7:50) is about the balance and hairspring, the watch's timekeeper: the two numbers that set its pace (the moment of inertia I and the hairspring's stiffness κ), Newton meets Hooke in I φ″ + κ φ = 0, the natural frequency f₀ = (1/2π)√(κ/I), a worked example at 2.5 Hz, how exact κ/I must be, regulation by the index pins or by masselottes, and three advanced chapters on temperature and its compensation, damping and Q, and whether the mainspring can pay for the swing.
 5. **Learning How Watches Work: Isochronism** (about 6:00) is about why a watch's rate drifts with the size of the balance's swing, and how watchmakers fight it: the cubic term beyond Hooke's law, the Poincaré–Lindstedt parabola Δf/f ≈ 3βΘ²/8κ, how small β must be (a parts-per-hundred-thousand game), where amplitude dependence really comes from, the chain of error from the mainspring to the rate, Breguet's overcoil and Phillips' conditions (on a terminal curve computed to meet them), and beat error, with a listening demo.
 6. **Learning How Watches Work: The Escapement** (about 13:05) is about the Swiss lever escapement and where the amplitude settles: what the escapement is and its three jobs (lock, unlock, impulse) on a contact-accurate close-up, one beat in slow motion, a key to the symbols, the balance as a hybrid system of smooth swings and sudden kicks, Airy's theorem (an impulse at the midpoint of the swing leaves the rate alone), escapement error and why unlocking makes a watch lose, the energy balance and the stable limit cycle, a digression on measuring mainspring torque with a torsiometer, how the amplitude falls as the mainspring runs down, and how a timing machine reads the amplitude by ear from the lift angle.
+7. **Learning How Watches Work: The Keyless Works** (about 6:45) is about the crown and what it drives: every part of the keyless and setting works named and defined on the dial side, how one stem selects between two jobs (the setting lever, yoke and jumper moving the sliding pinion, in slow motion), winding through the Breguet teeth, crown wheel, ratchet and click (16 clicks and about 30 crown turns for a full wind, in the model), setting the hands through the motion work's 12 : 1 and the cannon pinion's slipping friction fit, the crown as a source of energy and of information, and a closing pass through the whole movement from the crown to the hands, naming the film that covered each part.
 
 The visual style is technical illustration: solid parts with visible thickness, Côtes de Genève striping, perlage, ruby jewels and blued screws, all shown against a dark studio background.
 
@@ -121,6 +122,22 @@ Film 5's numbers come from `films/film05_isochronism/figures.py`, in the same st
 
 Film 6 keeps the bottom of the frame (below y = −2.7, about the bottom sixth) clear of text and figures, so the captions never cover them, and its `running_order.py` sets `SHORT_CAPTIONS = True`: `build.py` then splits each narration line into captions of at most two lines of 42 characters, timed by length (Films 1–5 keep one caption per line). Film 6's numbers come from `films/film06_escapement/figures.py`, which computes each one and cites its source: the reference chapter, G. Petrangeli's "Mathematics of a Watch Escapement" (2017), ETA's CT 6497-1 (lift angle 44°), WOSTEP, Seiko's US Patent 6,431,746 (FIG. 8, the torque curve) and Horopedia (the torsiometer); `python figures.py` prints the table. Petrangeli's balance is a model Swiss lever at the 6497's frequency, not the 6497, and the scenes say so when they quote him. The balance losses, amplitudes and Q are representative, and anything exaggerated is tagged on screen. Film 6 reuses Films 4 and 5's helpers through `prev.py` (every scene imports it first). Its own `lever.py` is a 2D Swiss lever close-up whose outlines are traced from the chapter's anatomy figure: `python lever.py` solves the contacts between wheel, stones, fork and roller jewel against the balance angle with Shapely and writes `lever_table.json`, and `LeverEscapement` plays it back, driven by trackers for speed, slow motion near the center, visibility and manual angle, logging each unlock, impulse and drop for the tick track. `ui6.py` adds callouts, Pango-markup formulas with subscripts, and writers for `.ticks.txt` and `.sfx.txt`.
 
+## Film 7 scenes (`films/film07_keyless_works/`)
+
+| # | File | Length | What it shows |
+|---|------|--------|---------------|
+| 00 | `scene00_title.py` | 10 s | Title card over the keyless works, dimmed, the crown winding with one click per ratchet tooth. |
+| 01 | `scene01_recap.py` | 31 s | Where we are: the mainspring, gear train, escapement and balance from Films 2 to 6; old watches needed one key to wind and another to set the hands; the keyless works does both with the crown. |
+| 02 | `scene02_parts.py` | 62 s | The parts: the 3D movement's dial side turns over and the view comes down onto a flat drawing of the keyless works, setting train and motion work; each part lights up with a one-line definition (crown, stem, winding pinion, sliding pinion as a clutch, setting lever, yoke and yoke spring, setting lever jumper, setting wheels, minute wheel, cannon pinion, hour wheel). |
+| 03 | `scene03_two_positions.py` | 70 s | One stem, two positions: a zoom on the clutch and its Breguet teeth; the crown pulled out slowly, the groove turning the setting lever, the yoke sliding the sliding pinion onto the setting wheel, the jumper snapping into its second notch (with a click); then a key relating the reference text's positions 0, 1 and 2 to the 6497's two (pushed in = 0, pulled out = 2; no date). |
+| 04 | `scene04_winding.py` | 58 s | Winding: the keyless works beside the bridge side's crown wheel, ratchet and click, with the spring winding in an inset (Film 2); turning backward, the Breguet teeth ride over; one counted crown turn gives 16 clicks, and 8 barrel turns × 60 / 16 ≈ 30 crown turns (model tooth counts, tagged); winding turns the arbor, running turns the drum. |
+| 05 | `scene05_setting.py` | 59 s | Setting the hands: setting wheel, intermediate setting wheel, minute wheel, cannon pinion and hour wheel; 36/12 × 40/10 = 12 as in Film 3; the setting wheels are idlers; the center arbor keeps turning (the 6497-1 does not stop the balance), so the cannon pinion's friction fit slips while the crown moves the hands. |
+| 06 | `scene06_whole_picture.py` | 40 s | The whole picture: crown → keyless works → winding works → barrel → gear train, and keyless works → motion work → hands; pushed in, the crown supplies energy; pulled out, information. |
+| 07 | `scene07_crown_to_hands.py` | 56 s | Series epilogue: one pass through the running 3D movement, from the crown to the barrel, train, escapement and balance, each stop with its film's card, then the dial tier turns over to the motion work; the seven films listed in order. |
+| 08 | `scene08_credits.py` | 20 s | End credits over the same keyless works, with a thank-you for watching the series. |
+
+Film 7 follows Film 6's layout rule (nothing below y = −2.7) and its short captions (`SHORT_CAPTIONS = True`). Its numbers come from `films/film07_keyless_works/figures.py`, which cites its sources: the reference chapter, ETA's CT 6497-1 (the keyless parts, their order on the stem, and no stop lever, so the 6497-1 does not hack), Film 2 (about 8 barrel turns) and Film 3 (the motion work). ETA does not publish the winding and setting wheels' tooth counts, so the model's counts (winding pinion 16, crown wheel 36, ratchet 60) are labeled "in this model" wherever a result depends on them. The scenes reuse Films 3, 4 and 6's helpers through `prev.py`. Film 7's `keyless.py` draws the keyless works flat, with a solved linkage: the stem's groove turns the setting lever, whose beak pushes the yoke, whose fork slides the sliding pinion; the jumper's notches and hump hold each position, and the Breguet teeth ride over when the crown turns backward. `dialside.py` adds the setting train and motion work (Film 3's meshing gears), the hands and the center arbor, with the cannon pinion's slip as its own tracker. `check_captions.py` checks the layout rule.
+
 ## Quick start (macOS)
 
 ```bash
@@ -135,6 +152,7 @@ python film.py 3 --build                         # and Film 3
 python film.py 4 --build                         # and Film 4
 python film.py 5 --build                         # and Film 5
 python film.py 6 --build                         # and Film 6
+python film.py 7 --build                         # and Film 7
 ```
 
 On Linux, install the system libraries with `sudo apt install libcairo2-dev libpango1.0-dev pkg-config ffmpeg`, then use a fresh environment (for example `conda create -n watch python=3.12`) and `pip install -r requirements.txt`. Installing into an existing base environment can leave mismatched NumPy and SciPy versions.
@@ -166,7 +184,7 @@ python film.py 1 --build        # build every scene at 1080p first, then join
 python film.py 1 --build -q l   # quick 480p preview of the whole film
 ```
 
-`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4, `out/isochronism.mp4` for Film 5, `out/escapement.mp4` for Film 6) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
+`film.py <film>` joins `out/<film>/<scene>.mp4` in the order given by the `SCENES` list in that film's `running_order.py`, without re-encoding. It writes `out/<OUT_NAME>.mp4` (`out/movement_architecture.mp4` for Film 1, `out/power_source.mp4` for Film 2, `out/gear_train.mp4` for Film 3, `out/regulating_organ.mp4` for Film 4, `out/isochronism.mp4` for Film 5, `out/escapement.mp4` for Film 6, `out/keyless_works.mp4` for Film 7) with merged soft subtitles and chapter markers, plus a matching `.srt` for uploading captions, and it prints a chapter list ready to paste into a YouTube description. All scenes must be built at the same quality; the script says which ones to rebuild if they are not. After changing one scene, rebuild only that scene and rerun `python film.py <film>`.
 
 ## Making changes
 
@@ -221,6 +239,14 @@ films/
     lever.py                        2D Swiss lever close-up with solved contacts (lever_geometry.json -> lever_table.json)
     ui6.py                          callouts, subscript formulas, tick and sound-effect writers
     scene00_title.py ... scene12_credits.py, each narrated scene with its .voice.txt
+  film07_keyless_works/             Film 7: the keyless works, and the series epilogue
+    running_order.py
+    figures.py                      every number in the film, computed and sourced
+    prev.py                         puts Films 3, 4 and 6's helpers on the path (imported first)
+    keyless.py                      flat keyless works with a solved linkage (setting lever, yoke, jumper, clutch)
+    dialside.py                     the keyless works plus setting train, motion work and hands
+    check_captions.py               checks that nothing sits in the caption band
+    scene00_title.py ... scene08_credits.py, each narrated scene with its .voice.txt
 films.py                            finds films and scenes by name (used by build.py and film.py)
 build.py                            render -> TTS -> mix -> captions -> mux, one scene
 film.py                             join one film's built scenes into a film with chapters
@@ -264,6 +290,8 @@ Film 4: produced by David Joyner; Python code, design, text, and rendering with 
 Film 5: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "Isochronism: anharmonicity, the Duffing correction, and the overcoil"; E. Phillips, "Mémoire sur le spiral réglant des chronomètres et des montres," *Journal de mathématiques pures et appliquées* (1860); ETA's technical communication for the 6497-1 / 6498-1. The amplitudes, β and beat error are representative values; ETA does not publish them.
 
 Film 6: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), section "The escapement: impulses, Airy's theorem, and the limit cycle"; G. Petrangeli, "Mathematics of a Watch Escapement" (2017); G. B. Airy, "On the Disturbances of Pendulums and Balances, and on the Theory of Escapements," *Trans. Cambridge Phil. Soc.* 3 (1830, read 1826); Seiko Epson, US Patent 6,431,746 B1 (2002), FIG. 8; Horopedia, "The torsiometer"; ETA's technical communication CT 6497-1; WOSTEP, *The Theory of Horology*. The balance losses, amplitudes and Q are representative values; ETA does not publish them.
+
+Film 7: produced by David Joyner; Python code, design, text, and rendering with Manim by Claude. References: *The Mathematics of the Automatic Mechanical Watch* (AI and W. David Joyner, 2026), chapter "Keyless works of a mechanical watch: winding, time setting, and date setting"; ETA's technical communication CT 6497-1 (parts list and exploded drawing of the hand-setting mechanism). The winding and setting wheels' tooth counts are the model's; ETA does not publish them.
 
 - Animation: [Manim Community](https://www.manim.community/)
 - Geometry: [Shapely](https://shapely.readthedocs.io/)
