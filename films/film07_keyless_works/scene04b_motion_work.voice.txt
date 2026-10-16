@@ -1,0 +1,11 @@
+# Narration for scene04b_motion_work.
+# One line per sentence:   start_time_in_seconds | text
+# Lines starting with # are ignored. Edit the text or times, then rerun build.py.
+1.0  | Before we set the hands, watch the motion work turn them on its own.
+6.1  | The going train turns the center wheel's arbor once an hour. The cannon pinion turns with it and carries the minute hand.
+15.0 | It drives the minute wheel, whose small pinion drives the hour wheel and the hour hand.
+21.3 | Thirty-six to twelve, times forty to ten: twelve to one, as in Film 3.
+28.6 | From the side, the hands sit on tubes, one inside the other.
+33.7 | The cannon pinion is a tube pressed onto the center arbor, with the minute hand on top.
+40.6 | The hour wheel's tube turns freely over it, with the hour hand just above the dial.
+47.2 | That press fit is the one place the hands can slip, and it is what lets the crown set them.

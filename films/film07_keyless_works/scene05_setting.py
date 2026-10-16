@@ -38,7 +38,7 @@ SET1 = (1.6, 17.6)             # the crown turns: the setting train and the hand
 SET1_TURNS = -1.6              # cannon pinion turns during SET1 (the minute hand goes round 1.6 times)
 LABEL_AT = dict(setting=2.0, intermediate=4.3, minute=6.8, cannon=10.2, minute_hand=12.2, hour=14.3,
                 hour_hand=16.0)
-RATIO_AT = 18.0                # "Thirty-six to twelve, times forty to ten, is twelve to one ..."
+RATIO_AT = 18.0                # "As we just saw, the motion work keeps the hands at twelve to one."
 IDLER_AT = 26.6                # "The two setting wheels only pass the motion along; their tooth counts cancel."
 ARBOR_AT = 32.6                # "But the cannon pinion sits on the center wheel's arbor ..."
 RUN = (33.4, 57.6)             # the train turns the arbor (sped up)
