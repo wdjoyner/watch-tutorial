@@ -30,19 +30,19 @@ from ui import label, heading, tag, curtain, clock, WARM, COOL
 FADE_IN = 1.0
 LISTEN_AT = 1.2                       # "How do you measure the amplitude without seeing the balance? Listen."
 PLOT_AT = 6.1                         # "The roller jewel touches the fork only while ..."
-BAND_AT = 10.0                        # "... a small arc around center, called the lift angle."
-ETA_AT = 14.2                         # "ETA gives forty-four degrees for the sixty-four ninety-seven."
-PARTS_AT = 19.2                       # "Slowed right down, a tick has three parts ..."
-PART_AT = (22.0, 23.1, 24.3)          # "... the unlock, the impulse, and the drop."
-DEMO_AT = 25.5                        # the three sounds, slowed (in the 2.5 s gap of the narration)
-GAP_AT = 28.0                         # "The machine times the gap from unlock to drop."
-DT_AT = 31.2                          # "At two hundred seventy degrees, it's about ten milliseconds."
-SMALL_AT = 36.4                       # "A big swing crosses the lift arc quickly, and a small one slowly ..."
-FORMULA_AT = 40.6                     # "... so the gap gives the amplitude."
-WRONG_AT = 44.1                       # "Enter the wrong lift angle, say fifty-two degrees ..."
-WRONG_READ_AT = 47.6                  # "... and the same watch reads three hundred nineteen."
-RATE_AT = 50.4                        # "The rate is still right ..."
-FINAL_HOLD_UNTIL = 59.2               # the last line ends about 57.2 s
+BAND_AT = 10.8                        # "... a small arc around the midpoint of its swing, called the lift angle."
+ETA_AT = 15.4                         # "ETA gives forty-four degrees for the sixty-four ninety-seven."
+PARTS_AT = 20.2                       # "Slowed right down, a tick has three parts ..."
+PART_AT = (23.0, 24.1, 25.3)          # "... the unlock, the impulse, and the drop."
+DEMO_AT = 26.5                        # the three sounds, slowed (in the 2.5 s gap of the narration)
+GAP_AT = 29.1                         # "The machine times the gap from unlock to drop."
+DT_AT = 32.3                          # "At two hundred seventy degrees, it's about ten milliseconds."
+SMALL_AT = 37.4                       # "A big swing crosses the lift arc quickly, and a small one slowly ..."
+FORMULA_AT = 41.6                     # "... so the gap gives the amplitude."
+WRONG_AT = 45.1                       # "Enter the wrong lift angle, say fifty-two degrees ..."
+WRONG_READ_AT = 48.6                  # "... and the same watch reads three hundred nineteen."
+RATE_AT = 51.4                        # "The rate is still right ..."
+FINAL_HOLD_UNTIL = 60.2               # the last line ends about 58.2 s
 FADE_OUT = 1.5
 
 SLOW = 150                            # slow-motion factor for the sound demo
@@ -50,7 +50,7 @@ SOUNDS = (("wood", 1.0), ("click", 0.8), ("bell", 1.0))     # unlock, impulse, d
 T_MS = 100.0                          # plot spans -T_MS .. +T_MS milliseconds around center
 LIFT = F.LIFT_6497 / F.DEG            # 44
 TEXT = dict(listen="listen", q="amplitude, without seeing the balance?",
-            t="time (ms)", phi="balance angle φ", lift="lift window:  ±{:.0f}°".format(LIFT / 2),
+            t="time (ms)", phi="balance angle φ", lift="lift window:  ±{:.0f}° around the midpoint (φ = 0)".format(LIFT / 2),
             eta="lift angle {:.0f}°: ETA technical communication, 6497".format(LIFT),
             parts=("unlock", "impulse", "drop"),
             slow="slowed {}×:  timings from Petrangeli's model (2017)".format(SLOW),

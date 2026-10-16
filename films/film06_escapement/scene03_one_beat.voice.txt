@@ -3,7 +3,7 @@
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
 1.0  | Here is one beat in slow motion.
 4.6  | First, lock. A tooth rests on the entry stone, and the fork leans on its banking pin. The train is stopped, and the balance swings freely.
-15.5 | Near the center of the swing, the roller jewel enters the fork and turns it. That unlocks the tooth.
-23.1 | Now the impulse. The tooth slides across the stone, the fork pushes the roller jewel, and the balance gets its energy.
-32.2 | The tooth drops off, the wheel jumps ahead, and the next tooth lands on the exit stone. The fork comes to rest on the other banking pin.
-42.7 | In Petrangeli's worked model of a Swiss lever at this frequency, all of that takes about fourteen milliseconds. For ninety-three percent of each beat, the train stands still.
+15.5 | Near the midpoint of the swing, its rest position, the roller jewel enters the fork and turns it. That unlocks the tooth.
+24.8 | Now the impulse. The tooth slides across the stone, the fork pushes the roller jewel, and the balance gets its energy.
+33.9 | The tooth drops off, the wheel jumps ahead, and the next tooth lands on the exit stone. The fork comes to rest on the other banking pin.
+44.5 | In Petrangeli's worked model of a Swiss lever at this frequency, all of that takes about fourteen milliseconds. For ninety-three percent of each beat, the train stands still.

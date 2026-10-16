@@ -2,8 +2,8 @@
 # One line per sentence:   start_time_in_seconds | text
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
 1.0  | How do you measure the amplitude without seeing the balance? Listen.
-6.1  | The roller jewel touches the fork only while the balance crosses a small arc around center, called the lift angle. ETA gives forty-four degrees for the sixty-four ninety-seven.
-19.2 | Slowed right down, a tick has three parts: the unlock, the impulse, and the drop.
-28.0 | The machine times the gap from unlock to drop. At two hundred seventy degrees, it's about ten milliseconds.
-36.4 | A big swing crosses the lift arc quickly, and a small one slowly, so the gap gives the amplitude.
-44.1 | Enter the wrong lift angle, say fifty-two degrees, and the same watch reads three hundred nineteen. The rate is still right, because it comes from the spacing of the ticks, not what happens inside them.
+6.1  | The roller jewel touches the fork only while the balance crosses a small arc around the midpoint of its swing, called the lift angle. ETA gives forty-four degrees for the sixty-four ninety-seven.
+20.2 | Slowed right down, a tick has three parts: the unlock, the impulse, and the drop.
+29.1 | The machine times the gap from unlock to drop. At two hundred seventy degrees, it's about ten milliseconds.
+37.4 | A big swing crosses the lift arc quickly, and a small one slowly, so the gap gives the amplitude.
+45.1 | Enter the wrong lift angle, say fifty-two degrees, and the same watch reads three hundred nineteen. The rate is still right, because it comes from the spacing of the ticks, not what happens inside them.

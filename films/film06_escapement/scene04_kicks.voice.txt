@@ -5,4 +5,4 @@
 12.3 | Between kicks, the balance obeys the equation from Films four and five: inertia, damping, the hairspring, and its small cubic term.
 22.5 | At each beat, it gets a sudden kick, an angular impulse J sub k. The angle stays put, and the speed jumps by J over I.
 32.8 | Smooth swinging, punctuated by kicks: mathematicians call this a hybrid system.
-39.5 | A kick adds energy J times the speed just before it. So a given kick does the most good where the balance moves fastest, at the center. Halfway out, it does eighty-seven percent as much.
+39.5 | A kick adds energy J times the speed just before it. So a given kick does the most good where the balance moves fastest, at the midpoint of the swing. Halfway out, it does eighty-seven percent as much.

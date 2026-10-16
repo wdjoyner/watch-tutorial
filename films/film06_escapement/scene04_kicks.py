@@ -35,9 +35,9 @@ PLOTS_AT = 25.3                       # the angle stays put, the speed jumps (dr
 JUMP_AT = 30.0                        # "...and the speed jumps by J over I"
 HYBRID_AT = 35.4                      # "mathematicians call this a hybrid system"
 ENERGY_AT = 39.6                      # "A kick adds energy J times the speed just before it."
-CENTER_AT = 46.0                      # "...where the balance moves fastest, at the center"
-HALF_AT = 49.5                        # "Halfway out, it does eighty-seven percent as much."
-FINAL_HOLD_UNTIL = 55.0               # the last line ends about 53.0 s
+CENTER_AT = 46.4                      # "...where the balance moves fastest, at the midpoint of the swing"
+HALF_AT = 50.4                        # "Halfway out, it does eighty-seven percent as much."
+FINAL_HOLD_UNTIL = 55.8               # the last line ends about 53.8 s
 FADE_OUT = 1.5
 
 # --- the run (chapter's scaled example, EXAGGERATED) ---------------------
@@ -51,7 +51,7 @@ TEXT = dict(lhs=("I φ″", "+ c φ′", "+ κ φ", "+ β φ³"), eq="=", rhs="�
             angle="angle φ", speed="speed φ′  (the kicks)", time="time", stays="the angle is continuous",
             jumps="the speed jumps by J / I", hybrid="hybrid system: smooth flow + sudden jumps",
             exag="friction and kicks exaggerated", energy="ΔE = J φ′₋ + J² / 2I  ≈  J φ′₋",
-            fastest="most energy per kick where it is fastest", center="center", half="halfway out",
+            fastest="most energy per kick where it is fastest: the midpoint of the swing", center="midpoint", half="halfway out",
             pct="{:.0f}%", sp="speed",
             bar_src="one beat's action, Petrangeli (2017): a model Swiss lever at 2.5 Hz",
             bar=("unlock", "impulse: the push through the fork", "drop"),
@@ -106,7 +106,7 @@ class Scene04(Scene):
         e_eq = ftext(TEXT["energy"], 0.5).next_to(pe, UP, buff=0.85).align_to(pe, LEFT)
         e_lbl = label(TEXT["sp"], 0.2, WARM).next_to(pe.y_axis, UP, buff=0.06)
         ax_lbls = VGroup(label("−Θ", 0.2).next_to(pe.c2p(-1, 0), DOWN, buff=0.1),
-                         label("0", 0.2).next_to(pe.c2p(0, 0), DOWN, buff=0.1),
+                         label("0 (midpoint)", 0.2).next_to(pe.c2p(0, 0), DOWN, buff=0.1),
                          label("+Θ", 0.2).next_to(pe.c2p(1, 0), DOWN, buff=0.1))
         k_c = Arrow(pe.c2p(0, 0), pe.c2p(0, 1.0), buff=0, stroke_width=5, color=GLOW, tip_length=0.16)
         k_h = Arrow(pe.c2p(0.5, 0), pe.c2p(0.5, F.KICK_AT_HALF), buff=0, stroke_width=5, color=GLOW, tip_length=0.16)

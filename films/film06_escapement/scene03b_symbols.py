@@ -27,23 +27,23 @@ from ui import label, heading, tag, curtain, clock, WARM, COOL
 FADE_IN = 1.0
 HEAD_AT = 1.2                         # "Before the mathematics, here are the symbols we'll use."
 PHI_AT = 7.3                          # "phi is its angle at any moment, measured from rest."
-SWING_AT = 11.6                       # "It swings back and forth, out to plus Theta and back to minus Theta."
-THETA_AT = 16.9                       # "Theta is the amplitude: the largest angle of a swing."
-STAR_AT = 21.3                        # "Theta star is the amplitude the watch finally settles at."
-SPEED_AT = 26.3                       # "phi prime is the angular speed ..."
-SLOPE_AT = 31.0                       # "It is largest at the center, and zero at the ends of the swing."
-TK_AT = 38.3                          # "Each impulse from the escapement is treated as a kick, at a moment t sub k."
-PHIK_AT = 43.2                        # "phi sub k is the angle at that moment ..."
-J_AT = 46.3                           # "... and J is the size of the kick, an angular impulse."
-CONST_AT = (53.2, 55.2, 57.4)         # "I is the balance's inertia", "kappa ...", "omega nought is ..."
-FINAL_HOLD_UNTIL = 62.4               # the last line ends about 60.4 s
+SWING_AT = 14.2                       # "It swings back and forth, out to plus Theta and back to minus Theta."
+THETA_AT = 19.5                       # "Theta is the amplitude: the largest angle of a swing."
+STAR_AT = 23.9                        # "Theta star is the amplitude the watch finally settles at."
+SPEED_AT = 28.9                       # "phi prime is the angular speed ..."
+SLOPE_AT = 35.0                       # "It is largest at the midpoint of the swing, and zero at the ends."
+TK_AT = 41.2                          # "Each impulse from the escapement is treated as a kick, at a moment t sub k."
+PHIK_AT = 46.1                        # "phi sub k is the angle at that moment ..."
+J_AT = 49.2                           # "... and J is the size of the kick, an angular impulse."
+CONST_AT = (56.1, 58.1, 60.3)         # "I is the balance's inertia", "kappa ...", "omega nought is ..."
+FINAL_HOLD_UNTIL = 65.3               # the last line ends about 63.3 s
 FADE_OUT = 1.5
 
 CYCLES = 1.5                          # swings shown on the plot, in full periods
 DOT_SPEED = 0.045                     # periods per video second for the riding dot (slow, for the eye)
 KICK_PHI = -0.3                       # where the illustrative kick lands, as a fraction of Theta (off center on purpose)
 ROWS = [  # (symbol as Pango markup, meaning)
-    ("φ", "the balance's angle, measured from rest"),
+    ("φ", "the angle, from the rest position: φ = 0 is the midpoint of the swing"),
     ("Θ", "the amplitude: the largest angle of a swing"),
     ("Θ*", "the amplitude the watch settles at"),
     ("φ′", "the angular speed: how fast φ changes (rad/s)"),
@@ -55,7 +55,7 @@ ROWS = [  # (symbol as Pango markup, meaning)
     ("ω<sub>0</sub>", "2π f<sub>0</sub>, f<sub>0</sub> the frequency (Film 4)"),
 ]
 TEXT = dict(t="time", phi="angle φ", plus="+Θ", minus="−Θ", slope="φ′ = slope", kick="J",
-            off="kick drawn off center, so φₖ shows", key="SYMBOL KEY")
+            off="kick drawn away from the midpoint, so φₖ shows", key="SYMBOL KEY")
 # =====================================================================
 
 

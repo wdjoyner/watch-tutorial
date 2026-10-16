@@ -2,8 +2,10 @@
 # One line per sentence:   start_time_in_seconds | text
 # Lines starting with # are ignored. Edit the text or times, then rerun build.py.
 1.0  | In eighteen twenty-six, the astronomer George Airy asked how such a kick changes the timing.
-8.3  | Draw the swing in the phase plane: angle across, speed up. The free balance goes round a circle.
-15.8 | A kick is a jump straight up. At the center, straight up points straight out from the circle. The circle grows, but the balance stays on schedule.
-26.1 | Away from center, part of the kick runs along the circle. That part shifts the phase, and every later tick moves with it.
-35.0 | The shift is proportional to the kick J, and to phi sub k, the angle where it lands. It shrinks as the amplitude, Theta, grows.
-45.2 | So deliver the impulse at the center. That is Airy's rule, and every good escapement follows it.
+8.3  | Draw the swing in the phase plane: angle across, speed up, with the speed divided by omega nought so that both are angles. The free balance goes round a circle, and its radius is the amplitude, Theta.
+23.3 | At the left and right, the balance is at the ends of its swing, momentarily still. At the top, it passes the midpoint of the swing, its rest position, at full speed. One lap is one full swing, there and back.
+38.2 | A kick changes the speed but not the angle, so the point jumps straight up, onto a larger circle: the new amplitude.
+47.2 | At the midpoint, straight up points straight out from the circle. The circle grows, but the balance stays on schedule with its unkicked twin.
+57.2 | Away from the midpoint, part of the kick runs along the circle. That part shifts the phase, and every later tick moves with it.
+66.3 | The shift is proportional to the kick J, and to phi sub k, the angle where it lands. It shrinks as the amplitude, Theta, grows.
+76.5 | So deliver the impulse at the midpoint of the swing. That is Airy's rule, and every good escapement follows it.

@@ -30,13 +30,13 @@ FADE_IN = 1.0
 SHOW_AT = 1.0                         # "Here is one beat in slow motion."
 # the balance swing psi (degrees from the dead point), as keyframes (time, psi); events follow from the contacts:
 # unlock at psi ~ -19.5, impulse ~ -11.2, drop ~ +15.7, banking ~ +19.6 (lever.events())
-PSI_KEYS = [(0.0, -200.0), (2.0, -200.0), (14.2, -40.0), (16.0, -25.0), (22.6, -11.5),   # lock, then unlock
-            (23.0, -11.5), (31.0, 15.0),                                                  # impulse
-            (32.3, 15.0), (35.5, 21.0), (41.5, 150.0)]                                    # drop, lock, free swing
-NOTE_AT = (15.6, 23.2, 32.3)          # captions for unlock, impulse, drop: where the energy goes
-TIMING_AT = 42.7                      # "In Petrangeli's worked model ... about fourteen milliseconds"
-LOCKED_AT = 49.0                      # "For ninety-three percent of each beat, the train stands still."
-FINAL_HOLD_UNTIL = 56.0               # the last line ends about 54.1 s
+PSI_KEYS = [(0.0, -200.0), (2.0, -200.0), (14.2, -40.0), (16.0, -25.0), (24.3, -11.5),   # lock, then unlock
+            (24.7, -11.5), (32.7, 15.0),                                                  # impulse
+            (34.0, 15.0), (37.2, 21.0), (43.2, 150.0)]                                    # drop, lock, free swing
+NOTE_AT = (15.6, 24.9, 34.0)          # captions for unlock, impulse, drop: where the energy goes
+TIMING_AT = 44.5                      # "In Petrangeli's worked model ... about fourteen milliseconds"
+LOCKED_AT = 50.8                      # "For ninety-three percent of each beat, the train stands still."
+FINAL_HOLD_UNTIL = 57.9               # the last line ends about 55.9 s
 FADE_OUT = 1.5
 
 # --- the close-up ----------------------------------------------------
@@ -48,7 +48,7 @@ TEXT = dict(slow="slowed down over a thousand times", schematic="schematic Swiss
             beat="one beat:  0.2 s", active="active:  {:.1f} ms", locked="locked {:.0f}% of the time",
             phases=("unlock", "impulse I", "impulse II", "drop"),
             source="Petrangeli (2017): a model Swiss lever at 2.5 Hz",
-            notes=("unlock: the balance turns the fork, and spends a little energy doing it",
+            notes=("unlock: near the midpoint of the swing, the balance turns the fork, and spends a little energy doing it",
                    "impulse: mainspring → train → escape wheel → pallet stone → fork → roller jewel → balance",
                    "drop: the wheel jumps free; the balance gets nothing more"))
 # =====================================================================

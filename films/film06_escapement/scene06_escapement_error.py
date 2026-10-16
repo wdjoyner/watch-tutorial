@@ -30,14 +30,14 @@ FADE_IN = 1.0
 GP_AT = 1.2                           # "How big is the effect? Petrangeli worked a Swiss lever ..."
 GP_VALUES_AT = 6.6                    # "A shock that changes the speed by a hundredth ..."
 GP_RESULT_AT = 13.4                   # "... moves the tick by less than a microsecond."
-UNLOCK_AT = 17.7                      # "But the escapement can't act exactly at center."
-PUSH_AT = 23.8                        # "... and unlocking pushes against the motion."
-LOSES_AT = 30.0                       # "A backward kick before center delays the tick, so the watch loses."
-SQUARE_AT = 35.5                      # "With the amplitude squared in the denominator ..."
-RATIO_AT = 40.5                       # "... half as large again at two hundred twenty degrees ..."
-BOX_AT = 47.6                         # "A rough estimate built on Petrangeli's model ..."
-FILM5_AT = 56.0                       # "This is the escapement error from Film five ..."
-FINAL_HOLD_UNTIL = 62.5               # the last line ends about 60.5 s
+UNLOCK_AT = 17.9                      # "But the escapement can't act exactly at the midpoint."
+PUSH_AT = 24.3                        # "... and unlocking pushes against the motion."
+LOSES_AT = 30.6                       # "A backward kick before the midpoint delays the tick, so the watch loses."
+SQUARE_AT = 36.2                      # "With the amplitude squared in the denominator ..."
+RATIO_AT = 41.2                       # "... half as large again at two hundred twenty degrees ..."
+BOX_AT = 48.2                         # "A rough estimate built on Petrangeli's model ..."
+FILM5_AT = 56.7                       # "This is the escapement error from Film five ..."
+FINAL_HOLD_UNTIL = 63.2               # the last line ends about 61.2 s
 FADE_OUT = 1.5
 
 UNLOCK_SPAN = (-23.0, -11.0)          # degrees of balance angle while unlocking [GP: 12 deg, before the 24 + 10 deg impulse]
@@ -46,8 +46,8 @@ TEXT = dict(gp="Petrangeli (2017): a model Swiss lever at 2.5 Hz",
             values=(f"I = {sci(F.GP_I, 1)} kg m²,   κ = {sci(F.GP_K, 2)} N m / rad",
                     f"Δφ′ = {F.GP_DV} rad/s  at  φₖ = 24°,   Θ = 270°"),
             result=f"ΔT ≈ {sci(F.GP_DT, 1)} s:  less than a microsecond",
-            sp="speed", unlock="unlocking:\npushes back", center="center", motion="motion",
-            sign=("before center:  φₖ < 0", "pushing back:  J < 0", "so  J · φₖ > 0  and  ΔT > 0", "the tick comes late: the watch loses"),
+            sp="speed", unlock="unlocking:\npushes back", center="midpoint of the swing (φ = 0)", motion="motion",
+            sign=("before the midpoint:  φₖ < 0", "pushing back:  J < 0", "so  J · φₖ > 0  and  ΔT > 0", "the tick comes late: the watch loses"),
             square="error  ∝  1 / Θ²", amp=("270°", "220°"), ratio="× {:.2f}",
             film5="the escapement error of Film 5, now with its formula")
 # =====================================================================
