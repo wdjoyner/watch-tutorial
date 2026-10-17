@@ -62,8 +62,8 @@ SET_COLOR = "#7fe0a0"
 TEXT = dict(
     head=("SETTING THE HANDS", "crown pulled out"),
     pulled="pulled out: hand setting",
-    setting="setting wheel", intermediate="intermediate\nsetting wheel", minute="minute wheel  ·  36,  pinion 10",
-    cannon="cannon pinion  ·  12", minute_hand="minute hand", hour="hour wheel  ·  40", hour_hand="hour hand",
+    setting="setting wheel", intermediate="intermediate\nsetting wheel", minute="minute wheel",
+    cannon="cannon pinion", minute_hand="minute hand", hour="hour wheel", hour_hand="hour hand",
     ratio="36 / 12  ×  40 / 10  =  12", ratio_note="the hour hand turns once while the minute hand turns 12 times (Film 3)",
     idler="the setting wheels only pass the motion along:\ntheir tooth counts cancel",
     arbor="center wheel's arbor: turned by the going train", sped="train sped up",
